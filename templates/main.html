@@ -1,0 +1,30 @@
+
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+
+        <head>
+
+{% include 'shablon/head.html' %}
+{% block style %}
+
+
+{% endblock %}
+
+        </head>
+        <body>
+   
+{% include 'shablon/header.html' %}
+{% include 'shablon/left-menu.html' %}
+
+{% block content %}
+
+
+{% endblock %}
+
+{% include 'shablon/js.html' %}
+
+{% block js  %}
+{% endblock %}
+        </body>
+</html>

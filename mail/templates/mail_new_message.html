@@ -1,0 +1,80 @@
+{% extends 'main.html' %}
+{% load staticfiles %}
+{% block style %}
+ <link rel="stylesheet" href="{% static  'new_massage.css' %}">
+{% endblock %}
+{% block content %}
+<section class="content">
+
+
+
+			<div class="wraper container-fluid">
+                <div class="page-title"> 
+                    <h3 class="title">Создание нового сообщения</h3> 
+                </div>
+                  <form role="form" method="post" enctype="multipart/form-data" >
+                <div class="row">
+                		<div class="col-md-8  col-sm-7">
+						<div class="panel panel-default m-t-20">
+							<div class="panel-body p-t-10">
+				
+  						 {% csrf_token %}
+
+
+									<div class="form-group">
+   				{{ form_group }}
+  					 {{ form_massage.secrecy }}
+
+							<!--			<input type="email" class="form-control" placeholder="To"> --> 
+									</div>
+									<div class="form-group">
+									<!-- 	<input type="text" class="form-control" placeholder="title "> -->
+										 {{ form_massage.title }} 
+									</div>
+									<div class="form-group">
+								<!-- 		<textarea class="wysihtml5 form-control" placeholder="Message body" style="height: 200px"></textarea> -->
+									{{ form_massage.body  }}
+									</div>
+										<button class="btn btn-purple"  >
+										 <input type="submit" value="OK">
+									
+										</button>
+								</form>
+							</div>
+							<!-- panel -body -->
+						</div>
+
+                  
+
+						<!-- panel -->
+					</div> <!-- col 12 --> 
+
+
+					<div class="col-md-4 col-sm-5" >
+	 <div id = "upload-container">
+               <input id="file-input" type="file" name="file_field" multiple>
+               <label for="file-input">Файл</label>
+          </div>
+					</div>
+                </div> <!-- End row --> 
+
+            </div> <!-- END Wraper -->
+
+		
+
+		</section>
+
+
+
+<script>
+var arr = ['id_file_fild', 'id_title', 'id_body', 'id_users', 'form_control']
+$.each(arr,function(index,value){
+	eval(`$("#${value}")`).addClass("form-control")
+})
+
+
+
+
+</script>
+
+{% endblock %}

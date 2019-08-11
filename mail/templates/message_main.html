@@ -1,0 +1,288 @@
+{% extends 'main.html' %}
+{% load staticfiles%}
+
+{% block style  %}
+<link rel="stylesheet" href="{% static 'assets/css/main_message.css' %}"/>
+
+
+
+<link rel="stylesheet" href="{% static 'assets/modal_form/feedback/vendors/bootstrap/css/bootstrap.min.css' %}"/>
+
+<link rel="stylesheet" href="{% static 'assets/modal_form/feedback/css/main.css' %}"/>
+
+{% endblock %}
+{% block content %}
+<section class="content">
+
+
+
+			<div class="wraper container-fluid">
+                <div class="page-title"> 
+                    <h3 class="title">Входящие</h3> 
+                </div>
+                  
+                <div class="row">
+                    
+                    <!-- Left sidebar -->
+                   <div class="col-md-2">
+                       {% include 'discret/left-panel-mail.html' %}
+
+
+            <h3 class="panel-title m-t-40">Папки</h3>
+
+                        {% include 'discret/left-panel-label.html' %}
+              
+                
+                        
+                    </div>
+                 
+                    <!-- End Left sidebar -->
+                    
+
+                    <!-- Right Sidebar -->
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                {% include 'discret/head_message.html' %}
+                            </div>
+                            
+                        </div> <!-- End row -->
+                        
+                        <div class="panel panel-default m-t-20">
+                            <div class="panel-body">
+                            
+                                <table class="table table-hover mails">
+                                    <tbody>
+
+
+    {% for messa in message %}
+
+
+
+                                        <tr>
+                                            <td class="mail-select">
+                                                <label class="cr-styled">
+                                                    <input type="checkbox"><i class="fa"></i>
+                                                </label>
+                                            </td>
+                                            <td class="mail-rateing">
+                                                <i class="fa fa-star"></i>
+                                            </td>
+                                            <td>
+                                                <a <a href = "{% url 'massage_detail'  messa.id  %}"> {{ messa.owner.first_name_d  }} {{ messa.owner.last_name_d  }} </a>
+                                            </td>
+                                            <td>
+                                                <a href = "{% url 'massage_detail'  messa.id  %}"<i class="fa fa-circle text-info m-r-15"></i>{{ messa.message.title  }}</a>
+                                            </td>
+                                            <td>
+                                                <i class="fa fa-paperclip"></i>
+                                            </td>
+                                            <td class="text-right">
+                                               {{ messa.lifetime }}
+                                            </td>
+                                        </tr>
+                           
+                       {% endfor %}
+                                    
+                                    </tbody>
+                                </table>
+                                
+                                <hr>
+                                
+                                <div class="row">
+                                    <div class="col-xs-2">
+                            
+                                                    Страница  {{ mes.number }} из {{ mes.paginator.num_pages }}.
+                                              
+                                    </div>
+                                    <div class="col-xs-10">
+                                        <div class="pagination my-pagination">
+                                            <span class="step-links">
+                                              <div class="btn-group pull-left ">
+                                                {% if mes.has_previous %}
+                                                       
+                                            
+                                                    <a  href="?page={{ mes.previous_page_number }}" >     <button type="button" class="btn btn-default my_class_btn"><i class="fa fa-chevron-left"></i></button> </a>
+                                                 
+                                                {% endif %}
+
+                                            
+
+                                                {% if mes.has_next %}
+                                                 
+                                            
+                                                    <a  href="?page={{ mes.next_page_number }}" >     <button type="button" class="btn btn-default my_class_btn"><i class="fa fa-chevron-right"></i></button> </a>
+                                                       
+                            
+                                                {% endif  %}
+                                                </div> 
+                                            </span>
+                                        </div>
+                                 
+                                    </div>
+
+
+<div class="modal" id="feedbackFormModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel">Создание папки </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+ 
+        <!-- Форма обратной связи -->
+        <form id="feedbackFormd" action="" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+          <div class="form-row">
+            <div class="col-sm-10">
+              <!-- Имя пользователя -->
+              <div class="form-group">
+                <label for="name" class="control-label">Название папки</label>
+                <input id="name" type="text" name="name" class="form-control" value="" placeholder="Имя" minlength="2" maxlength="30" required="required">
+                <div class="invalid-feedback"></div>
+              </div>
+            </div>
+         
+          <!-- Описание -->
+            <div class="col-sm-10">
+          <div class="form-group">
+            <label for="message" class="control-label">Описание</label>
+            <textarea id="description" name="description" class="form-control" rows="3" placeholder="Сообщение (не менее 20 символов)" minlength="20" maxlength="500" required="required"></textarea>
+            <div class="invalid-feedback"></div>
+          </div>
+     </div>
+        
+          <!-- Кнопка для отправки формы -->
+          <button id='btn' class="btn btn-primary float-right">Отправить сообщение</button>
+        </form>
+                
+        <!-- Сообщение об успешной отправки формы -->
+        <div class="alert alert-success form-success mb-0 d-none">Форма успешно отправлена. Нажмите на <a class="form-success-link" href="#">ссылку</a>, чтобы отправить ещё одно сообщение.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+                       
+                                </div>
+                            
+                            </div> <!-- panel body -->
+                        </div> <!-- panel -->
+                    </div> <!-- end Col-9 -->
+                
+                </div><!-- End row -->
+
+
+            </div> <!-- END Wraper -->
+
+		
+
+		</section>
+
+
+        {% block js %}
+        
+
+          <!--          -->
+
+
+
+
+                     <script>
+
+ $(function(){
+ 
+$('#btn').off().on('click', function(){
+  	sendAjaxForm($('#name').val(), $('#description').val());
+     return false
+});
+
+$('#del_label').off().on('click', ( function(){
+  alert('sd')
+
+       $('.folder-cell        input:checkbox:checked').each(function(){
+                let c = new Array()
+                 c.push($(this).parent().data('pk'));                 
+                 folderDelete(c)
+                          });
+
+}))
+
+
+
+
+
+
+function folderDelete(pk) {
+
+var  dat = {
+  pk: pk,
+  csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val(),
+};
+
+
+
+    $.ajax({
+        url: '{% url "folderdelete" %}' , //url страницы (action_ajax_form.php)
+        type:     "POST", //метод отправки
+        dataType: "json", //формат данных
+        
+        data:  JSON.stringify(dat),  // Сеарилизуем объект
+        cache: false,
+        success: function(response) { //Данные отправлены успешно
+        console.log(response)
+    	},
+    	error: function(response) { // Данные не отправлены
+          console.log(response)
+    	}
+ 	});
+}
+ 
+
+
+
+
+
+
+function sendAjaxForm(name, description) {
+
+
+    $.ajax({
+        url: '{% url "createfolders" %}' , //url страницы (action_ajax_form.php)
+        type:     "POST", //метод отправки
+        dataType: "html", //формат данных
+        data:  {
+        name: name,
+        
+        csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val() , 
+        description: description,
+                },  // Сеарилизуем объект
+        cache: false,
+        success: function(response) { //Данные отправлены успешно
+        	result = $.parseJSON(response);
+        	if (result['error'] ){
+
+    
+              $('.d-none').removeClass('alert-success')
+               $('.d-none').addClass('alert-danger')
+                  $('.d-none').text( 'ошибка:' + result['error']) 
+          }else{
+                     $('.d-none').removeClass('alert-danger')
+               $('.d-none').addClass('alert-succes')
+                  $('.d-none').text('Успешно')
+                            }
+    	},
+    	error: function(response) { // Данные не отправлены
+          console.log(response)
+    	}
+ 	});
+}
+ 
+});   
+</script>
+        {% endblock %}
+
+{% endblock %}
