@@ -194,6 +194,12 @@
                      <script>
 
  $(function(){
+
+
+
+$('#del_label_all').on('click', function(){
+   $('.folder-cell input:checkbox').prop({'checked': true})
+})
  
 $('#btn').off().on('click', function(){
   	sendAjaxForm($('#name').val(), $('#description').val());
@@ -201,13 +207,15 @@ $('#btn').off().on('click', function(){
 });
 
 $('#del_label').off().on('click', ( function(){
-  alert('sd')
-
+  if (confirm('вы уверены ?')){
        $('.folder-cell        input:checkbox:checked').each(function(){
                 let c = new Array()
                  c.push($(this).parent().data('pk'));                 
                  folderDelete(c)
                           });
+  }else{ 
+    $('.folder-cell input:checkbox:checked').prop({'checked': false})
+  }
 
 }))
 
