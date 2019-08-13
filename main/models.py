@@ -1,8 +1,12 @@
 from django.db import models
 from main import * 
-
+from django.db.models.signals import post_save, post_init, pre_save
+from django.dispatch import receiver
+from django.contrib.auth.models import User
+from mail.models import Folder
 
 # Create your models here.
+
 
 
 class AuthGroup(models.Model):
@@ -11,6 +15,10 @@ class AuthGroup(models.Model):
     class Meta:
         managed = False
         db_table = 'auth_group'
+
+
+
+
 
 
 
@@ -30,8 +38,17 @@ class AuthUser(models.Model):
         managed = False
         db_table = 'auth_user'
 
+  
 
 
+
+@receiver(post_save, sender=User)
+def post_save_us(sender, instance, **kwargs):
+    print(instance)
+    print(kwargs)
+    c = Folder.objects.create(user=instance,name='trush', description='trush', specificate='trush')
+    c.save()
+    print('sdddddddddddddddd')
 
 
 class AuthUserGroups(models.Model):

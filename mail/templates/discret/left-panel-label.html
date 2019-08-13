@@ -1,12 +1,13 @@
         <div class="panel panel-default p-0  m-t-20">
                             <div class="panel-body p-0">
-
+                                        <div class = 'btn_group'>
                                     
-                                                 <button type="button" data-toggle="modal" data-target="#feedbackFormModal"  class="btn btn-dark">Добавить</button>
-                                                  <button type="button" id = 'del_label'    class="btn btn-dark">Удалить</button>
-                                                     <button type="button" id = 'del_label_all'    class="btn btn-dark">Выбрать  все</button>
+                                                 <button type="button" data-toggle="modal" data-target="#feedbackFormModal"  class="btn btn-dark my-btn">Добавить</button>
+                                                  <button type="button" id = 'del_label'    class="btn btn-dark my-btn">Удалить</button>
+                                                     <button type="button" id = 'del_label_all'    class="btn btn-dark my-btn">Выбрать  все</button>
+
                                               <div id ='csrf'>     {% csrf_token %} </div>
-                                              
+                                          </div>    
                                               
                                               
                                 <div class="list-group no-border" id = 'listlab'>
@@ -16,4 +17,4 @@
               {% endfor %}
                                 </div>
                             </div>
-                        </div>
+</div>

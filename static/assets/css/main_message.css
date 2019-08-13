@@ -6,3 +6,36 @@
 .folder_check {
     float: right;
 }
+
+.my-btn {
+    margin: 3px auto;
+    padding: 2px 2px;
+}
+
+.btn_group {
+    display: flex;
+    flex-direction: row;
+}
+
+@media screen and (max-width: 800px) {
+    .my-btn {}
+}
+
+@media screen and (max-width: 1700px) {
+    .btn_group {
+        flex-direction: column;
+    }
+    .my-btn {
+        height: 100%;
+        width: 100%;
+        margin: 1px 0px;
+    }
+}
+
+@media screen and (max-width: 990px) {
+    .btn_group {
+        flex-direction: row;
+    }
+}
+
+989 1000 -6000 dsktp

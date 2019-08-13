@@ -4,9 +4,10 @@
 {% block style  %}
 <link rel="stylesheet" href="{% static 'assets/css/main_message.css' %}"/>
 
-
+<!--
 
 <link rel="stylesheet" href="{% static 'assets/modal_form/feedback/vendors/bootstrap/css/bootstrap.min.css' %}"/>
+-->
 
 <link rel="stylesheet" href="{% static 'assets/modal_form/feedback/css/main.css' %}"/>
 
@@ -160,7 +161,7 @@
         </form>
                 
         <!-- Сообщение об успешной отправки формы -->
-        <div class="alert alert-success form-success mb-0 d-none">Форма успешно отправлена. Нажмите на <a class="form-success-link" href="#">ссылку</a>, чтобы отправить ещё одно сообщение.</div>
+        <div class="alert alert-success form-success mb-0 d-none" id='nn' style="display: none">Форма успешно отправлена. Нажмите на <a class="form-success-link" href="#">ссылку</a>, чтобы отправить ещё одно сообщение.</div>
       </div>
     </div>
   </div>
@@ -271,6 +272,8 @@ function sendAjaxForm(name, description) {
         cache: false,
         success: function(response) { //Данные отправлены успешно
         	result = $.parseJSON(response);
+
+
         	if (result['error'] ){
 
     
@@ -282,11 +285,14 @@ function sendAjaxForm(name, description) {
                $('.d-none').addClass('alert-succes')
                   $('.d-none').text('Успешно')
                             }
+
     	},
+
     	error: function(response) { // Данные не отправлены
           console.log(response)
-    	}
+    	  }
  	});
+    $('#nn').show('slow')
 }
  
 });   
