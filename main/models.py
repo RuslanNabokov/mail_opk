@@ -46,9 +46,9 @@ class AuthUser(models.Model):
 def post_save_us(sender, instance, **kwargs):
     print(instance)
     print(kwargs)
-    c = Folder.objects.create(user=instance,name='trush', description='trush', specificate='trush')
-    c.save()
-    print('sdddddddddddddddd')
+    Folder.objects.create(user=instance,name='trush', description='trush', specificate='trush').save()
+    Folder.objects.create(user=instance,name='favorite', description='favorite', specificate='trush').save()
+
 
 
 class AuthUserGroups(models.Model):

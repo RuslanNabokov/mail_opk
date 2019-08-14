@@ -9,7 +9,7 @@ from django.contrib.auth import login as ln  # log out
 from django.contrib.auth import logout  as lt # in
 
 def req_user(obj, request):                                       # vozr user
-      return Profile.objects.get(user = request.user)
+      return request.user
 
 
 def login(request, login):

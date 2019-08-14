@@ -63,14 +63,14 @@
                                         <tr>
                                             <td class="mail-select">
                                                 <label class="cr-styled">
-                                                    <input type="checkbox"><i class="fa"></i>
+                                                    <input type="checkbox" data-pk={{messa.pk}}><i class="fa"></i>
                                                 </label>
                                             </td>
                                             <td class="mail-rateing">
                                                 <i class="fa fa-star"></i>
                                             </td>
                                             <td>
-                                                <a <a href = "{% url 'massage_detail'  messa.id  %}"> {{ messa.owner.first_name_d  }} {{ messa.owner.last_name_d  }} </a>
+                                                <a href = "{% url 'massage_detail'  messa.id  %}"> {{ messa.owner.first_name_d  }} {{ messa.owner.last_name_d  }} </a>
                                             </td>
                                             <td>
                                                 <a href = "{% url 'massage_detail'  messa.id  %}"<i class="fa fa-circle text-info m-r-15"></i>{{ messa.message.title  }}</a>
@@ -198,6 +198,52 @@
 
 
 
+
+
+
+
+
+function messageDelete(pk){
+
+
+    $.ajax({
+        url: '{% url "messagedel" %}' , //url страницы (action_ajax_form.php)
+        type:     "POST", //метод отправки
+        dataType: "json", //формат данных
+        
+        data:  JSON.stringify(dat),  // Сеарилизуем объект
+        cache: false,
+        success: function(response) { //Данные отправлены успешно
+        console.log(response)
+    	},
+    	error: function(response) { // Данные не отправлены
+          console.log(response)
+    	}
+ 	})
+
+}
+
+
+
+
+
+
+
+$('.btn-trush').off().on('click', ( function(){
+  if (confirm('вы уверены ?')){
+       $('.btn-trush     input:checkbox:checked').each(function(){
+                let c = new Array()
+                 c.push($(this).data('pk'));                 
+                          });
+                           messageDelete(c)
+  }else{ 
+    $('.btn-trush input:checkbox:checked').prop({'checked': false})
+  }
+
+}))
+
+
+
 $('#del_label_all').on('click', function(){
    $('.folder-cell input:checkbox').prop({'checked': true})
 })
@@ -226,6 +272,13 @@ $('#del_label').off().on('click', ( function(){
 
 
 function folderDelete(pk) {
+
+
+
+
+
+
+
 
 var  dat = {
   pk: pk,

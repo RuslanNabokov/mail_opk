@@ -32,8 +32,7 @@ templates = {
 
 
 def req_user(obj, request):                                       # vozr user
-      us  = AuthUser.objects.get(username = request.user)
-      return Profile.objects.get(user = us)
+      return  request.user
 
 
 
@@ -66,10 +65,15 @@ def folderscreate(request,names='sd'):
     return JsonResponse(res, safe=False)
 
 
-
-
+@csrf_protect
+def messagedel(request):
+    json_data = json.loads(request.body)
+    id_messages  = json.loads(request.body)['messages']
+    if id_messages:
+        massage.objects.filter(pk__in=id_messages).delete()
+    return JsonResponse({'status':'ok'})
+    
 @csrf_exempt
-
 def folderdelete(request):
  
     json_data = json.loads(request.body)
@@ -102,7 +106,10 @@ def get_message(request, sort='all'):
 
 class Message(TemplateView):
      template_name = templates['massage_main']
+
      def get(self, request, sort_fold='all'):
+        print(Folder.objects.all()[0].message)
+        print('i' * 200)
         try:
             page = int(request.GET['page'])
         except Exception :
@@ -110,7 +117,7 @@ class Message(TemplateView):
         self.prof = req_user(self, request)
         self.folders = Folder.objects.filter(user = AuthUser.objects.get(username = request.user))
         if sort_fold == 'all':
-            self.message_user_auth  =Paginator(Group_message.objects.filter(users__in=[self.prof ]), 1) 
+            self.message_user_auth =Paginator( Group_message.objects.filter(users__in=[self.prof ],  specificate__in=['folder', None, 'faforite']  ), 1)
         else:
             self.folder = Folder.objects.get(pk=sort_fold)
             self.message_user_auth  =  Paginator(Group_message.objects.filter(message__in=[i  for i in self.folder.message.all() ]), 1)

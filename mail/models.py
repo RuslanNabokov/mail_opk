@@ -80,10 +80,10 @@ class Folder(models.Model):
 class Group_message(models.Model):
     owner  = models.ForeignKey(AuthUser, on_delete=models.CASCADE, verbose_name=u"Пользователь", related_name = 'otprav', blank=True, null=True)
     users = models.ManyToManyField(AuthUser,  verbose_name = "Получатели почты", related_name = 'users')
-    message = models.ForeignKey(Message, verbose_name='Message', related_name = 'sdsd', on_delete = models.CASCADE, blank=True, null=True )
+    message = models.ForeignKey(Message, verbose_name='Message', related_name = 'message', on_delete = models.CASCADE, blank=True, null=True )
     have_read = models.ManyToManyField(AuthUser, verbose_name= "Кто прочел", related_name = 'dsds', blank=True)
     lifetime = models.DateTimeField(default=default_datetime, null=True, blank=True)
     
     def __str__(self):
-          return 'группа сообщения. владелец - {}'.format(self.owner.user.username)
+          return 'группа сообщения. владелец - {}'.format(self.owner.username)
   
