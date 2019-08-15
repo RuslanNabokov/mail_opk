@@ -108,8 +108,6 @@ class Message(TemplateView):
      template_name = templates['massage_main']
 
      def get(self, request, sort_fold='all'):
-        print(Folder.objects.all()[0].message)
-        print('i' * 200)
         try:
             page = int(request.GET['page'])
         except Exception :
@@ -117,7 +115,7 @@ class Message(TemplateView):
         self.prof = req_user(self, request)
         self.folders = Folder.objects.filter(user = AuthUser.objects.get(username = request.user))
         if sort_fold == 'all':
-            self.message_user_auth =Paginator( Group_message.objects.filter(users__in=[self.prof ],  specificate__in=['folder', None, 'faforite']  ), 1)
+            self.message_user_auth =Paginator( Group_message.objects.filter(users__in=[self.prof ],  message__folder__specificate__in=['folder', None, 'faforite']   ), 1)
         else:
             self.folder = Folder.objects.get(pk=sort_fold)
             self.message_user_auth  =  Paginator(Group_message.objects.filter(message__in=[i  for i in self.folder.message.all() ]), 1)
