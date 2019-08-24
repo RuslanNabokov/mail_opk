@@ -19,9 +19,13 @@ from django_ajax.decorators import ajax
 from django.views.decorators.http import require_GET 
 from django.contrib.auth.decorators  import login_required
 import json
-
+from django.core import serializers
 
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
+from django.contrib.auth.models import User
+import datetime
+from django.conf import settings
+from django.utils.timezone import make_aware
 
 templates = {
    'massage_main': 'message_main.html',
@@ -97,11 +101,31 @@ def get_message(request, sort='all'):
          sort = 'all'
      prof = req_user(None, request) 
      if sort == 'all':
-        paginator = Paginator(Group_message.objects.filter(users__in=[prof ]), 10)
+        paginator = Paginator(Group_message.objects.filter(users__in=request.user), 10)
      else:
          pass
      c = {i.pk:[i.message.title, i.owner.user.username, i.lifetime] for i in paginator.page(page).object_list}
      return JsonResponse(c)
+
+
+
+@require_GET
+def searchmessage(request):
+    q = request.GET.get('term', '')
+
+    search_qs = AuthUser.objects.filter(username__startswith=q)
+    results = []
+    for r in search_qs:
+        place_json = {}
+        place_json['pk'] = r.id
+     #   place_json['sec']=r.secrecy
+        place_json['label'] = r.username 
+        results.append(place_json)
+    dat = json.dumps(results)
+    HttpResponse(dat, 'application/json')
+
+ #   c = {i.username: i.pk  for i in results  }
+    return JsonResponse(results, safe=False) 
 
 
 class Message(TemplateView):
@@ -115,10 +139,11 @@ class Message(TemplateView):
         self.prof = req_user(self, request)
         self.folders = Folder.objects.filter(user = AuthUser.objects.get(username = request.user))
         if sort_fold == 'all':
-            self.message_user_auth =Paginator( Group_message.objects.filter(users__in=[self.prof ],  message__folder__specificate__in=['folder', None, 'faforite']   ), 1)
+            self.message_user_auth =Paginator( Group_message.objects.filter(users__in=[request.user],  message__folder__specificate__in=['folder', None, 'faforite']   ), 10)
+            print(self.message_user_auth.page(1).object_list)
         else:
             self.folder = Folder.objects.get(pk=sort_fold)
-            self.message_user_auth  =  Paginator(Group_message.objects.filter(message__in=[i  for i in self.folder.message.all() ]), 1)
+            self.message_user_auth  =  Paginator(Group_message.objects.filter(users__in=[request.user],message__in=[i  for i in self.folder.message.all() ]), 3)
         self.col_all_messages = self.message_user_auth.count
 
         return render(request, self.template_name, {'message': self.message_user_auth.page(page).object_list  ,'mes': self.message_user_auth.page(page), 'prof': request.user, 'folders': self.folders, 'col_all_messages': self.col_all_messages })
@@ -134,36 +159,32 @@ class fileView(FormView):
    # template_name = 'upload.html'  # Replace with your template
 
     def post(self, request, *args, **kwargs):
+        naive_datetime = datetime.datetime.now()
         self.prof = req_user(self, request)
-     
+        users = request.POST.get("names")  #####
+        users   = AuthUser.objects.filter(username__in = users.split(','))
+        print(users)
         form_class = self.get_form_class()
         form_file  = self.get_form(form_class)
         form_massage =  messageForm(request.POST)
-        form_group = group_messageForm(request.POST)
-        if  form_massage.is_valid() and form_group.is_valid():
+        if  form_massage.is_valid():
+               print('sdsd')
                obj_message = form_massage.save()
-               obj_group =  form_group.save()
-               obj_group.message=obj_message 
-               obj_group.owner = self.prof
+               obj_group =  Group_message.objects.create(owner = request.user, message = obj_message, lifetime = make_aware(naive_datetime))
+               obj_group.users.set(users[::])
+               print(obj_group.users)
                obj_group.save()
                message = obj_message
               # form_group.save()
-      
-        print(form_massage)
-        print(request.FILES)
-        files = request.FILES.getlist('file_field')
-        
-        if form_file.is_valid():
-            for f in files:
-                   v = File.objects.create(file = f, message = obj_message)
-            v.save()
-            
-
-
-            
-            return self.form_valid(form_file)
+               files = request.FILES.getlist('file_field')
+               if form_file.is_valid():
+                   for f in files:
+                       v = File.objects.create(file = f, message = obj_message)
+                   v.save() 
+               return HttpResponse('сообщение отправлено')
         else:
-            return self.form_invalid(form_file)
+            return  HttpResponse('ошибка')
+            #self.form_invalid(form_file)
     def get(self, request):
            template_name = templates['message_new']
            form_file = fileForm()
