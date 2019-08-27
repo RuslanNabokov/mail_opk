@@ -84,11 +84,11 @@ WSGI_APPLICATION = 'mail_cnii.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', 
-        'NAME': 'mail_22',
+        'NAME': 'mail',
         'USER': 'postgres',
-        'PASSWORD': '',
-        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-        'PORT': '5432',
+        #'PASSWORD': '',
+        #'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+        #'PORT': '5432',
     }
 }
 
