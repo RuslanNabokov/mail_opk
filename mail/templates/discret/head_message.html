@@ -1,5 +1,5 @@
 {% load staticfiles %}                        
-                        
+                        {% if title  != 'Корзина' %} 
                                 <div class="btn-toolbar" role="toolbar">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-success"><i class="fa fa-inbox"></i></button>
@@ -44,3 +44,6 @@
                                         </ul>
                                     </div>
                                 </div>
+{% else  %}
+<button type="button" id='ubr_iz_kor' class="btn btn-success "><i class="fa">Убрать из корзины</i></button>
+                                {% endif %}

@@ -16,6 +16,6 @@ class messageForm(forms.ModelForm):
 class group_messageForm(forms.ModelForm):
     class Meta:
             model = Group_message
-            fields = ['users']
+            fields = ['users', 'number']
 
 	

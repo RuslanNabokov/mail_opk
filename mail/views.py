@@ -19,9 +19,13 @@ from django_ajax.decorators import ajax
 from django.views.decorators.http import require_GET 
 from django.contrib.auth.decorators  import login_required
 import json
-
+from django.core import serializers
 
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
+from django.contrib.auth.models import User
+import datetime
+from django.conf import settings
+from django.utils.timezone import make_aware
 
 templates = {
    'massage_main': 'message_main.html',
@@ -44,8 +48,10 @@ class MessageDetail(TemplateView):
         self.group =  Group_message.objects.get(message=self.message)
         self.files = File.objects.filter(message= self.message)
         self.files.len  = len(self.files)
+        self.trush = Folder.objects.get(user = User.objects.get(username = request.user), specificate = 'trush')
+        self.favorite = Folder.objects.get(user = User.objects.get(username = request.user), specificate = 'favorite')
         if req_user(self, request) in self.users_message:
-             return render(request, self.template_name, {'message': self.message, 'group': self.group, 'files': self.files, 'users_message': self.users_message})
+             return render(request, self.template_name, {'message': self.message, 'group': self.group, 'files': self.files, 'users_message': self.users_message, 'trush':self.trush, 'favorite':self.favorite})
         else:
             return HttpResponse('Доступ запрещен')
 
@@ -65,24 +71,36 @@ def folderscreate(request,names='sd'):
     return JsonResponse(res, safe=False)
 
 
-@csrf_protect
+@csrf_exempt
 def messagedel(request):
     json_data = json.loads(request.body)
-    id_messages  = json.loads(request.body)['messages']
-    if id_messages:
-        massage.objects.filter(pk__in=id_messages).delete()
-    return JsonResponse({'status':'ok'})
+    id_messages  = json.loads(request.body)['pk']
+    messages = [i.message  for i in  Group_message.objects.filter(pk__in=id_messages).all()]
+    if messages:
+       Folder.objects.get(user = AuthUser.objects.get(username = request.user),specificate='trush').message.add(*messages)
+       return JsonResponse({'status':'ok'})
+    return JsonResponse({'status':'no'})
     
 @csrf_exempt
 def folderdelete(request):
  
     json_data = json.loads(request.body)
     id_folders  = json.loads(request.body)['pk']
-
     if id_folders:
         Folder.objects.filter(pk__in=id_folders).delete()
     return JsonResponse({'status':'ok'})
     
+
+@csrf_exempt
+def ubrizkor(request):
+    json_data = json.loads(request.body)
+    id_messages  = json.loads(request.body)['pk']
+    messages = [i.message  for i in  Group_message.objects.filter(pk__in=id_messages).all()]
+    if id_messages:
+        Folder.objects.get(user = AuthUser.objects.get(username = request.user),specificate='trush').message.remove(*messages)
+    return JsonResponse({'status':'ok'})
+
+
 
 
 
@@ -97,11 +115,31 @@ def get_message(request, sort='all'):
          sort = 'all'
      prof = req_user(None, request) 
      if sort == 'all':
-        paginator = Paginator(Group_message.objects.filter(users__in=[prof ]), 10)
+        paginator = Paginator(Group_message.objects.filter(users__in=request.user), 10)
      else:
          pass
      c = {i.pk:[i.message.title, i.owner.user.username, i.lifetime] for i in paginator.page(page).object_list}
      return JsonResponse(c)
+
+
+
+@require_GET
+def searchmessage(request):
+    q = request.GET.get('term', '')
+
+    search_qs = AuthUser.objects.filter(username__startswith=q)
+    results = []
+    for r in search_qs:
+        place_json = {}
+        place_json['pk'] = r.id
+     #   place_json['sec']=r.secrecy
+        place_json['label'] = r.username 
+        results.append(place_json)
+    dat = json.dumps(results)
+    HttpResponse(dat, 'application/json')
+
+ #   c = {i.username: i.pk  for i in results  }
+    return JsonResponse(results, safe=False) 
 
 
 class Message(TemplateView):
@@ -113,15 +151,25 @@ class Message(TemplateView):
         except Exception :
             page = 1
         self.prof = req_user(self, request)
-        self.folders = Folder.objects.filter(user = AuthUser.objects.get(username = request.user))
+        self.folders = Folder.objects.filter(user = User.objects.get(username = request.user) ).exclude(specificate__in=['trush', 'favorite'])
+        self.trush = Folder.objects.get(user = User.objects.get(username = request.user), specificate = 'trush')
+        self.favorite = Folder.objects.get(user = User.objects.get(username = request.user), specificate = 'favorite')
+        self.title = 'Входящие'
         if sort_fold == 'all':
-            self.message_user_auth =Paginator( Group_message.objects.filter(users__in=[self.prof ],  message__folder__specificate__in=['folder', None, 'faforite']   ), 1)
+            self.message_user_auth =Paginator( Group_message.objects.filter(users__in=[request.user]).exclude(message__in = [i  for  i in Folder.objects.get(specificate='trush', user = request.user).message.all()] ), 10)
+        elif sort_fold == 'send':
+              self.message_user_auth =Paginator( Group_message.objects.filter(owner=request.user ), 10)
+              self.title = 'Отправленные'
         else:
             self.folder = Folder.objects.get(pk=sort_fold)
-            self.message_user_auth  =  Paginator(Group_message.objects.filter(message__in=[i  for i in self.folder.message.all() ]), 1)
+            if self.folder.specificate == 'trush':
+                self.title = 'Корзина'
+            if self.folder.specificate == 'favorite':
+                self.title = 'Избранные' 
+            self.message_user_auth  =  Paginator(Group_message.objects.filter(users__in=[request.user],message__in=[i  for i in self.folder.message.all() ]), 3)
         self.col_all_messages = self.message_user_auth.count
 
-        return render(request, self.template_name, {'message': self.message_user_auth.page(page).object_list  ,'mes': self.message_user_auth.page(page), 'prof': request.user, 'folders': self.folders, 'col_all_messages': self.col_all_messages })
+        return render(request, self.template_name, {'message': self.message_user_auth.page(page).object_list  ,'mes': self.message_user_auth.page(page), 'prof': request.user, 'folders': self.folders, 'col_all_messages': self.col_all_messages, 'trush':  self.trush, 'favorite': self.favorite, 'title': self.title})
 
 
 
@@ -134,36 +182,32 @@ class fileView(FormView):
    # template_name = 'upload.html'  # Replace with your template
 
     def post(self, request, *args, **kwargs):
+        naive_datetime = datetime.datetime.now()
         self.prof = req_user(self, request)
-     
+        users = request.POST.get("names")  #####
+        users   = AuthUser.objects.filter(username__in = users.split(','))
+        print(users)
         form_class = self.get_form_class()
         form_file  = self.get_form(form_class)
         form_massage =  messageForm(request.POST)
-        form_group = group_messageForm(request.POST)
-        if  form_massage.is_valid() and form_group.is_valid():
+        if  form_massage.is_valid():
+    
                obj_message = form_massage.save()
-               obj_group =  form_group.save()
-               obj_group.message=obj_message 
-               obj_group.owner = self.prof
+               obj_group =  Group_message.objects.create(owner = request.user, message = obj_message, lifetime = make_aware(naive_datetime))
+               obj_group.users.set(users[::]) ################################
+    
                obj_group.save()
                message = obj_message
               # form_group.save()
-      
-        print(form_massage)
-        print(request.FILES)
-        files = request.FILES.getlist('file_field')
-        
-        if form_file.is_valid():
-            for f in files:
-                   v = File.objects.create(file = f, message = obj_message)
-            v.save()
-            
-
-
-            
-            return self.form_valid(form_file)
+               files = request.FILES.getlist('file_field')
+               if form_file.is_valid():
+                   for f in files:
+                       v = File.objects.create(file = f, message = obj_message)
+                   v.save() 
+               return HttpResponse('сообщение отправлено')
         else:
-            return self.form_invalid(form_file)
+            return  HttpResponse('ошибка')
+            #self.form_invalid(form_file)
     def get(self, request):
            template_name = templates['message_new']
            form_file = fileForm()

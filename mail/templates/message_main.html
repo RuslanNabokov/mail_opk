@@ -19,7 +19,7 @@
 
 			<div class="wraper container-fluid">
                 <div class="page-title"> 
-                    <h3 class="title">Входящие</h3> 
+                    <h3 class="title">{{ title }}</h3> 
                 </div>
                   
                 <div class="row">
@@ -70,14 +70,16 @@
                                                 <i class="fa fa-star"></i>
                                             </td>
                                             <td>
-                                                <a href = "{% url 'massage_detail'  messa.id  %}"> {{ messa.owner.first_name_d  }} {{ messa.owner.last_name_d  }} </a>
+                                                <a href = "{% url 'massage_detail'  messa.message.id %}"> От: {{ messa.owner.username }} </a>
                                             </td>
                                             <td>
-                                                <a href = "{% url 'massage_detail'  messa.id  %}"<i class="fa fa-circle text-info m-r-15"></i>{{ messa.message.title  }}</a>
+                                                <a href = "{% url 'massage_detail'  messa.message.id  %}"<i class="fa m-r-15"></i>Название: {{ messa.message.title  }}</a>
                                             </td>
+                                           <!--
                                             <td>
                                                 <i class="fa fa-paperclip"></i>
                                             </td>
+                                          -->
                                             <td class="text-right">
                                                {{ messa.lifetime }}
                                             </td>
@@ -198,6 +200,43 @@
 
 
 
+$('#ubr_iz_kor').off().on('click', function(){
+   if (confirm('вы уверены ?')){
+          var c = new Array()
+       $('.cr-styled >     input:checkbox:checked').each(function(){
+          
+                 c.push($(this).data('pk'));                 
+                          });
+                        
+                    messageUbrizkor(c)
+  }else{ 
+    $('.cr-styled >  input:checkbox:checked').prop({'checked': false})
+  }
+})
+
+
+function   messageUbrizkor(pk){
+
+var  dat = { 
+  pk: pk,
+};
+
+    $.ajax({
+        url: '{% url "ubrizkor" %}' , //url страницы (action_ajax_form.php)
+        type:     "POST", //метод отправки
+        dataType: "json", //формат данныUх
+        
+        data:  JSON.stringify(dat),  // Сеарилизуем объект
+        cache: false,
+        success: function(response) { //Данные отправлены успешно
+        console.log(response)
+    	},
+    	error: function(response) { // Данные не отправлены
+          console.log(response)
+    	}
+ 	})
+
+}
 
 
 
@@ -205,6 +244,9 @@
 
 function messageDelete(pk){
 
+var  dat = { 
+  pk: pk,
+};
 
     $.ajax({
         url: '{% url "messagedel" %}' , //url страницы (action_ajax_form.php)
@@ -229,15 +271,20 @@ function messageDelete(pk){
 
 
 
+
+
+
 $('.btn-trush').off().on('click', ( function(){
   if (confirm('вы уверены ?')){
-       $('.btn-trush     input:checkbox:checked').each(function(){
-                let c = new Array()
+          var c = new Array()
+       $('.cr-styled >     input:checkbox:checked').each(function(){
+          
                  c.push($(this).data('pk'));                 
                           });
-                           messageDelete(c)
+                          console.log(c)
+                    messageDelete(c)
   }else{ 
-    $('.btn-trush input:checkbox:checked').prop({'checked': false})
+    $('.cr-styled >  input:checkbox:checked').prop({'checked': false})
   }
 
 }))

@@ -46,8 +46,9 @@ class AuthUser(models.Model):
 def post_save_us(sender, instance, **kwargs):
     print(instance)
     print(kwargs)
-    Folder.objects.create(user=instance,name='trush', description='trush', specificate='trush').save()
-    Folder.objects.create(user=instance,name='favorite', description='favorite', specificate='trush').save()
+    if not Folder.objects.filter(user=instance,name='trush', description='trush', specificate='trush')[0]:
+        Folder.objects.create(user=instance,name='trush', description='trush', specificate='trush').save()
+        Folder.objects.create(user=instance,name='favorite', description='favorite', specificate='trush').save()
 
 
 

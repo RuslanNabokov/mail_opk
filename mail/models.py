@@ -40,7 +40,7 @@ class Message(models.Model):
 
 def get_file_path(instance, filename):
     ext = filename.split('.')[-1]
-    path =  Group_message.objects.get(message = instance.message).owner.user.username  + '/' +  datetime.strftime(datetime.now(), "%Y_%m_%d_%H_%M_%S") + '/'
+    path =  Group_message.objects.get(message = instance.message).owner.username  + '/' +  datetime.strftime(datetime.now(), "%Y_%m_%d_%H_%M_%S") + '/'
     if  not  os.path.exists('/srv/ftp/upload/' + path):
           os.makedirs('/srv/ftp/upload/' + path)
     return os.path.join('/', 'srv','ftp','upload', path,filename)
@@ -65,9 +65,8 @@ class Folder(models.Model):
       description = models.CharField(max_length=150, blank=True, null=True)
       user =  models.ForeignKey(AuthUser, related_name='user_to_folder', on_delete=models.CASCADE)
       message = models.ManyToManyField(Message, null=True, blank=True)
-      specificate = models.CharField(max_length=20,blank=True, null=True,default='folder', choices = SPETIFICATE)
+      specificate = models.CharField(max_length=20,blank=True,verbose_name='spec',null=True,default='folder', choices = SPETIFICATE)
       
-
       def __str__(self):
             return 'папка {} пользователя {} '.format(self.name, self.user.username)
 
@@ -79,11 +78,12 @@ class Folder(models.Model):
 
 class Group_message(models.Model):
     owner  = models.ForeignKey(AuthUser, on_delete=models.CASCADE, verbose_name=u"Пользователь", related_name = 'otprav', blank=True, null=True)
-    users = models.ManyToManyField(AuthUser,  verbose_name = "Получатели почты", related_name = 'users')
+    users = models.ManyToManyField(AuthUser,  verbose_name = "Получатели почты", related_name = 'users', blank=True, null=True)
     message = models.ForeignKey(Message, verbose_name='Message', related_name = 'message', on_delete = models.CASCADE, blank=True, null=True )
     have_read = models.ManyToManyField(AuthUser, verbose_name= "Кто прочел", related_name = 'dsds', blank=True)
     lifetime = models.DateTimeField(default=default_datetime, null=True, blank=True)
-    
+    number = models.CharField(max_length=12,blank=True, null=True, verbose_name= "Номер") # unique
+   
     def __str__(self):
-          return 'группа сообщения. владелец - {}'.format(self.owner.username)
+          return 'группа сообщения. владелец - {}. номер - {} '.format(self.owner.username, self.number)
   
