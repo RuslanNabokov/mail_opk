@@ -1,0 +1,13 @@
+ {% load staticfiles %}
+<div class="panel-body p-0">
+    <!-- id = left-mes -->
+    <div class="list-group no-border mail-list" style="display:flex; ">
+        <button id='list-folder' class="list-group-item folders"><i class="fa fa-folder m-r-5"></i>Папки <b></b></button>
+        <a data-pk-id_folder='{{inbox.pk}}' data-pk-name='Входящие' class="list-group-item folder vhod-folder "><i class="fa fa-download m-r-5"></i>Входящиеs <b>({{vhod_count}})</b></a>
+        <a href="#" data-pk-id_folder='{{favorite.pk}}' data-pk-name='Избранные' class="list-group-item folder"><i class="fa fa-star-o m-r-5"></i>Избранные<b>({{favorite.message.all.count}})</b></a>
+        <!--             <a href="#" class="list-group-item">   <i class="fa fa-file-text-o m-r-5"></i>Draft <b>(0)</b></a> -->
+        <a href="#" data-pk-id_folder='{{send.pk}}' data-pk-name='Отправленные' class="list-group-item folder"><i class="fa fa-paper-plane-o m-r-5"></i>Отправленные</a>
+        <a href="#" data-pk-id_folder='{{trush.pk}}' data-pk-name='Корзина' class="list-group-item folder"><i class="fa fa-trash-o m-r-5"></i>Корзина  <b>({{trush.message.all.count }})</b></a>
+        <a href="{% url 'new_masssage'  %}" class="list-group-item  new_message_button"><i class="fa fa-envelope m-r-5 "></i>Новое сообщение</a>
+    </div>
+</div>

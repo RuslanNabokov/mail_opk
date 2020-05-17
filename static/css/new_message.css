@@ -1,0 +1,204 @@
+.gj-icon {
+    font-size: 10px;
+}
+
+.gj-editor-bootstrap [role=toolbar] button {
+    height: max-content;
+    width: max-content;
+    margin: 0px 7px 2px 7px;
+}
+
+.gj-editor-bootstrap,
+.gj-editor-bootstrap [role="body"] {
+    border: 1px solid #eceeef;
+}
+
+.gj-editor [role="body"] {
+    overflow: auto;
+    outline: transparent solid 0;
+    box-sizing: border-box;
+    min-height: 200px;
+}
+
+.list-counter-square {
+    list-style: none;
+    counter-reset: list;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.list-counter-square>li {
+    position: relative;
+    display: block;
+    height: 2rem;
+    font-size: 15px;
+    line-height: 2rem;
+    margin-left: 2rem;
+    margin-bottom: .25rem;
+    padding-right: .5rem;
+    color: #fff;
+    background: rgba(12, 59, 59, .80);
+    white-space: nowrap;
+}
+
+.list-counter-square>li:last-child {
+    margin-bottom: 0;
+}
+
+.list-counter-square>li::before {
+    content: counter(list);
+    counter-increment: list;
+    position: absolute;
+    left: -2rem;
+    top: 0;
+    bottom: 0;
+    width: 2rem;
+    line-height: 2rem;
+    text-align: center;
+    color: #fff;
+    transition: 1s;
+    background: rgba(9, 87, 87, .75);
+}
+
+.list-counter-square>li:hover {
+    transition: 1s;
+    background-color: rgb(14, 153, 67);
+}
+
+.btn-show {
+    width: 100%;
+}
+
+#left {}
+
+#right {
+    background-color: rgba(220, 223, 221, .30);
+    height: 100%;
+}
+
+#left,
+#right {
+    text-align: center;
+}
+
+ui {
+    background-color: red;
+}
+
+.names {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.new {
+    background-color: aliceblue;
+    width: max-content;
+    height: max-content;
+    padding: 3px 5px;
+    color: #333;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    border: 0.2px solid #666;
+    position: relative;
+    margin: 2px;
+}
+
+.close {
+    height: 8px;
+    width: 8px;
+    cursor: pointer;
+    background-color: grey;
+    left: 110%;
+    z-index: 99999;
+}
+
+
+/*  выпадающий список при выборе получателей */
+
+.ui-menu {
+    background-color: rgba(220, 223, 221, .90);
+    border-radius: 20px;
+}
+
+li.ui-menu-item {
+    font-size: 12px;
+    font-faminy: Verdana;
+}
+
+#id_body {
+    height: 450px;
+}
+
+#search_name_div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#txtSearch {
+    width: min-content;
+    text-align: left;
+    height: 16px;
+    overflow: hidden;
+    padding: 6px 3px;
+    resize: none;
+    width: 300px;
+    color: black;
+    background-color: white;
+    border: none;
+}
+
+.close {
+    float: right;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    filter: alpha(opacity=20);
+    opacity: .2;
+}
+
+.closespan {
+    position: absolute;
+    top: -4px;
+    font-size: 10px;
+}
+
+.wraper {
+    margin-top: 0px;
+    padding-top: 0px;
+}
+
+.content {
+    margin-top: 20px;
+    height: auto;
+}
+
+.content>.container-fluid {
+    margin-top: 91px;
+}
+
+.number-hide {
+    display: none;
+}
+
+.main-number {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+#txtSearch:active,
+ :hover,
+ :focus {
+    outline: 0;
+    outline-offset: 0;
+}
+
+.list_names {
+    display: flex;
+    flex-wrap: wrap;
+}

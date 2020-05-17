@@ -1,0 +1,71 @@
+{% load staticfiles %}
+<div class="modal" id="modal_create_signature" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+     
+        <h5 class="modal-title" id="myModalLabel">Создание </h5>
+    
+      </div>
+       {% include 'select_signature.html' %}
+      <div class="modal-body">
+
+        <form id="feedbackFormd" action="" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+          <div class="form-row">
+    
+          <div class="form-group " id = "shablon_name" style="display: none">
+                <label for="name" class="control-label">Название  шаблона</label>
+                <input id="name_shablon" type="text" name="name" class="form-control" value="" placeholder="Имя" minlength="2" maxlength="30" required="required">
+                <div class="invalid-feedback"></div>
+              </div>
+
+
+
+            <div class="col-sm-12" style ="padding: 0px; margin: 0px;" >
+          <div class="form-group">
+            <label for="message" class="control-label label-signature ">Подпись пользователя: {{ prof}}</label>
+
+  <textarea id="editor"  style = "width: 100%; height: 200px;" >
+
+    </textarea>
+            <div class="invalid-feedback"></div>
+          </div>
+     </div>
+        
+
+          <button id='btn_create_signature' class="btn btn-primary float-right">Добавить</button>
+ 
+                
+      
+        <div  id = "sign" class="alert alert-success form-success mb-0  d-none-signature " style="display: none">Форма успешно отправлена. Нажмите на <a class="form-success-link" href="#">ссылку</a>, чтобы отправить ещё одно сообщение.</div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+ .gj-icon{
+     font-size: 10px;
+ }
+.gj-editor-bootstrap [role=toolbar] button{
+     height:max-content;
+     width:max-content;
+     margin:0px  7px 2px 7px;
+ }
+
+
+.gj-editor-bootstrap, .gj-editor-bootstrap [role="body"] {
+    border: 1px solid #eceeef;
+}
+.gj-editor [role="body"] {
+    overflow: auto;
+    outline: transparent solid 0;
+    box-sizing: border-box;
+    min-height: 200px;
+}
+
+</style>
+

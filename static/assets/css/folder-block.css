@@ -1,0 +1,26 @@
+.folder-icon {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.block-folders {
+    height: 80%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.block-fodler {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.name-folder {
+    margin: 0 0 5px;
+    font-size: 10px;
+    position: relative;
+    left: 20px;
+    top: -52px;
+    color: blue;
+    width: 94px;
+    overflow: hidden;
+}

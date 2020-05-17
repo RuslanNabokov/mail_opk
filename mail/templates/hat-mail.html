@@ -1,0 +1,105 @@
+{% load static %}
+<div class="form-row" id="hat-mail">
+
+
+    <!--
+
+  {% if title != "Отправленные" %}
+ {% endif %}
+
+-->
+
+    <div class="form-group col-md-2  col-sm-3 col-xs-2   col-lg-1" style='margin-bottom:0;'>
+
+        <label for="inputState_prof" class='bg' style='margin-bottom:0'>Пользователя</label>
+        <select id="inputState_prof" class="form-control my-form-control">
+        <option  selected data-us= "{{prof}}">Мои </option>
+        {% for i in   prof_dos %}
+         <option class = 'seart-prof items' click = "function" data-profile = "{{i.pk}}">{{ i.first_name_d }} {{i.last_name_d}}  <em> ({{ i.nepr_message_all_host_count}} ) </em></option>
+        {% endfor %} 
+      </select>
+    </div>
+
+
+
+    <div class=" col-md-6 col-lg-10 col-sm-4 col-xs-4  col-lg-8 searchBox" style='margin-bottom:0; display: flex;align-self: flex-end;'>
+
+        <input id="inputEmail4" class=" form-control searchInput my-searchInput" type="text" name="" />
+
+
+        <button id="concret-search" class='active-search-block-concret-button'>
+<svg focusable="false" style="color: white;" height="24px" viewBox="0 0 24 24" width="24px" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg>
+</button>
+
+        <img class="search-img searchButton" src="{% static 'img/search.png' %}">
+        </img>
+        <!-- Выподающее окно поиска -->
+        <div id="block-concret-block" class="block-concret-search ZZ">
+
+
+
+            <div class="form-group col-md-12  row-block-content-search" style='margin-bottom:0;'>
+                <label for="inputState" style='color: black; margin-bottom:0'>Поиск по</label>
+                <select id="inputState" class="form-control my-form-control ">
+        <option selected data-sort= 'name'>Названию</option>
+           {% if title !=  "Отправленные" %} 
+           
+        <option data-sort='owner'> Отправителю </option>
+        {% endif  %}
+      </select>
+            </div>
+            <div class="col-md-12">
+                <label for="contactChoice2">Только непрочитанные</label>
+                <input type="checkbox" checked="checked" id="read_message" />
+            </div>
+
+        </div>
+        <!-- Выподающее окно поиска -->
+
+
+
+        </input>
+
+
+
+
+
+    </div>
+
+    <div class="btn-group btn-gr-fold col-md-3  col-sm-3 col-xs-4   col-lg-3 my-btn-group ">
+
+
+
+        <button type="button" class="btn btn-success-my dropdown-toggle " id="dropFolder" data-toggle="dropdown" aria-expanded="false">
+        <i class="fa fa-folder"></i>
+        <b class="caret"></b>
+        </button>
+        <ul class="dropdown-menu in_fold_select" aria-labelledby="dropFolder" role="menu">
+            <li><a class="list-group-item in_fold favorite" data-pk="{{ favorite.pk }}" href="#">В избранное</a></li>
+
+            {% for i in folders %}
+            <li><a class="list-group-item in_fold" data-pk={{i.pk}} href="#">{{i.name}}</a></li>
+            {% endfor %}
+        </ul>
+
+
+
+        <!--          <button type="button" class="btn btn-success"><i class="fa fa-inbox"></i></button> -->
+        <!--               <button type="button" class="btn btn-success"><i class="fa fa-exclamation-circle"></i></button> -->
+
+
+        <button type="button" class="btn btn-success-my btn-trush"><i class="fa fa-trash-o"></i></button>
+
+
+
+        <button type="button" id='activate_signature' class="btn btn-success-my"><i class="ion-android-settings"></i></button>
+    </div>
+
+
+
+
+
+
+
+
+</div>

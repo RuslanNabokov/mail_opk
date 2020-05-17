@@ -1,25 +1,17 @@
-{% load staticfiles %}                        
-                        {% if title  != 'Корзина' %} 
-                                <div class="btn-toolbar" role="toolbar">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-success"><i class="fa fa-inbox"></i></button>
-                                        <button type="button" class="btn btn-success"><i class="fa fa-exclamation-circle"></i></button>
-                                        <button type="button" class="btn btn-success btn-trush"><i class="fa fa-trash-o"></i></button>
-                                    </div>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                        <i class="fa fa-folder"></i>
-                                        <b class="caret"></b>
-                                        </button>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li><a href="#fakelink">Action</a></li>
-                                            <li><a href="#fakelink">Another action</a></li>
-                                            <li><a href="#fakelink">Something else here</a></li>
-                                            <li class="divider"></li>
-                                            <li><a href="#fakelink">Separated link</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="btn-group">
+{% load staticfiles %} {% if title != "Корзина" %}
+<div class="btn-toolbar" role="toolbar">
+
+
+    <div class="btn-group" style="float:right">
+        {% include 'discret/panel-mail.html' %}
+
+    </div>
+
+
+
+
+
+    <!--           <div class="btn-group">
                                         <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                         <i class="fa fa-tag"></i>
                                         <b class="caret"></b>
@@ -31,9 +23,9 @@
                                             <li class="divider"></li>
                                             <li><a href="#fakelink">Separated link</a></li>
                                         </ul>
-                                    </div>
-                                    
-                                    <div class="btn-group">
+                                    </div> -->
+
+    <!--                      <div class="btn-group">
                                         <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                           Еще
                                           <span class="caret"></span>
@@ -42,8 +34,7 @@
                                           <li><a href="#fakelink">Dropdown link</a></li>
                                           <li><a href="#fakelink">Dropdown link</a></li>
                                         </ul>
-                                    </div>
-                                </div>
-{% else  %}
-<button type="button" id='ubr_iz_kor' class="btn btn-success "><i class="fa">Убрать из корзины</i></button>
-                                {% endif %}
+                                    </div> -->
+</div>
+{% else %}
+<button type="button" id='ubr_iz_kor' class="btn btn-success "><i class="fa">Убрать из корзины</i></button> {% endif %}

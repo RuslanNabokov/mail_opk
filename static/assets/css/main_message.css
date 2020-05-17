@@ -1,4 +1,81 @@
-.my-pagination {
+#hat-mail {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+td p {
+    padding: 0px;
+    margin: 0px;
+}
+
+td p,
+td a,
+td i,
+td span {
+    cursor: pointer;
+}
+
+
+/* nepr soobsh */
+
+.mail-news-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 1;
+    /* margin-right: 6px; */
+    min-width: 0;
+}
+
+tr.no_read_message .mail-news-title .i .mes-titled,
+tr.no_read_message .mail-own-user {
+    /*font-weight: bolder; */
+    font-weight: bold;
+}
+
+.mail-own-user {
+    margin-top: 8px;
+}
+
+
+/* nepr soobsh */
+
+.dropdown-menu {
+    left: auto;
+}
+
+.mail-own-user {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+.mail-mews-title {
+    /*
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    position: relative;
+    */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+    flex-shrink: 0;
+    margin-top: 16px;
+}
+
+.mes-sinopsis {
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+.mail-message- .my-pagination {
     margin: 0;
     padding: 0;
 }
@@ -17,11 +94,284 @@
     flex-direction: row;
 }
 
-@media screen and (max-width: 800px) {
-    .my-btn {}
+.fa-star-active {
+    color: gold;
+    transition: 2s;
 }
 
-@media screen and (max-width: 1700px) {
+.my-fa {
+    vertical-align: middle;
+    margin: 0px 0px 0px 4px;
+}
+
+.block-i {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    right: 10px;
+    top: 18px;
+    align-items: center;
+}
+
+.form-row-m {
+    display: flex;
+    justify-content: flex-start;
+    margin: 0;
+    padding: 0;
+}
+
+.list-group {
+    margin: 0px;
+}
+
+[data-tooltip] {
+    position: relative;
+    /* Относительное позиционирование */
+}
+
+[data-tooltip]::after {
+    content: attr(data-tooltip);
+    /* Выводим текст */
+    position: absolute;
+    /* Абсолютное позиционирование */
+    width: 500px;
+    /* Ширина подсказки */
+    left: 0px;
+    top: 0px;
+    /* Положение подсказки */
+    background: #3989c9;
+    /* Синий цвет фона */
+    color: #fff;
+    /* Цвет текста */
+    padding: 0.5em;
+    /* Поля вокруг текста */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    /* Параметры тени */
+    pointer-events: none;
+    /* Подсказка */
+    opacity: 0;
+    /* Подсказка невидима */
+    transition: 1s;
+    /* Время появления подсказки */
+}
+
+[data-tooltip]:hover::after {
+    opacity: 1;
+    /* Показываем подсказку */
+    top: 0px;
+    left: -500px;
+    font-size: xx-small;
+    /* Положение подсказки */
+}
+
+.mail-news-title {
+    width: 100%;
+}
+
+.mail-User-Avatar_size_30 {
+    margin: 0px;
+    padding: 0px;
+    padding-top: 0px;
+    padding-left: 0px;
+    font-size: 16px;
+    line-height: 20px;
+    min-width: 30px;
+    height: 30px;
+    border-radius: 110px;
+    color: white;
+    text-align: -webkit-center;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: black;
+    padding-top: 16%;
+    padding-left: 25%;
+    font-weight: bold;
+}
+
+.mail-User-Avatar_link {
+    text-decoration: none;
+}
+
+.mail-MessageSnippet-Item_userpic {
+    display: flex;
+    margin-right: 7px;
+    margin-left: 6px;
+}
+
+.icon-and-box {
+    display: flex;
+    width: max-content;
+    align-content: space-evenly;
+    align-items: baseline;
+    position: relative;
+    overflow: hidden;
+    margin: -8px;
+    flex-direction: row-reverse;
+}
+
+.cr-styled i {
+    /* height: 18px; */
+    /* width: 18px; */
+    cursor: pointer;
+    vertical-align: middle;
+    border: 1px solid #CCC;
+    border-radius: 4px;
+    text-align: center;
+    /* padding-top: 1px; */
+    font-family: FontAwesome;
+    /* margin-top: -4px; */
+    /* margin-right: 3px; */
+    /* font-size: 12px; */
+    width: 15px;
+    height: 15px;
+    padding: 0px;
+    font-size: smaller;
+}
+
+aside.right-panel {
+    background-image: url("../../img/main-menu.jpg");
+    width: 0px;
+    position: fixed;
+    height: 100%;
+    top: 0;
+    right: 0%;
+    padding-top: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    z-index: 9999999;
+    transition: 0.2s linear;
+}
+
+aside.right-panel-active {
+    width: 170px;
+    transition: 0.2s linear;
+}
+
+.number-cl {
+    display: none;
+}
+
+.in_fold_select>li,
+.list-sortet-item,
+.list-filter-item {
+    padding: 2px;
+    font-size: 12px;
+}
+
+.my-dropdown-menu {
+    top: 50px;
+}
+
+.text-right {
+    font-size: x-small;
+}
+
+.table>tbody>tr>td,
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>thead>tr>th {
+    border: 1px solid #ddd;
+    vertical-align: middle;
+    line-height: 15px;
+}
+
+.mes-titled {
+    /*    font-weight: bold; */
+    color: #000;
+}
+
+.mes-sinopsis {
+    color: rgba(0, 0, 0, 0.4);
+    margin-left: 10px;
+}
+
+.mail-own-user,
+.mes-titled,
+.mes-sinopsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+    flex-shrink: 1;
+}
+
+.mail-MessageSnippet-Item {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 1;
+    margin-right: 6px;
+    min-width: 0;
+}
+
+.i {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 1;
+    min-height: 11px;
+    width: 1100px;
+}
+
+.text-right.time {
+    padding-right: -1px;
+    white-space: pre;
+    margin: 0px;
+    padding: 0px;
+    font-size: 10px;
+}
+
+.no_read_message>.mes-titled {
+    font-weight: bold;
+}
+
+.fa-star,
+.block-i {
+    opacity: 0;
+}
+
+.fa-star-active {
+    opacity: 1;
+}
+
+.message:hover .fa-star,
+.message:hover .block-i,
+.message:hover a,
+.message:hover i {
+    opacity: 1;
+}
+
+.message a,
+.message .my-fa {
+    opacity: 0;
+}
+
+.mail-own-user {
+    width: 150px;
+}
+
+.mail-news-title {
+    min-width: 100%;
+}
+
+.modal-dialog {
+    margin: auto;
+    margin-left: auto;
+    margin-left: 6%;
+}
+
+.own-user {
+    font-size: 13px;
+}
+
+@media screen and (max-width: 800px) {
+    .i {
+        width: 80px;
+    }
+}
+
+@media screen and (max-width: 1600px) {
     .btn_group {
         flex-direction: column;
     }
@@ -29,6 +379,27 @@
         height: 100%;
         width: 100%;
         margin: 1px 0px;
+    }
+    .i {
+        width: 980px;
+    }
+}
+
+@media screen and (max-width: 1400px) {
+    .i {
+        width: 570px;
+    }
+}
+
+@media screen and (max-width: 1100px) {
+    .i {
+        width: 350px;
+    }
+}
+
+@media screen and (max-width: 590px) {
+    .i {
+        width: 70px;
     }
 }
 

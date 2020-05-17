@@ -1,0 +1,36 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" href="{% static 'assets/css/style_modal.css' %}" />
+
+<div id="modal-mes" style="width: 100%;     overflow: hidden; " class="modal modal-message fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+
+        <h3 id='title_modal' style='color: white; margin-left: auto; text-align: center'></h3>
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <div class="modal-header">
+
+                <h4 class="modal-title" id="gridModalLabel" style="display:flex; justify-content: space-between">
+                    <p id="owner_mes">
+
+                    </p>
+                    <p id='data_mes' style="font-size: 12px">
+
+                    </p>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid bd-example-row">
+                    <div class="row">
+                        <div class="col-md-12" style="margin:10px" id='message_body'></div>
+
+                    </div>
+                    <hr>
+                    <div id='files'>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

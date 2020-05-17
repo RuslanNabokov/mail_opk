@@ -1,0 +1,116 @@
+{% load staticfiles %}
+<div class="panel-body  panel-body-all-messages" style="position:relative">
+    <div id="loader"></div>
+
+    <div style='display: flex'>
+        <button type="button" class="btn btn-sort " id="dropSort" data-toggle="dropdown" aria-expanded="false">
+   <img class ="sort-img"   src = "{% static 'img/sort.png' %}" >
+  </button>
+        <ul class="dropdown-menu my-dropdown-menu" aria-labelledby="dropSort" role="menu">
+
+            <li class="sorting_asc" data-sort="owner"></li>
+            <li class="sorting_asc list-group-item  list-sortet-item " data-sort="owner">От кого</li>
+            <li class="sorting_asc list-group-item list-sortet-item " data-sort="message__title">Название</li>
+            <li class="sorting_asc list-group-item list-sortet-item ">Содержание</li>
+            <li class="sorting_asc list-group-item list-sortet-item " data-sort="lifetime">Дата</li>
+
+        </ul>
+
+    </div>
+
+
+    <div style='display: flex; position: absolute; top: 0%; right:20px'>
+        <button type="button" class="btn btn-sort " id="dropSort" data-toggle="dropdown" aria-expanded="false">
+<em  id ="filter-indicator" style="font-size: 10px;">Все </em>  <img class ="sort-img"   src = "{% static 'img/filter.png' %}" >
+  </button>
+        <ul class="dropdown-menu my-dropdown-menu " style="right: 20%; top:40px;" aria-labelledby="dropSort" role="menu">
+
+
+            <li class=" list-group-item list-filter-item " data-filter="all">Все сообщения</li>
+            <li class=" list-group-item  list-filter-item " data-filter="no_read">Только непрочитанные</li>
+            <li class=" list-group-item list-filter-item " data-filter="with_files">С вложениямим</li>
+
+
+        </ul>
+
+    </div>
+    <table class="table table-hover mails">
+        <tbody>
+
+            <table id="datatable" class="table table-striped table-bordered">
+                <thead>
+                    <!--                <tr>
+                        <th></th>
+                        <th class="sorting_asc" data-sort="owner"></th>
+                        <th class="sorting_asc" data-sort="owner">От кого</th>
+                        <th class="sorting_asc" data-sort="message__title">Название</th>
+                        <th class="sorting_asc">Содержание</th>
+                        <th class="sorting_asc" data-sort="-lifetime" style="text-align: right">Дата</th>
+
+                    </tr>-->
+                </thead>
+
+
+
+                <tbody class='tbody'>
+
+                    <!--  -->
+
+                    <tr class='message message_main' style='display:none'>
+                        <td class="mail-select">
+                            <div class="icon-and-box">
+                                <div class=" mail-MessageSnippet-Item_userpic">
+                                    <p href="#search?scope=hdr_from&amp;request=no-reply%40m.mail.coursera.org" class="letter_or_picter  mail-User-Avatar mail-User-Avatar_size_30 mail-User-Avatar_link ">C</p>
+                                </div>
+
+                                <label class="cr-styled">
+                               <input type="checkbox" class='chk' data-pk=''/> <i class="fa"></i>
+                                              </label>
+
+                        </td>
+
+                        <td class="mail-own-user">
+                            <p class='own-user'> </p>
+                            <i class="fa fa-star"></i>
+                        </td>
+                        <td class="mail-news-title" style="position: relative">
+                            <div class="i" style="position: relative">
+
+
+                                <span class="mes-titled">
+                              
+
+                                </span>
+
+                                <span class="mes-sinopsis"></span>
+
+                            </div>
+                            <div class="block-i">
+                            </div>
+
+
+
+                        </td>
+
+
+
+
+
+
+
+
+
+
+
+                        <!--
+                                            <td>
+                                                <i class="fa fa-paperclip"></i>
+                                            </td>
+                                          -->
+                        <td class="text-right time"> </td>
+                    </tr>
+
+
+
+                </tbody>
+            </table>

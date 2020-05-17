@@ -1,0 +1,53 @@
+{% extends 'main.html' %} {% load staticfiles%} {% block style %} 
+<link href="{% static 'css/organization_detail.css' %}" rel="stylesheet" />
+
+ {% endblock style %}
+
+
+
+
+{% block content %}
+
+<section class="content">
+
+			<div class="wraper container-fluid">
+        
+                  
+                <div class="row">
+                    
+
+
+
+        <h1 class="title-name"> {{ company.name }} </h1>
+     
+
+
+        <div class='block-organization '>
+
+   <a  class='pravka' href="{% url 'redactorganization' company.pk %}" >Редактировать </a>
+        <div class="opisanie">
+          <img class="image"src="/media/{{ company.img}}"> </img>
+  
+          {{ company.information }}
+
+  </div>
+
+  
+   
+                </div><!-- End row -->
+<hr class='end-block '/>
+
+            </div> <!-- END Wraper -->
+
+		
+
+		</section>
+
+
+   
+        
+
+          <!--          -->
+
+{% endblock content %}
+

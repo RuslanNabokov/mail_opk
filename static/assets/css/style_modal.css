@@ -1,0 +1,29 @@
+button.close {
+    position: absolute;
+    right: 0;
+    top: -40px;
+    opacity: 0.6;
+    font-size: 30px;
+    color: white;
+}
+
+.modal-dialog.modal-lg {
+    width: 80%;
+    height: -moz-min-content;
+    min-height: 60%;
+    left: 5%;
+}
+
+.modal-dialog.modal-lg {
+    height: 100%;
+}
+
+.modal-content {
+    min-height: 80%;
+    height: max-content;
+}
+
+.file {
+    height: 45px;
+    width: auto;
+}

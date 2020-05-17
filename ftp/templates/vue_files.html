@@ -1,0 +1,287 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> </title>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+
+    <!-- template for the modal component -->
+
+    <script type="text/x-template" id="modal-template">
+        <transition name="modal" >
+            <div class="modal-mask">
+                <div class="modal-wrapper">
+                    <div class="modal-container">
+
+                        <div class="modal-header">
+                            <slot name="header">
+                            Файловый менеджер
+                            </slot>
+                  <div class='button-group'>          
+                        <button @click="folders_up_level" style="width:30px;font-size:5px ">back</button>
+                        <button @click="folders_home" style="width:30px; font-size:5px ">home</button>
+                              <button class="modal-default-button" @click="close">
+                   Закрыть
+
+                  </button>
+</div>
+           <button class="" @click="send">
+                 Отправить
+
+                  </button>
+
+                        </div>
+
+                        <div class="modal-body">
+                            <slot name="body">
+
+                                <file v-for='file in files' :file='file'> {{file}} </file>
+                            </slot>
+                        </div>
+
+                        <div class="modal-footer">
+                            <slot name="footer">
+                            
+                            </slot>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </transition>
+    </script>
+</head>
+
+<body>
+    <!-- app 
+   {{files}}  
+        {{files_to_transfer}}
+    -->
+    {% verbatim %}
+    <div id="app">
+
+
+<!--        <button id="show-modal" @click="showModal = true">Show Modal</button> -->
+
+        <modal v-if="showModal" @close="showModal = false" :files='files'>
+            <h3 slot="header"></h3>
+        </modal>
+        
+{% endverbatim %}
+
+   {{files}}
+
+{% verbatim %}
+    </div>
+
+    <script>
+
+
+
+        Vue.component("modal", {
+            props: ['files'],
+            template: "#modal-template",
+            methods:{
+                folders_up_level: function(){
+                    this.$root.$options.methods.folders_up_level()
+                },
+                folders_home: function(){
+                
+                    this.$root.$options.methods.folders_home()
+                }, 
+                send: function(){
+                    this.$root.$options.methods.send()
+                },
+                close: function(){
+                    window.close()
+                }
+
+
+            }
+
+        });
+
+        Vue.component("file", {
+            props: ['file'],
+           {% endverbatim %}
+            template: "<span class='file'> <img  src='{% static  '/img/folder.png' %}'  @click='click(file)' >  </img> <span class='file-podp'> {% verbatim %} {{file}}  </span> </span>" ,
+                
+            methods:{
+                click: function(name){
+                 this.$root.$options.methods.get_data_folder(name)
+                },
+               
+            }
+        });
+
+
+
+
+        var vebs = new Vue({
+            el: "#app",
+            data() {
+                return{
+                showModal: true,
+                files: ['ddsd','sdd','dsd'],
+                curent_path:'',
+                {% endverbatim %}
+                files_to_transfer: '{{files}}'.split(' ')
+                {%  verbatim %}
+
+                }
+            },
+            mounted() {
+      {% endverbatim %}
+
+
+                axios
+                    .get('{% url "get_content_dir" %}',{
+                        params:{
+                            get_transition_path: ''
+                        }
+                    })
+               
+                    .then(response => this.update_vision_folder(response.data, '') )
+            },
+            methods: {
+
+
+                send: function(){
+                    var params = new URLSearchParams();
+                    params.append('files', vebs.files_to_transfer);
+                    params.append('dir_', vebs.curent_path);
+                    axios.
+                    post('{% url  "send_files" %}',params)
+                },
+                get_data_folder: function(name){
+                    name = name ? name : ''
+               
+                    axios.
+                    get('{% url "get_content_dir"  %}',{
+                        params: {
+                            get_transition_path:  vebs.curent_path +  name
+                        }}
+                        )
+                        .then(response => this.update_vision_folder(response.data, name)  ) 
+                },
+                update_vision_folder: function(response, name){
+        
+                     vebs.files =  response['dirs']
+                     vebs.curent_path =  vebs.curent_path  +  name + '/'
+                      
+                },
+                 folders_up_level: function(){
+                   vebs.curent_path = vebs.curent_path.split('/').slice(0,-2).join('/')
+                   vebs.get_data_folder()
+                },
+                 folders_home: function(){
+                   vebs.curent_path = ''
+                   vebs.get_data_folder()
+
+                }
+            }
+        });
+//setTimeout(function(){window.close()}, 4000)
+
+
+    </script>
+         {% verbatim  %}
+    {% endverbatim %}
+
+    <style>
+        .modal{ 
+            height: 400px;
+         }
+
+         .file{
+            position:  relative;
+            margin: 4px 8px ;
+            overflow: auto;
+         }
+         .file-podp{
+         position: absolute;
+         
+         left:5px; 
+         top:56%; 
+         font-size:8px 
+          }
+        .modal-mask {
+            position: fixed;
+            z-index: 9998;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: table;
+            transition: opacity 0.3s ease;
+
+        }
+        
+        .modal-wrapper {
+            display: table-cell;
+            vertical-align: middle;
+        }
+        
+        .modal-container {
+            width: 300px;
+            margin: 0px auto;
+            padding: 20px 30px;
+            background-color: #fff;
+            border-radius: 2px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+            transition: all 0.3s ease;
+            font-family: Helvetica, Arial, sans-serif;
+            min-height: 281px;
+            overflow: scroll;
+    max-height: 551px;
+        }
+        
+        .modal-header h3 {
+            margin-top: 0;
+            color: #42b983;
+        }
+        
+        .modal-body {
+            margin: 10px 0;
+            display: flex; 
+            flex-wrap: wrap;
+            align-items: end;
+            width: 100%;
+        }
+        
+        .modal-default-button {
+            float: right;
+        }
+        /*
+ * The following styles are auto-applied to elements with
+ * transition="modal" when their visibility is toggled
+ * by Vue.js.
+ *
+ * You can easily play with the modal transition by editing
+ * these styles.
+ */
+        
+        .modal-enter {
+            opacity: 0;
+        }
+        
+        .modal-leave-active {
+            opacity: 0;
+        }
+        
+        .modal-enter .modal-container,
+        .modal-leave-active .modal-container {
+            -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+        }
+
+        .button-group{
+            display:flex;
+
+        }
+    </style>
+</body>
+
+</html>

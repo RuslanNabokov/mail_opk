@@ -1,0 +1,116 @@
+{% load staticfiles %}
+
+<!-- Принимает аргументы  -  message, group, users_message, number, files-->
+<div class="panel panel-default m-t-20 panel-message-detail">
+    <div class="panel-heading">
+
+        {% if infavorite %}
+        <i class="fa fa-star fa-star-active" data-pk="{{ message.pk }}" style='font-size:20px'></i> {% endif %}
+        <!--       <h3 class="panel-title">
+            <p class="text-primary m-0">
+                {{ group.owner }}</p>
+            <small class="text-muted">для 
+  
+                {% for i in  group.users.all %}
+                        {{i}}
+                        {% endfor %}
+                    </small></h3> -->
+
+        <div class="group_button">
+
+            <button type="button" class="btn btn-default btn-sm waves-effect waves-light" data-toggle="tooltip" data-container="body" title="Delete"><i class="fa fa-trash"></i></button> {% if auth != group.owner %}
+
+            <a href='{% url "new_masssage"  %}?answer={{group.pk}}&user={{group.owner.pk}}' class="btn btn-default btn-sm waves-effect waves-light" data-toggle="tooltip" data-container="body" title="Ответить"><i class="fa fa-reply"></i></a>
+
+
+            <a href='{% url "new_masssage"  %}?answer={{group.pk}}' class="btn btn-default btn-sm waves-effect waves-light" data-toggle="tooltip" data-container="body" title="Переслать"><i class="fa fa-share"></i></a> {% endif %}
+
+            <button type="button" class="btn btn-default btn-sm waves-effect waves-light" data-toggle="tooltip" title="Print"><i class="fa fa-print"></i></button>
+
+
+
+
+        </div>
+    </div>
+
+    <div class="mailbox-read-info">
+        <h3 style='color:rgba(0,0,0,0.8)'>{{message.title}}</h3>
+        <h5>От: {{ group.owner }}
+            <span class="mailbox-read-time float-right">{{group.lifetime}}</span>
+        </h5>
+    </div>
+    <div class="panel-body">
+
+
+        <div class="media m-b-30 ">
+
+            <div class="media-body">
+
+                <span class="media-meta pull-right">{{ message.article_date }}</span>
+
+
+            </div>
+        </div>
+        <!-- media -->
+
+        <div class="body_message">
+            {% autoescape off %} {{ message.full_message }} {% endautoescape %}
+
+        </div>
+
+        <hr/> {% if files %}
+        <h4><i class="fa fa-paperclip m-r-10 m-b-10"></i> Документы <span> {{  files.len }}</span></h4>
+        <div class='files'>
+            {% for i in files %}
+            <div class='file-block' data-pk-file="{{i.ps}}">
+
+                <img src="{% static  'icon/file.png' %}" class="file br-radius m-r-10">{{ i.name }} </file>
+                <input type="checkbox" class="chk-files" data-file-uuid={{i.pk}}>
+
+
+            </div>
+
+            {% endfor %} {% endif %}
+
+        </div>
+        <input type="button" id="perem_files" value="Переместить" style="width:100px;height: 20px;float: inline-end;"> {% if group.answer_message %}
+
+        <div class="shema">
+            <!--   <p class="nadpis">________ </p>  -->
+        </div>
+
+        {% endif %}
+    </div>
+
+
+    <script>
+        let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
+width=400,height=400,left=1000,top=-1000`;
+
+        $('#perem_files').on('click', function() {
+            let cheked = $('.chk-files:checked')
+            c = new Array()
+            let uuid = cheked.map(function(index, val) {
+                c.push(val.getAttribute('data-file-uuid'))
+                return 1
+            })
+
+            uuid = c.join(',')
+            str_ = '{% url "poligon" %}' + '?names=' + uuid
+
+            new_win = window.open(str_, 'file_manager', params)
+
+            new_win.onload = function() {
+                let html = `<div style="font-size:30px">Добро пожаловать!</div>`;
+                new_win.document.body.insertAdjacentHTML('afterbegin', html);
+
+            };
+
+        })
+    </script>
+
+
+
+
+
+    <!-- panel-body -->

@@ -1,0 +1,61 @@
+
+<div id = "modal-shablon" class="modal modal-shablon fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+
+    <h3  id = 'title_modal' style = 'color: white; margin-left: auto; text-align: center'>Шаблоны</h3>
+ <div class="modal-content">
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-header" >
+
+        <h4 class="modal-title" id="gridModalLabel" style="display:flex; justify-content: space-between">
+        <p id = "owner_mes">
+
+        </p>
+        <p id = 'data_mes' style ="font-size: 12px" >
+
+        </p>
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid bd-example-row">
+          <div class="row">
+            <div class="col-12 row" id = 'message_body'>
+        <div class="col-md-2" id="left">
+
+       <ol class="list-group list-counter-square">
+        {% for i in shablons %}
+<li class="btn-show "  data-pk =  {{i.pk}} > {{ i.name }} </li >
+
+        {% endfor %}
+        </ol>
+
+  </div>
+
+  <div class="col-md-10" id="right">
+
+  </div>
+            </div>
+
+            <div id = 'top'> </div>
+
+          </div>
+          <hr>
+          <div id='files'>
+          </div>
+  </div>
+
+  <button  type="button" class ="btn_add_signature add_text" style ="position:relative; left: 90%"}>Добавить </button>
+
+
+  <script>
+
+  </script>
+
+
+</div>
+
+</div>
+
+</div>
+
+</div>

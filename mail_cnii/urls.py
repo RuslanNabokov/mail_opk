@@ -19,13 +19,28 @@ import main
 from django.conf import settings 
 from .views import login, logout
 import ftp
-
+import file_manage
+from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
     path('mail/', include('mail.urls')),
     path('login/<str:login>',login,  name = 'login'),
     path('logout/', logout, name = 'logout'),
-    path('ftp/', include('ftp.urls') , name = 'logout')
+    path('ftp/', include('ftp.urls') , name = 'ftp'),
+    path('file/', include('file_manage.urls') , name = 'file_manage')
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+'''
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+
+        # For django versions before 2.0:
+        # url(r'^__debug__/', include(debug_toolbar.urls)),
+
+    ] + urlpatterns
+'''

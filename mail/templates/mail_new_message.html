@@ -1,8 +1,9 @@
 {% extends 'main.html' %}
 {% load staticfiles %}
 {% block style %}
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
-
+<link rel="stylesheet" href="{% static 'assets/css/jquery-ui.css' %}" type="text/css" media="all" />
+<link href="{% static 'assets/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css' %}" rel="stylesheet" />
+<link rel="stylesheet" href="{% static 'css/new_message.css' %}"">
  
 
 {% endblock %}
@@ -12,73 +13,109 @@
 
 
 			<div class="wraper container-fluid">
-                <div class="page-title"> 
-                    <h3 class="title">Создание нового сообщения</h3> 
+                <div class="page-title page-title-new-message"> 
+                    <h3 class="title">Создание нового сообщения </h3> 
+										            <form  id = 'f' role="form" method="post" enctype="multipart/form-data" >
+										{% if  answer %}
+										<h4> Пересылка сообщения </h4>
+						<input id = 'answer' name ='answer' style='display:none' value ={{answer.pk}} > </input>
+										{% endif %}
                 </div>
-                  <form  id = 'f' role="form" method="post" enctype="multipart/form-data" >
+      
 
 									<input id = 'ss' name ='names' style='display:none' value ='sss' > </input>
+									{% if pk != "s" %} <!-- Peresilka li -->
+									<input id = 'message_pk' name ='message_pk' style='display: none' value ={{pk}} > </input>
+
+									{% endif  %}
                 <div class="row">
-                		<div class="col-md-10  col-sm-9">
+                		<div class="col-md-10  col-sm-10">
 						<div class="panel panel-default m-t-20">
 							<div class="panel-body p-t-10">
 				
-  						 {% csrf_token %}
-
+ 
 
 									<div class="form-group">
   
 
 	<div class="row">
-	  		<div class="col-md-4  col-sm-4">
-<p> 	Кому: </p> <input type = "text" class = "form-control" list="json-datalist" id = "txtSearch" name = "TxtSearch" > 
+
+	  		<div class="col-md-12  col-sm-12 row" id = "search_name_div">
+<p class= "col-md-1 col-sm-1" style="margin-left:0px; width: min-content" > 	Кому: </p> 				<div class = 'names '>
+<div class = 'list_names'>
+
+</div>
+						 <input class= "col-md-11 col-sm-11"  type = "text" class = "form-control" list="json-datalist" id = "txtSearch" name = "TxtSearch" > 
 	<datalist id="json-datalist"></datalist>
 
-
+	</div>
 	</div>
 
 
+<!-- names -->
 
+			<div class="col-md-8  col-sm-8 main-number" > 
+			<div class='dobav '>
+			<input id='but_number' type="button" value="Убрать номер">
+			</div> 
 
-			<div class="col-md-4  col-sm-4 names">
-	
+			<div class = 'number-cl '>
+			<p> 	Номер: </p>
 
+			{{ form_massage.number }}   
+          </div>
 	</div>
 </div>
+
+
   		Секретность:			 {{ form_massage.secrecy }}
 </div>
 							<!--			<input type="email" class="form-control" placeholder="To"> --> 
 									
-									<div class="form-group">
+									<div class="form-group" class="zagolovok">
 									<!-- 	<input type="text" class="form-control" placeholder="title "> -->
  				Заголовок:						 {{ form_massage.title }} 
 									</div>
-									<div class="form-group">
-								<!-- 		<textarea class="wysihtml5 form-control" placeholder="Message body" style="height: 200px"></textarea> -->
+									<div class="form-group" style="position: relative">
+
 							Сообщение:		
+				       {% include 'modal_shablon.html' %}   <!-- podkluchaaem modal vibor shablona  --> 
+                   
+ <!-- podkluchaaem modal vibor shablona  --> 
+ 					<div style="display:none">
+    <input id ="csrf" type="hidden" name="csrfmiddlewaretoken" value='1'>
+	 
+	 
+</div>
+
+
 									{{ form_massage.body  }}
 									</div>
-										<button class="btn btn-purple"  >
-										 <input  id = 'btn' type="submit" value="OK">
+										
+										 <input  id = 'btn'  class = "btn btn btn-primary float-right" value="Отправить">
 									
-										</button>
-								</form>
+								
+							
 							</div>
+
+							
 							<!-- panel -body -->
 						</div>
-
-                  
-
+		
+<!--
+<a  href = "{% url 'main' 'all' %}" class="btn-secondary btn-lg">На главную </a>
+-->
 						<!-- panel -->
 					</div> <!-- col 12 --> 
 
 
-					<div class="col-md-2 col-sm-3" >
+					<div class="col-md-1 col-sm-2" >
 	 <div id = "upload-container">
                <input id="file-input" type="file" name="file_field" multiple>
                <label for="file-input">Файл</label>
           </div>
 					</div>
+						</form>
                 </div> <!-- End row --> 
 
             </div> <!-- END Wraper -->
@@ -87,40 +124,222 @@
 
 		</section>
 
-{% block js%}
 
 
-<script  src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" ></script>
+
+
+{% endblock %}
+
+
+ 
+        
+
+{% block js %}
+
+
+		  <script src="{% static  'assets/js/jq/jquery.min.js' %}"></script>
+
+<script  src="{% static  'assets/js/jquery-ui.js' %} " ></script>
+
+  <script src="{% static 'assets/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js' %}"></script>
+
+	 <script src="{% static 'assets/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js' %}"></script>
+
+
+
+
+
+
+
+
 <script>
 
 
 	
 
  $(function(){
+// using jQuery
+/*
 
+mast have token v zdanii
+
+*/ 
+var old_number = $('#id_number').val()
+
+
+$('#but_number').click((e)=>{
+
+ let zn = 	$(e.target).val() == 'Добавить номер' ? 'Убрать номер' :'Добавить номер'   
+ $(e.target).val(zn)
+
+ $('.number-cl').toggleClass('number-hide')
+
+
+ $('.number-cl > input').val('')
+})
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
+/*
+
+Работа с модулем выбора и вставки жаблона сообщения в новое сообщение
+
+
+*/
+
+
+var  csrftoken = getCookie('csrftoken')
+
+
+$('#modal-shablon').off().on('click','.add_text', function(){
+	let html = $('#right').html()
+		
+		 $('#id_body').data("wysihtml5").editor.setValue(html);
+
+			
+	});
+
+function add_shablon(response){
+$('#right').empty()
+$('#right').append(response['text'])
+
+}
+
+
+function search_shabl(pk){
+	dat = {
+		pk_mes: pk
+	},
+    $.ajax({
+        url: '{% url "get_shablons" %}' , //url страницы (action_ajax_form.php)
+        type:     "GET", //метод отправки
+        dataType: "json", //формат данныUх
+        
+        data:  dat,  // Сеарилизуем объект
+        cache: false,
+        success: function(response) { //Данные отправлены успешно
+			add_shablon(response)
+    	},
+    	error: function(response) { // Данные не отправлены
+ 
+    	}
+ 	})
+}
+
+$('.btn-show').off().on('click', function(){
+	let pk_shabl = $(this).attr('data-pk')
+	search_shabl(pk_shabl)
+	return false
+})
+
+
+$('#btn_shablon').on('click', function(){
 	
+})
+
 var ret_name = function(){
 	let mass = []
-	$('.names > p').each(function(){
-			mass.push(this.innerText)
+	$('.list_names > p').each(function(){
+			mass.push(this.innerText.slice(0, -1)
+)
 	})
 		return mass
 }
 
+function currect_message(number,e){
+	  $.ajax({
+		type: 'GET',
+		url: "{% url  'currect_message' %}",
+		data:{number: number, csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val()},
+		cashe: true,
+		success: (response)=>{
+			if ("error" in response ){
+  			alertify.error('Номер уже занят')
+				
+			}else{
+			 $('#f').submit();
+			}
+			
+		},
+		error: function(response) { 
+
+		}
 
 
-$('#btn').click(function () {
+	})
+}
+
+// Proverka correctnosti soobsheniyz pered otpravkoy
+
+
+$('#btn').off().on('click',function (e) {
+
 		 $('#ss')[0].value =  ret_name()
+		 $('#csrf').val(getCookie('csrftoken'));
+		 let number = $('#id_number').val()
+		 var err = 0
+
+		if ($('.new').length == 0){
+			alertify.error('Вы не выбрали получателей')
+			err+=1
+		}
+
+		if ($('#id_secrecy').val().length == 0 )  {
+		alertify.error('Вы не выбрали секретность')
+
+			err+=1
+		
+		}
+		 if ($('#id_title').val().length == 0){
+		 	alertify.error('Вы не  заполнили Заголовок')
+			err=+1
+		 }
+		  if ($('#id_body').val().length == 0){
+		 	alertify.error('Вы не  заполнили тело сообщения')
+			err=+1
+		 }
+
+
+
+		if (number && number != old_number &&  err == 0) {
+		
+			currect_message(number, e)
+		}else{
+			if (err == 0){
+				
+		 $('#f').submit();
+			}
+		}
+		
+
 });
 
 
-
-
-closel =  function (event){
-$('[data-id=' + event + ']').remove()
+closel =  function (pk, pk_prof){
+if (pk){
+$('[data-id=' + pk + ']').remove()
+}else{}
+if (pk_prof){
+$('[data-id-prof=' + pk_prof + ']').remove()
+}else{}
 }
 
-var arr = ['id_file_fild', 'id_title', 'id_body', 'id_users', 'form_control']
+var arr = ['id_file_fild', 'id_title', 'id_body', 'id_users', 'form_control', 'id_number']
 $.each(arr,function(index,value){
 	eval(`$("#${value}")`).addClass("form-control")
 })
@@ -129,74 +348,92 @@ $.each(arr,function(index,value){
 var dataList = document.getElementById('json-datalist');
 var input = document.getElementById('#txtSearch');
 
- function AutoCompleteSelectHandler(event, ui)
-  {
-  var selectedObj = ui.item;
+
+function add_user(pk,  pk_prof, sec, label ){
+
+let p = "<p class='new' data-id =" + "'" + pk  + "'" + " data-id-prof =" + "'" +  pk_prof  + "'" +    " data-sec='" +  sec  + "'" +    " > " +  label + '<button onclick="closel' +  '(' + pk + ' , ' +  pk_prof +     ')"' + 'class ="close"' + "data-fg=" + "'" + pk  + "'" + "> <span class='closespan'> X </span> </button></p>"
+ 
+$('.list_names').append(p) ;
+
+}
+/*
+{% if answer %}
+
+add_user({{answer.owner.pk}},0, 0,"{{answer.owner.username}}")
+
+{% endif %}
+*/
+{% if users %}
+
+{% for i in  users %}
 
 	
-	let p = 	"<p class='new' data-id =" + "'" +  ui.item["pk"]  + "'" +    "data-sec='" +  ui.item["sec"]  + "'" +    " > " +  ui.item["label"] + '<buttuon onclick="closel' +  '(' + ui.item["pk"] +  ')"' + 'class ="close"' + "data-fg=" + "'" +  ui.item["pk"]  + "'" + "></button></p>"
+		add_user({{i.pk}}, {{i.pk}}, 0,  "{{i.username}}") 
+{% endfor %}
 
-			$('.names').append(p) ;
-	console.log(ui.item)
+
+{% endif %}
+
+function AutoCompleteSelectHandler(event, ui)
+  {
+  var selectedObj = ui.item;
+	if ( $(`[data-id = ${ui.item['pk']} ]`).length > 0   ) {
+		alertify.error("Пользователь уже добавлен");
+
+	}else{
+			
+	add_user(ui.item["pk"], ui.item["pk_prof"],  ui.item["sec"], ui.item["label"] ) 
+	
+
+
+	}
+	
  }
 
 
+
+
+
  $ ("#txtSearch").autocomplete({ 
-
+	 	
 	   source:'{% url "searchmessage" %}', 
-                minLength: 2,
-								  select: function (event, ui) { //item selected
-    AutoCompleteSelectHandler(event, ui)
+                minLength: 1,
+				select: function (event, ui) { //item selected
+				AutoCompleteSelectHandler(event, ui)},
+				open: function (event, ui){
+						
+				},
+				close: function(){
+					$('.ui-autocomplete-input').val('')
+				}
+            });
+ t = 0
+
+ setTimeout(function(){
+	 	
 
 
-  },
-            
- });
- 
+			
+	 let but =  $('<button id = "btn_shablon" type="button" data-toggle="modal" data-target="#modal-shablon" style = "position: absolute; left: 70%"   class="btn btn-dark my-btn">Выбрать шаблон</button>')
+		
+	 	 $('#id_body').wysihtml5()
+		  	 $('.btn-default').last().remove();
+			 $('.btn-default').last().remove();
+			  $('.btn-default').last().remove();
+	
+	$(".wysihtml5-toolbar").append(but)
+	
+	  } , 20);
+
 });   
 
-   
- 
+
 
 		 </script>
-{% endblock %}
 
-<style> 
-
-ui{
-	background-color :red;
-}
-
-.names{
-	    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
- 	.new {
-		background-color: rgb(244,233,111);
-	  width: max-content;
-		height:max-content;
-    padding: 3px 7px;
-    color: #333;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    border: 0.2px solid #666;
-		position: relative;
-   }
-	 .close{
-		 height:8px;
-		 width:8px;
-		 cursor:pointer;
-		 background-color: grey;
-		 left:110%;
-		 z-index: 99999;
-
-	 }
-</style>
 
 {% endblock %}
 
 
 
-        
+

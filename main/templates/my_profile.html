@@ -1,0 +1,74 @@
+{% extends 'main.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<section class="content">
+
+<div class="wraper container-fluid">
+				<div class="page-title">
+					<h3 class="title">Пользователи </h3>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="panel panel-default">
+						
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-md-12 col-sm-12 col-xs-12">
+										<table id="datatable" class="table table-striped table-bordered">
+											<thead>
+												<tr>
+													<th>Должность</th>
+                                                    <th>Имя</th>
+                                                    <th>Фамилия</th>
+                                                     <th>Роль</th>
+													<th>Компания</th>
+													<th>Логин</th>
+                                                    <th>Непрочитанных сообщений</th>
+												</tr>
+											</thead>
+
+											<tbody>
+                                            {% for i in  profile.all %}
+												<tr>
+													<td>{{i.position}}</td>
+													<td>{{i.first_name_d}}</td>
+													<td>{{i.last_name_d}}</td>
+                                                    	<td>{{i.role}}</td>
+                                                        <td>{{i.company.name}}</td>
+                                                         <td>{{i.user.username}}</td>
+                                                         <td>{{ i.nepr_message_all_host_count }}</td>
+												
+												</tr>
+												
+                                                {% endfor %}
+									 
+											</tbody>
+										</table>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<!-- End Row -->
+
+			</div>
+</section>
+
+{% endblock%}
+
+
+{% block js %}
+  <script src="{% static 'assets/plugins/datatables/jquery.dataTables.min.js' %}"></script>
+  <script src="{% static 'assets/plugins/datatables/dataTables.bootstrap.js' %}"></script>
+	
+	<script type="text/javascript">
+			$(document).ready(function() {
+				$('#datatable').dataTable();
+			});
+		</script>
+{%  endblock  %}

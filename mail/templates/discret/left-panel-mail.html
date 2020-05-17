@@ -1,13 +1,13 @@
-       
-  {% load staticfiles %}
-        <div class="panel panel-default p-0  m-t-20">
-                            <div class="panel-body p-0">
-                                <div class="list-group no-border mail-list">
-                                  <a href="{% url 'main' 'all' %}" class="list-group-item active"><i class="fa fa-download m-r-5"></i>Входящие <b>(1)</b></a>
-                                  <a href="{% url 'main' favorite.id %}" class="list-group-item"><i class="fa fa-star-o m-r-5"></i>Избранные</a>
-                     <!--             <a href="#" class="list-group-item"><i class="fa fa-file-text-o m-r-5"></i>Draft <b>(0)</b></a> -->
-                                  <a href="{% url 'main' 'send' %}" class="list-group-item"><i class="fa fa-paper-plane-o m-r-5"></i>Отправленные</a>
-                                  <a href="{% url 'main' trush.id %}" class="list-group-item"><i class="fa fa-trash-o m-r-5"></i>Корзина  <b>({{trush.message.all.count }})</b></a>
-                                </div>
-                            </div>
-                        </div>
+ {% load staticfiles %}
+<div class="panel panel-default p-0  m-t-20">
+    <div class="panel-body p-0">
+        <div id='left-mes  ' class="list-group no-border mail-list">
+            <a data-pk-id_folder='{{trush.pk}}' data-pk-name='Входящие' class="list-group-item"><i class="fa fa-download m-r-5"></i>Входящие <b>({{vhod_count}})</b></a>
+            <a href="#" data-pk-id_folder='{{favorite.pk}}' data-pk-name='Избранные' class="list-group-item folder"><i class="fa fa-star-o m-r-5"></i>Избранные<b>({{favorite_count}})</b></a>
+            <!--             <a href="#" class="list-group-item">   <i class="fa fa-file-text-o m-r-5"></i>Draft <b>(0)</b></a> -->
+            <a href="#" data-pk-id_folder='{{send.pk}}' data-pk-name='Отправленные' class="list-group-item folder"><i class="fa fa-paper-plane-o m-r-5"></i>Отправленные</a>
+            <a href="#" data-pk-id_folder='{{trush.pk}}' data-pk-name='Корзина' class="list-group-item folder"><i class="fa fa-trash-o m-r-5"></i>Корзина  <b>({{trush_count }})</b></a>
+            <a href="{% url 'new_masssage'  %}" class="list-group-item new_message_button"><i class="fa fa-envelope m-r-5 "></i>Новое сообщение</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,154 @@
+{% extends 'main.html' %}
+{% load staticfiles%}
+
+
+
+{% block style %}
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
+<link href="{% static 'assets/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css' %}" rel="stylesheet" />
+
+{% endblock %}
+{% block content %}
+
+
+<section class="content">
+
+			<div class="wraper container-fluid">
+                <div class="page-title"> 
+
+                    <h3 class="title"> Создание профиля </h3> 
+                </div>
+                  
+                <div class="row">
+                    
+    
+
+                    <!-- Right Sidebar -->
+                    <div class="col-md-10">
+                        <div class="row">
+
+                     
+
+                        
+<!--  ################# -->
+
+
+<!--  ################# -->
+      <form  id = 'f' role="form" method="post" enctype="multipart/form-data" >
+        						 {% csrf_token %}
+                            <div class="panel-body row">
+                             
+                              <div class="col-md-6">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title"></h3>
+							</div>
+							<div class="panel-body">
+								<form role="form">
+									<div class="form-group">
+										<label  >Имя</label>
+										<input  class="form-control first_name_d" name='first_name_d'  placeholder="Имя">
+									</div>
+									<div class="form-group">
+										<label for="exampleInputEmail1">Фамилия</label>
+										<input class="form-control last_name_d" id="exampleInputEmail1" name= 'last_name_d' placeholder="Фамилия"   >
+									</div>
+                        	<div class="form-group">
+										<label for="exampleInputEmail1">Должность</label>
+										<input class="form-control position" id="exampleInputEmail1" name='position' placeholder="Должность"   >
+									</div>
+
+
+                            	  		<div class="form-group">
+<p> Получатель почты( существующий логин):  </p> <input type = "text" class = "form-control" list="json-datalist" id = "txtSearch" name = "TxtSearch" > 
+	<datalist id="json-datalist"></datalist>
+	</div>
+							
+			
+									<button type="submit" id ='btn' class="btn btn-purple">
+										Отправить
+									</button>
+							</div><!-- panel-body -->
+						</div>
+						<!-- panel -->
+					</div>
+                 
+   <div class = 'panel-name' style='display:none'>
+   
+   </div>
+
+									<input id = 'ss' name ='names' style='display:none' > </input>
+
+
+
+</form>
+                                <hr>
+                                
+                       
+                            
+                            </div> <!-- panel body -->
+                        </div> <!-- panel -->
+                    </div> <!-- end Col-9 -->
+
+                 
+                
+                </div><!-- End row -->
+
+
+            </div> <!-- END Wraper -->
+
+		
+
+		</section>
+<script  src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" ></script>
+
+  <script src="{% static 'assets/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js' %}"></script>
+
+	 <script src="{% static 'assets/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js' %}"></script>
+
+    <style>
+    </style>
+{% endblock %}
+
+
+{% block js %}
+<script>
+{% if user %}
+$('.first_name_d').val("{{ user.first_name_d }}")
+ $('.last_name_d').val("{{user.last_name_d}}")
+  $('.position').val("{{user.position}}")
+   let pk = $('<input style="display:none" type="text" name ="pk"></input>').val("{{user.pk}}")
+   $('#f').append(pk)
+{% endif %}
+
+$('#btn').click(function () {
+
+         $('#ss')[0].value = $('.new').data('id')
+        
+});
+
+
+
+ function AutoCompleteSelectHandler(event, ui)
+  {
+  var selectedObj = ui.item;
+    $('.new').remove()
+	let p = "<p class='new' data-id =" + "'" +  ui.item["pk"]  + "'" +    "data-sec='" +  ui.item["sec"]  + "'" +    " > " +  ui.item["label"] + '<buttuon onclick="closel' +  '(' + ui.item["pk"] +  ')"' + 'class ="close"' + "data-fg=" + "'" +  ui.item["pk"]  + "'" + "></button></p>"
+	$('.panel-name').append(p) ;	
+ }
+
+
+ $ ("#txtSearch").autocomplete({ 
+
+	   source:'{% url "searchusernewprof" %}', 
+                minLength: 1,
+				select: function (event, ui) { //item selected
+                  $('.new').remove()
+                    AutoCompleteSelectHandler(event, ui)
+
+
+  },
+            
+ });
+</script>
+{% endblock  %}

@@ -1,0 +1,46 @@
+.row {
+    margin: 0px;
+}
+
+.title-name {
+    position: absolute;
+    left: 50%;
+}
+
+.block-organization {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 150px;
+    font-size: 20px;
+}
+
+.image {
+    float: right;
+    width: 500px;
+    height: auto;
+}
+
+.content {
+    margin-left: 230px;
+}
+
+.pravka {
+    text-align: end;
+}
+
+.end-block {
+    width: 100%;
+    border: 0.01px solid rgba(0, 0, 0, 0.1);
+}
+
+textarea {
+    width: 100%;
+}
+
+@media (min-width: 769px) {
+    aside.left-panel.collapsed+.content {
+        margin-left: 75px;
+    }
+}

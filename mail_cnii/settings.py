@@ -33,17 +33,25 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
 # Application definition
 
 INSTALLED_APPS = [
+   
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+#    'corsheaders',
+      
+#    "Django_auth_kerberos",
+#    'django_auth_kerberos',
     'main',
     'mail',
+  
     'bootstrap4',
     'ftp',
     'django_ajax',
+    'file_manage',
+   
 
 ]
 
@@ -70,6 +78,14 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'mail.context_processors.in_message_count',
+             #   'mail.context_processors.auth_ldap',
+                 'mail.context_processors.dost_prof',
+                  'mail.context_processors.prof',
+                   'mail.context_processors.nmes',
+                    'mail.context_processors.req_us',
+
+                
             ],
         },
     },
@@ -84,9 +100,9 @@ WSGI_APPLICATION = 'mail_cnii.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', 
-        'NAME': 'mail',
+        'NAME': 'actual_mail',
         'USER': 'postgres',
-        #'PASSWORD': '',
+        'PASSWORD': '12345678',
         #'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         #'PORT': '5432',
     }
@@ -130,8 +146,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+
 STATIC_URL = '/static/'
 #STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 
 
 STATIC_DIRS = 'static'
@@ -143,5 +161,24 @@ STATICFILES_DIRS =[
 
 
 
-MEDIA_ROOT =  os.path.join('/','srv','ftp','upload')
+MEDIA_ROOT =  os.path.join('/','tmp')
 
+
+STATIC_URL = '/static/'
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+
+STATIC_DIRS = 'static'
+
+MEDIA_DIR = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = MEDIA_DIR
+MEDIA_URL = '/media/'
+STATICFILES_DIRS =[
+    STATIC_DIRS,
+    os.path.join(BASE_DIR, 'static'),
+    MEDIA_DIR,
+    
+]
+#    'PASSWORD': '',
+#    'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+#    'PORT': '5432',

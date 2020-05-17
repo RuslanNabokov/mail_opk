@@ -1,0 +1,16 @@
+<VirtualHost *:80>
+	ServerName www.mail.com
+	ServerAlias mail.com
+
+	ServerAdmin webmaster@localhost
+
+	ErrorLog ${APACHE_LOG_DIR}/error_site.log
+	CustomLog ${APACHE_LOG_DIR}/access_site.log common
+	#WSGIScriptAlias / /home/hexedit/projects/mail/mail_opk/mail_cnii/wsgi.py
+	
+	WSGIDaemonProcess mail python-path=/home/hexedit/projects/mail:/home/hexedit/projects/virtualenv/mail/lib/python3.5/site-packages/ 
+	#python-path=/home/hexedit/projects/mail/mail_opk/
+	WSGIProcessGroup mail
+	WSGIScriptAlias / /home/hexedit/projects/mail/mail_opk/mail_cnii/wsgi.py
+</VirtualHost>
+

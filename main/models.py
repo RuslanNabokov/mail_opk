@@ -4,8 +4,11 @@ from django.db.models.signals import post_save, post_init, pre_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 from mail.models import Folder
-
+from mail.models import LEVELS
+from mail.models import Profile
+from mail.models import ROLE
 # Create your models here.
+
 
 
 
@@ -20,6 +23,9 @@ class AuthGroup(models.Model):
 
 
 
+
+#class  Monitoring(models.Model):
+#    request =  
 
 
 class AuthUser(models.Model):
@@ -37,6 +43,8 @@ class AuthUser(models.Model):
     class Meta:
         managed = False
         db_table = 'auth_user'
+    def __str__(self):
+        return self.username
 
   
 
@@ -44,12 +52,13 @@ class AuthUser(models.Model):
 
 @receiver(post_save, sender=User)
 def post_save_us(sender, instance, **kwargs):
-    print(instance)
-    print(kwargs)
-    if not Folder.objects.filter(user=instance,name='trush', description='trush', specificate='trush')[0]:
+    try:
+        Folder.objects.get(user=instance,name='trush', description='trush', specificate='trush')
+    except Exception:
         Folder.objects.create(user=instance,name='trush', description='trush', specificate='trush').save()
-        Folder.objects.create(user=instance,name='favorite', description='favorite', specificate='trush').save()
-
+        Folder.objects.create(user=instance,name='favorite', description='favorite', specificate='favorite').save()
+        Folder.objects.create(user=instance,name='send', description='send', specificate='send').save()
+        Folder.objects.create(user=instance,name='inbox', description='inbox', specificate='inbox').save()
 
 
 class AuthUserGroups(models.Model):
@@ -68,18 +77,10 @@ class AuthUserGroups(models.Model):
 
 
 #################################################################
-class Company(models.Model):
-    name = models.CharField(max_length=20)
-    location = models.CharField(max_length=20)
-    prefix_d = models.CharField(max_length=25)
-    information = models.CharField(max_length=500)
 
-
-    def __str__(self):
-        return 'Компания {}'.format(self.name) 
 
  
-
+"""
 class Employe(models.Model):
     first_name = models.CharField(max_length=12)
     last_name = models.CharField(max_length=12)
@@ -89,9 +90,6 @@ class Employe(models.Model):
 
     def __str__(self):
         return 'Работник {}'.format(self.first_name)
-
-
-
 
 class Product(models.Model):
     name = models.CharField(max_length=20)
@@ -104,20 +102,4 @@ class Product(models.Model):
  
 
 
-class Profile(models.Model):
-    position = models.CharField(max_length=12)
-    first_name_d = models.CharField(max_length=12)
-    last_name_d = models.CharField(max_length=12, blank=True, null=True)
-    tolerance_level = models.IntegerField()
-    activate = models.BooleanField()
-    role = models.CharField(max_length=12, blank=True, null=True)
-    company = models.ForeignKey(Company, models.DO_NOTHING)
-    user = models.ForeignKey(AuthUser, related_name='Юзер', on_delete=models.CASCADE)
-
-
-
-    def __str__(self):
-        return 'Profile {}|| login  {}'.format(self.first_name_d, self.user.username)  
-
-
-
+"""
