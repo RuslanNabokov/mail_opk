@@ -1,6 +1,7 @@
 
 static/assets/plugins/fullcalendar/demos/*
 
-settings.py
+/mail_cnii/settings.py
 
+*0*.py
 
