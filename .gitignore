@@ -1,4 +1,7 @@
 
 static/assets/plugins/fullcalendar/demos/*
+__*
 
+migrations/*
 settings.py
+test.py
