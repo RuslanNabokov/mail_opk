@@ -4,4 +4,4 @@ __*
 
 migrations/*
 settings.py
-test.py
+test*
