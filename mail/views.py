@@ -124,6 +124,7 @@ def get_users(request):
     message = Group_message.objects.get(message = massage.objects.get(pk = request.GET['message']))
     ret = {}
     ret['users']  =  [ i.username for  i in message.users.all()]
+    
     ret['profiles'] = [i.full_name() for i in message.profile.all()]
     return JsonResponse(ret, safe=False)
 
