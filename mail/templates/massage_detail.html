@@ -19,18 +19,19 @@
 
 
             <!-- Right Sidebar -->
-            <div class="col-md-12">
-
-                {% include "shablon_message.html" with message=message files=files group=group only %} {% for group in sending_message %} {% with number=forloop.counter|message_indentation %}
-
-
+        
+      
+    {% include "shablon_message.html" with message=message files=files group=group only %}
+</div>
+    
+     {% for group in sending_message %} {% with number=forloop.counter|message_indentation %}
+     
                 <div class="answer_message" style="margin-left:{{ number  }}">
-                    {% include "shablon_message.html" with message=group.message group=group number=forloop.counter|message_indentation:'1' only %}
-
+  {% include "shablon_message.html" with message=group.message group=group number=forloop.counter|message_indentation:'1' only %}
+           
                 </div>
                 {% endwith %} {% endfor %}
 
-            </div>
             <!-- end Col-9 -->
 
         </div>
