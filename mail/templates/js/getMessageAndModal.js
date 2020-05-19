@@ -52,7 +52,7 @@ function get_message(pk_mes) {
     }
 }
 
-        let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
+    params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
 width=400,height=400,left=1000,top=-1000`;
 $(document).on('click', '#perem_files', function(){
             let cheked = $('.chk-files:checked')

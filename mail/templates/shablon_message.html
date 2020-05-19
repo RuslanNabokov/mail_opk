@@ -80,35 +80,9 @@
         </div>
 
         {% endif %}
-     </div>
+    </div>
 
 
-
-    <script>
-        let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
-width=400,height=400,left=1000,top=-1000`;
-
-        $('#perem_files').on('click', function() {
-            let cheked = $('.chk-files:checked')
-            c = new Array()
-            let uuid = cheked.map(function(index, val) {
-                c.push(val.getAttribute('data-file-uuid'))
-                return 1
-            })
-
-            uuid = c.join(',')
-            str_ = '{% url "poligon" %}' + '?names=' + uuid
-
-            new_win = window.open(str_, 'file_manager', params)
-
-            new_win.onload = function() {
-                let html = `<div style="font-size:30px">Добро пожаловать!</div>`;
-                new_win.document.body.insertAdjacentHTML('afterbegin', html);
-
-            };
-
-        })
-    </script>
 
 
 

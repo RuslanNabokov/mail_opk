@@ -233,8 +233,10 @@ class Group_message(models.Model):
 
 
     def __str__(self):
-          return 'группа сообщения  '  if not self.sending_message else 'группа сообщения. владелец - {}. номер - {}   ответ на '.format(self.owner.username, self.message.number, self.sending_message)
-
+          return 'группа сообщения '  if not self.sending_message else 'группа сообщения. владелец - {}. номер - {}   ответ на '.format(self.owner.username, self.message.number, self.sending_message)
+    def files(self):
+        files =  File.objects.filter(message=self.message)
+        return files
     def save(self,message='Сообщение созданно', *args, **kwargs):
         try:
             try:
