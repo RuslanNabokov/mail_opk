@@ -5,5 +5,5 @@ static/assets/plugins/fullcalendar/demos/*
 *cpython*
 users.txt
 teest.py
-*__pycache__
+__pycache__/
 migrations/
