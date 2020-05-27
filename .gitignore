@@ -5,5 +5,8 @@ static/assets/plugins/fullcalendar/demos/*
 *cpython*
 users.txt
 teest.py
-__pycache__/
+._*
 migrations/
+__pycache__/
+*.py[cod]
+
