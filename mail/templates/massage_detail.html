@@ -19,33 +19,34 @@
 
 
             <!-- Right Sidebar -->
-        
-      
-    {% include "shablon_message.html" with message=message files=files group=group only %}
-</div>
-    
-     {% for group in sending_message %} {% with number=forloop.counter|message_indentation %}
-     
-                <div class="answer_message" style="margin-left:{{ number  }}">
-  {% include "shablon_message.html" with message=group.message group=group files=group.files number=forloop.counter|message_indentation:'1' only %}
-           
-                </div>
-                {% endwith %} {% endfor %}
 
-            <!-- end Col-9 -->
+
+            {% include "shablon_message.html" with message=message files=files group=group only %}
+        </div>
+
+        {% for group in sending_message %} {% with number=forloop.counter|message_indentation %}
+
+        <div class="answer_message" style="margin-left:{{ number  }}">
+            {% include "shablon_message.html" with message=group.message group=group files=group.files number=forloop.counter|message_indentation:'1' only %}
 
         </div>
-        <!-- End row -->
+        {% endwith %} {% endfor %}
+
+        <!-- end Col-9 -->
+
+    </div>
+    <!-- End row -->
 
 
     </div>
     <!-- END Wraper -->
 
     <script>
- let paramss = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
+        let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
 width=400,height=400,left=1000,top=-1000`;
 
         $('#perem_files').on('click', function() {
+            alert(1)
             let cheked = $('.chk-files:checked')
             c = new Array()
             let uuid = cheked.map(function(index, val) {
@@ -56,7 +57,7 @@ width=400,height=400,left=1000,top=-1000`;
             uuid = c.join(',')
             str_ = '{% url "poligon" %}' + '?names=' + uuid
 
-            new_win = window.open(str_, 'file_manager', paramss)
+            new_win = window.open(str_, 'file_manager', params)
 
             new_win.onload = function() {
                 let html = `<div style="font-size:30px">Добро пожаловать!</div>`;
