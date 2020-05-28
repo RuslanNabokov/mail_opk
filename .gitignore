@@ -1,10 +1,13 @@
 
 static/assets/plugins/fullcalendar/demos/*
-
 /mail_cnii/settings.py
-
 *0*.py
-
-
+*cpython*
 users.txt
 teest.py
+._*
+migrations/
+*migrations/*
+__pycache__/
+*.py[cod]
+
