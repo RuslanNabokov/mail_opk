@@ -76,7 +76,7 @@ class Profile(models.Model):
     first_name_d = models.CharField(max_length=12)
     last_name_d = models.CharField(max_length=12, blank=True, null=True)
     tolerance_level = models.IntegerField(choices=LEVELS, blank=True, null=True)
-    activate = models.BooleanField( blank=True, null=True)
+    activate = models.BooleanField( blank=True, default=True)
     role = models.CharField(max_length=12, blank=True, null=True, choices = ROLE)
     company = models.ForeignKey(Company, models.DO_NOTHING, blank=True,null=True)
     user = models.ForeignKey(AuthUser, related_name='Юзер', on_delete=models.CASCADE, blank=True, null=True)
