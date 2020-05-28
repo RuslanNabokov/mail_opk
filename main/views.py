@@ -89,10 +89,11 @@ def create_users(request, pk=None):
             except Exception:
                   company = Company.objects.all()[0]
             if pk_updatemessage:
-                   pr = Profile.objects.filter(pk=pk).update(last_name_d=last_name_d, first_name_d=first_name_d, position=position,company = company, user= user ) 
+                   pr = Profile.objects.filter(pk=pk).update(last_name_d=last_name_d, first_name_d=first_name_d, position=position,company = company ) 
 
             else:
-                  pr = Profile.objects.create(last_name_d=last_name_d, first_name_d=first_name_d, position=position,company = company, user=user  )
+                  pr = Profile.objects.create(last_name_d=last_name_d, first_name_d=first_name_d, position=position,company = company  )
+            pr.host.set([user])
             return HttpResponse('ok')
             
       else:

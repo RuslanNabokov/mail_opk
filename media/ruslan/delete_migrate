@@ -1,0 +1,1 @@
+delete from django_migrations where app = 'имя приложения' and name = '0001_initial'
