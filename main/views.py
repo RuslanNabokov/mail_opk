@@ -21,7 +21,11 @@ from django.contrib.auth.mixins import PermissionRequiredMixin  #
 
 from ldap_auth import ldap_auth
 
-# Create your views here.
+# Create your views here
+# 
+# 
+
+
 @ldap_auth
 def req_user(obj, request):                                       # vozr user
       try:

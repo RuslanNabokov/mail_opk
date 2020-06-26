@@ -427,7 +427,13 @@ def get_all_message(request, sort='all'):
          #paginator = Paginator( fold_ms(request,type,sort, prof_id), page_on_list ) 
      c =  {}
      for en , i in enumerate(paginator.page(page).object_list):
-        c[en] = [i.pk,i.message.title, i.owner.username, i.lifetime,i.message.pk, bool(i.answer_message), fav_or_404(request,i.message), i.message.sinopsis(),bool(request.user in i.have_read.all() or not request.user in i.users.all()  )]
+        
+        try:
+            prof = Profile.objects.get(user = i.owner)
+            name_p =   prof.first_name_d + " " + prof.last_name_d
+        except Exception:
+            name_p = i.owner.username
+        c[en] = [i.pk,i.message.title, name_p, i.lifetime,i.message.pk, bool(i.answer_message), fav_or_404(request,i.message), i.message.sinopsis(),bool(request.user in i.have_read.all() or not request.user in i.users.all()  )]
         try:
             c[en].append(Profile.objects.get( user=i.owner ).img_())
         except Exception:
@@ -461,8 +467,6 @@ def get_all_message(request, sort='all'):
      except Exception as e:
          print(20 * "|")
          raise e
-
-
 
      return JsonResponse(c)
 

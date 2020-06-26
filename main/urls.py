@@ -12,6 +12,7 @@ urlpatterns = [
   
     path('searchusernewprof', searchusernewprof, name= 'searchusernewprof'),
     path('organization/<int:pk>', organization_detail, name='organization'),
-    path('redactorganization/<int:pk>', redactorganization, name='redactorganization' )
+    path('redactorganization/<int:pk>', redactorganization, name='redactorganization' ),
+ 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
