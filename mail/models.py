@@ -75,6 +75,7 @@ class Profile(models.Model):
     position = models.CharField(max_length=12)
     first_name_d = models.CharField(max_length=12)
     last_name_d = models.CharField(max_length=12, blank=True, null=True)
+    surname = models.CharField(max_length=20, blank=True, null=True)
     tolerance_level = models.IntegerField(choices=LEVELS, blank=True, null=True)
     activate = models.BooleanField( blank=True, default=True)
     role = models.CharField(max_length=12, blank=True, null=True, choices = ROLE)
@@ -193,8 +194,11 @@ class Message(models.Model):
             return "{}".format(self.body)
 
     def sinopsis(self):
-        return  self.body[:190].replace('<br\>', '').replace('<br>', "") if len(self.body) < 190 else self.body[:190].replace('<br\>', '').replace('<br>', "") 
-
+        try:
+            ret =   self.body[:190].replace('<br\>', '').replace('<br>', "") if len(self.body) < 190 else self.body[:190].replace('<br\>', '').replace('<br>', "") 
+        except Exception: 
+            ret =  ''
+        return ret 
     
     def group(self):
         return Group_message.objects.get(message = self)

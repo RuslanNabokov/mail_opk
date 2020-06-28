@@ -73,8 +73,11 @@
             {% endfor %} {% endif %}
 
         </div>
-        <input type="button" id="perem_files" value="Переместить" style="width:100px;height: 20px;float: inline-end;"> {% if group.answer_message %}
-
+         {% if files %}
+        <input type="button" id="perem_files" value="Переместить" style="width:100px;height: 20px;float: inline-end;"> 
+   
+        {% endif %}
+             {% if group.answer_message %}
         <div class="shema">
             <!--   <p class="nadpis">________ </p>  -->
         </div>

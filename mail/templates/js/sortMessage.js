@@ -47,6 +47,7 @@ function sort_Message(obj) {
                         let pk = response[key][0]
                         let own = response[key][2]
                         let title = response[key][1]
+
                         let lifetime = response[key][3].split('.')[0].replace('T', ' ')
                         let pk_mes = response[key][4]
                         let answ = response[key][5]
