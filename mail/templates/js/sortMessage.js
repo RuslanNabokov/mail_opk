@@ -53,17 +53,21 @@ function sort_Message(obj) {
                         let answ = response[key][5]
                         let favorite = response[key][6]
                         let sinopsis = response[key][7]
-                        let read = response[key][8]
-                        let img_path = response[key][9]
-                        create_Mes(pk, own, title, lifetime, clone, pk_mes, answ, favorite, sinopsis, read, img_path)
+                        let read = response[key][8] 
+                        let redact = response[key][9]
+                        let img_path = response[key][10]
+                        create_Mes(pk, own, title, lifetime, clone, pk_mes, answ, favorite, sinopsis, read, img_path, redact)
+                    }
+                } 
+                if (  key == "notification") {
+                    
+                    for (i in response['notification']) {
+                        alertify.success(response['notification'][i])
                     }
                 }
+
             }
-            if (response["notification"]) {
-                for (i in response['notification']) {
-                    alertify.success(response['notification'][i])
-                }
-            }
+        
         },
         error: function(response) { // Данные не отправлены
 

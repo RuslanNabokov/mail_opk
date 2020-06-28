@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings 
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save, post_init, pre_save, post_delete
-
+from django.db.models import Q
 from django.dispatch import receiver
 from django.db.models import signals
 import os
@@ -79,7 +79,7 @@ class Profile(models.Model):
     tolerance_level = models.IntegerField(choices=LEVELS, blank=True, null=True)
     activate = models.BooleanField( blank=True, default=True)
     role = models.CharField(max_length=12, blank=True, null=True, choices = ROLE)
-   # company = models.ForeignKey(Company, models.DO_NOTHING, blank=True,null=True)
+    company = models.ForeignKey(Company, models.DO_NOTHING, blank=True,null=True)
     user = models.ForeignKey(AuthUser, related_name='User', on_delete=models.CASCADE, blank=True, null=True)
     host = models.ManyToManyField(AuthUser, related_name='Pol_kot_dos_pochta', blank=True, null=True)
 
@@ -276,7 +276,7 @@ def post_save_Group(sender,instance, **kwargs):
         fold.message.remove(instance.message)
     folder_send = Folder.objects.get(user=instance.owner,specificate='send')
     folder_send.message.add(instance.message)
-    fold_in_user =  Folder.objects.filter(user__in= instance.users.all(), specificate='inbox')
+    fold_in_user =  Folder.objects.filter(Q(user__in= instance.users.all()) , specificate='inbox')
 
     #map(lambda x: x.message.add(instance.message),  fold_in_user)
    

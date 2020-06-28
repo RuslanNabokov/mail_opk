@@ -180,18 +180,19 @@ def send_ms(request, sort='-lifetime'):
 
 @ldap_auth
 def fold_ms(request,pk_fold,sort ='-lifetime',prof_id=-1, filter='all'):
-    
+   
     user = User.objects.get(username =request.user)
     if prof_id:
+       
         prof = Profile.objects.get(pk =prof_id)
         
         group = Group_message.objects.filter(Q(profile__in=[prof])).filter(message__in = [i  for  i in Folder.objects.get(user = request.user, pk= pk_fold).message.all()] ).order_by(sort)
-       
+     
     try:
 
-        group = Group_message.objects.filter(Q(users__in=[request.user]) | Q(owner=request.user) | Q(profile__in=[Profile.objects.get(user=user)])   ).filter(message__in = [i  for  i in Folder.objects.get(user = request.user, pk= pk_fold).message.all()] ).order_by(sort)
+        group = Group_message.objects.filter(Q(users__in=[request.user]) | Q(profile=Profile.objects.get(user=request.user) )   | Q(owner=request.user) | Q(profile__in=[Profile.objects.get(user=user)])   ).filter(message__in = [i  for  i in Folder.objects.get(user = request.user, pk= pk_fold).message.all()] ).order_by(sort)
     except Exception:
-        group =  Group_message.objects.filter(Q(users__in=[request.user]) | Q(owner=request.user)   ).filter(message__in = [i  for  i in Folder.objects.get(user = request.user, pk= pk_fold).message.all()] ).order_by(sort)
+        group =  Group_message.objects.filter(Q(users__in=[request.user]) | Q(profile=Profile.objects.get(user=request.user))   | Q(owner=request.user)   ).filter(message__in = [i  for  i in Folder.objects.get(user = request.user, pk= pk_fold).message.all()] ).order_by(sort)
     if filter == 'with_files':
         group = group.filter(message__in=[i.message for i in File.objects.all()])
     if filter == 'no_read':
@@ -421,6 +422,7 @@ def get_all_message(request, sort='all'):
          prof_id = None
      prof_id  = prof_id  if  prof_id != 'undefiend' else None
      if not prof_id:
+
             paginator =  Paginator(fold_ms(request,type,sort,prof_id,filter_m), page_on_list)
      else:
          paginator = Paginator( prof_in_us(request,prof_id,sort, filter_m) , page_on_list ) 
@@ -430,10 +432,11 @@ def get_all_message(request, sort='all'):
         
         try:
             prof = Profile.objects.get(user = i.owner)
-            name_p =   prof.first_name_d + " " + prof.last_name_d
-        except Exception:
+            name_p =   prof.first_name_d + " " + prof.last_name_d + " "  + prof.surname + " " +   prof.company.name
+        except Exception as er:
             name_p = i.owner.username
-        c[en] = [i.pk,i.message.title, name_p, i.lifetime,i.message.pk, bool(i.answer_message), fav_or_404(request,i.message), i.message.sinopsis(),bool(request.user in i.have_read.all() or not request.user in i.users.all()  )]
+        c[en] = [i.pk,i.message.title, name_p, i.lifetime,i.message.pk, bool(i.answer_message), fav_or_404(request,i.message), i.message.sinopsis(),bool(request.user in i.have_read.all() or not request.user in i.users.all()),  str(request.user) ==  str(i.owner.username)   ]
+
         try:
             c[en].append(Profile.objects.get( user=i.owner ).img_())
         except Exception:
@@ -465,13 +468,7 @@ def get_all_message(request, sort='all'):
          for i in [all_message.count(),no_read_all_mes.count(),trush_mes.count(), favorite.count()]:
              c["count_messages"].append(i)
      except Exception as e:
-         print(20 * "|")
          raise e
-<<<<<<< HEAD
-
-
-=======
->>>>>>> e9c9f176a5451a802de26c74ab3a23c184a504e5
 
      return JsonResponse(c)
 
@@ -482,6 +479,7 @@ def get_all_message(request, sort='all'):
 @csrf_exempt
 @ldap_auth
 def searc_mes(request):   #  poisk sredstvami  poiska po stanice 
+
     key =  request.POST['key']
     types = request.POST['type']
     search =   request.POST['search']
@@ -505,7 +503,8 @@ def searc_mes(request):   #  poisk sredstvami  poiska po stanice
     elif types == 'all':
         groups =  groups
     if search == 'owner':
-        groups = groups.filter(owner__in=User.objects.filter(username__startswith= key))
+        
+        groups = groups.filter(Q(owner__in=User.objects.filter(username__startswith= key)) | Q(owner__in=  [i.user for i in  Profile.objects.filter( Q(first_name_d__startswith= key) | Q(surname__startswith= key)      ) ]  )  )  
     else:
        
         message =  massage.objects.filter(title__startswith=key)
@@ -517,7 +516,15 @@ def searc_mes(request):   #  poisk sredstvami  poiska po stanice
     if filter == 'no_read':
         groups = groups.exclude(have_read__in=[request.user])
     paginator =  Paginator(groups, 20)
-    c = {en:[i.pk,i.message.title, i.owner.username, i.lifetime,i.message.pk,  bool(i.answer_message), fav_or_404(request,i.message), i.message.sinopsis(), bool(request.user in i.have_read.all() or not request.user in i.users.all()  )  ] for en , i in enumerate(paginator.page(1).object_list) }
+    c = {}
+    for en , i in enumerate(paginator.page(1).object_list):
+        try:
+            prof = Profile.objects.get(user = i.owner)
+            name_p =   prof.first_name_d + " " + prof.last_name_d + " "  + prof.surname + " " +   prof.company.name
+        except Exception as er:
+            name_p = i.owner.username
+        c[en] = [i.pk,i.message.title, name_p, i.lifetime,i.message.pk, bool(i.answer_message), fav_or_404(request,i.message), i.message.sinopsis(),bool(request.user in i.have_read.all() or not request.user in i.users.all()),  str(request.user) ==  str(i.owner.username)   ]
+      #  c = {en:[i.pk,i.message.title, i.owner.username, i.lifetime,i.message.pk,  bool(i.answer_message), fav_or_404(request,i.message), i.message.sinopsis(), bool(request.user in i.have_read.all() or not request.user in i.users.all()  )  ]) }
     c['paginator'] = [paginator.page(page).number,paginator.page(page).paginator.num_pages, False,False  ]
     #c['paginator'] = [paginator.page(page).number,paginator.page(page).paginator.num_pages, paginator.page(page).has_previous(),paginator.page(page).has_next()  ]
     return JsonResponse(c, safe=False) 
@@ -667,7 +674,7 @@ class fileView(FormView):
         self.shablons =   Shablon_message.objects.filter(owner = AuthUser.objects.get(username = request.user))
         naive_datetime = datetime.datetime.now()
         users_n = request.POST.get("names")  #####
-        users   = AuthUser.objects.filter(username__in = users_n.split(','))
+        users   = [ i  for i in   AuthUser.objects.filter(username__in = users_n.split(',')) ]
 
 
         profiles_sear = list(filter(lambda x: len(x.split(' ')) > 1, users_n.split(',') ))
@@ -676,9 +683,14 @@ class fileView(FormView):
         for i in profiles_sear:
             try:
                 v = Profile.objects.get(first_name_d= i.split(' ')[0], last_name_d = i.split(' ')[1])
-                prof_mass.append(v)
-            except Exception:
-                pass
+                if not v.user:
+                    prof_mass.append(v)
+                else:
+                    users.append(v.user)
+
+
+            except Exception as e :
+                raise e
         
         form_class = self.get_form_class()
         form_file  = self.get_form(form_class)
@@ -763,6 +775,7 @@ class fileView(FormView):
                 if users:
                     obj_group.users.set(users[::]) ################################
                 if prof_mass:
+                   
                     obj_group.profile.set(prof_mass[::])
                 obj_group.save(message="Сообщение создано")
                 message = obj_message

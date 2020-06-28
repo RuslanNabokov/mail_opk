@@ -307,11 +307,10 @@ aside.right-panel-active {
 
 .i {
     white-space: nowrap;
-    overflow: hidden;
+    overflow:  ellipsis;;
     text-overflow: ellipsis;
     flex-shrink: 1;
     min-height: 11px;
-    width: 1100px;
 }
 
 .text-right.time {
@@ -348,7 +347,7 @@ aside.right-panel-active {
 }
 
 .mail-own-user {
-    width: 150px;
+    width: auto;
 }
 
 .mail-news-title {
@@ -362,7 +361,7 @@ aside.right-panel-active {
 }
 
 .own-user {
-    font-size: 13px;
+    
 }
 
 @media screen and (max-width: 800px) {

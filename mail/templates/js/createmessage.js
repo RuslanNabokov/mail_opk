@@ -120,7 +120,7 @@ sliced += '...';
 }
 
 */
-function create_Mes(pk_group, owner, title, lifetime, clone, pk_mes, answ, favorite, sinopsis, read, img_path) {
+function create_Mes(pk_group, owner, title, lifetime, clone, pk_mes, answ, favorite, sinopsis, read, img_path, redact) {
     $('#loader').show()
 
     var c = clone.clone()
@@ -148,7 +148,8 @@ function create_Mes(pk_group, owner, title, lifetime, clone, pk_mes, answ, favor
 
     c.find('.mes-titled').html(' ' + title + '  ') // title
     c.find('.block-i').html('<a class = "fa my-fa fa-envelope-o" href =' + '"/mail/message/' + pk_mes + '"' + ' ></a> ' + '      <v> <i style="font-size: 16px" class = "my-fa ion-eye"  data-toggle="modal" data-target="#modal-mes" > </i> </v>')
-    if (req_us == owner) {
+    console.log(redact)
+    if (redact) {
 
         c.find('.block-i').append('<a style= "font-size: 16px" class = "fa my-fa fa-pencil-square-o" href="/mail/new_message/' + pk_group + '"' + ' >' + " </a>")
         c.find('.block-i').prepend('<a  style= "font-size: 14px;" data-pk ="' + pk_mes + '"class = "fa my-fa fa-users" data-tooltip="' + "" + '"> </a>')

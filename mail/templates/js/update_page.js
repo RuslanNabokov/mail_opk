@@ -46,7 +46,7 @@ $('.btn-pag-l').mouseleave(() => {
 window.folder = $('.vhod-folder').attr('data-pk-id_folder')
 
 function update_upodater(intsd) {
-    let intdd = intsd || 54500
+    let intdd = intsd || 1500
 
 
     update_page = setInterval(function() {
@@ -71,7 +71,7 @@ function update_upodater(intsd) {
 
 }
 
-update_upodater(14000)
+update_upodater()
 
 /*
 
