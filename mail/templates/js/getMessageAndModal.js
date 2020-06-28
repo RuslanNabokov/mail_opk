@@ -38,8 +38,7 @@ function get_message(pk_mes) {
 
                 $('#files').append(
                 `<img src="{% static  'icon/file.png' %}" class="file br-radius m-r-10">${item[1]} </file>  
-                <input type="checkbox" class="chk-files" data-file-uuid=${item[0]}>
-                `
+                <input type="checkbox" class="chk-files" data-file-uuid=${item[0]}>`
                 )
 
             
@@ -47,13 +46,12 @@ function get_message(pk_mes) {
         
         $('#files').append(`
                 <input type="button" id="perem_files" value="Переместить" style="width:100px;height: 20px;float: inline-end;"> `)
-            
         }
     }
 }
 
-    params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
-width=400,height=400,left=1000,top=-1000`;
+         params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
+width=400,height=400,left=1000,top=-1`
 $(document).on('click', '#perem_files', function(){
             let cheked = $('.chk-files:checked')
             c = new Array()

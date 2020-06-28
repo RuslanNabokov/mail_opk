@@ -449,6 +449,19 @@ def get_all_message(request, sort='all'):
          raise e
          pass
 
+     try:
+         c["count_messages"] =  []
+         
+         all_message = Group_message.objects.filter(users__in=[request.user])
+         no_read_all_mes=   all_message.exclude(have_read__in=[request.user])
+         trush_mes =   Folder.objects.get(user = User.objects.get(username = request.user), specificate = 'inbox').message.all()
+         favorite =  Folder.objects.get(user = User.objects.get(username = request.user), specificate = 'favorite').message.all()
+         for i in [all_message.count(),no_read_all_mes.count(),trush_mes.count(), favorite.count()]:
+             c["count_messages"].append(i)
+     except Exception as e:
+         print(20 * "|")
+         raise e
+
 
 
      return JsonResponse(c)

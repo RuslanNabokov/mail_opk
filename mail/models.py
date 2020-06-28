@@ -61,7 +61,7 @@ class Company(models.Model):
 
 
     def __str__(self):
-        return 'Компания {}'.format(self.name)
+        return 'Company {}'.format(self.name)
     
     def img_path(self):
         
@@ -76,11 +76,11 @@ class Profile(models.Model):
     first_name_d = models.CharField(max_length=12)
     last_name_d = models.CharField(max_length=12, blank=True, null=True)
     tolerance_level = models.IntegerField(choices=LEVELS, blank=True, null=True)
-    activate = models.BooleanField( blank=True, null=True)
+    activate = models.BooleanField( blank=True, default=True)
     role = models.CharField(max_length=12, blank=True, null=True, choices = ROLE)
-    company = models.ForeignKey(Company, models.DO_NOTHING, blank=True,null=True)
-    user = models.ForeignKey(AuthUser, related_name='Юзер', on_delete=models.CASCADE, blank=True, null=True)
-    host = models.ManyToManyField(AuthUser, related_name='Пользователи_которым_доступна_почта', blank=True, null=True)
+   # company = models.ForeignKey(Company, models.DO_NOTHING, blank=True,null=True)
+    user = models.ForeignKey(AuthUser, related_name='User', on_delete=models.CASCADE, blank=True, null=True)
+    host = models.ManyToManyField(AuthUser, related_name='Pol_kot_dos_pochta', blank=True, null=True)
 
 
 
@@ -142,7 +142,7 @@ class File(models.Model):
       ps = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
       description  = models.CharField(max_length=25,blank=True, null=True)
       file  = models.FileField(upload_to=get_file_path, blank=True, null=True)
-      message  = models.ForeignKey('Message', related_name='Сообщение', on_delete=models.CASCADE, blank=True, null=True)
+      message  = models.ForeignKey('Message', related_name='Soobshen', on_delete=models.CASCADE, blank=True, null=True)
 
       def name(self):
             return str(self.file).split('/')[-1] 
@@ -226,7 +226,6 @@ class Group_message(models.Model):
     message = models.ForeignKey(Message, verbose_name='Message', related_name = 'message', on_delete = models.CASCADE, blank=True, null=True )
     have_read = models.ManyToManyField(AuthUser, verbose_name= "Кто прочел", related_name = 'dsds', blank=True)
     lifetime = models.DateTimeField(default=default_datetime, null=True, blank=True)
-    
     sending_message= models.ForeignKey('Group_message', related_name='send_essage', verbose_name='Ответ на',  on_delete=models.CASCADE, blank=True, null=True)
     answer_message =  models.ForeignKey('Group_message', verbose_name='ответ на  сообщение',on_delete = models.CASCADE, blank=True, null=True )
     received = models.ManyToManyField(AuthUser,related_name='poluchili',  verbose_name= "Кто получил", blank=True)
@@ -243,11 +242,9 @@ class Group_message(models.Model):
                 Group_message.objects.get(pk = self.pk)
                 Notificate.objects.create(user = self.owner, result='succes',message= message,id_t =  datetime.now().strftime("%d-%m-%Y %H:%M%S")).save()
             except Exception:
-                
                 Notificate.objects.create(user = self.owner, result='succes',message= 'Сообщение создано',id_t =  datetime.now().strftime("%d-%m-%Y %H:%M%S")).save()
         except Exception:
             pass 
-
         return super(Group_message, self).save()    
 
     
