@@ -68,6 +68,8 @@ def send_files(request):
 
    for i in  files:
       os.system('cp {}   /home/{}{}'.format(i,user,dir_))
+   return JsonResponse({'status': "ok"},safe=False)
+   
 
    
 

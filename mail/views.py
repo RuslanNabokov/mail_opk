@@ -614,14 +614,13 @@ def searchmessage(request):
             except Exception:
                     place_json['pk_prof'] =  r.pk
         #   place_json['sec']=r.secrecy
-            place_json['label'] = r.first_name_d  + ' ' +  r.last_name_d
+            place_json['label'] = "{} {} {} ({})".format(r.first_name_d,  r.last_name_d, r.surname, r.company.name)
             results.append(place_json)
     dat = json.dumps(results)
 
 
  #   c = {i.username: i.pk  for i in results  }
     return JsonResponse(results, safe=False) 
-
 
 
 

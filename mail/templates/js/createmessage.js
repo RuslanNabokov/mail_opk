@@ -172,10 +172,15 @@ function create_Mes(pk_group, owner, title, lifetime, clone, pk_mes, answ, favor
 
     c.find('.ion-eye').attr('message-pk', pk_mes)
 
-    c.find('.letter_or_picter').text(owner.slice(0, 1).toUpperCase())
+
 
     c.find('.letter_or_picter').attr('img_pk_own', owner)
-    c.find('.letter_or_picter').attr('style', 'background-image: ' + 'url(' + '/' + img_path + ')')
+    if (img_path) {
+        c.find('.letter_or_picter').attr('style', 'background-image: ' + 'url(' + '/' + img_path + ')')
+        c.find('.letter_or_picter').text('')
+    } else {
+        c.find('.letter_or_picter').text(owner.slice(0, 1).toUpperCase())
+    }
 
     c.show()
     $('.tbody').append(c)

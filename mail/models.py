@@ -10,6 +10,11 @@ import uuid
 from datetime import datetime
 from django.contrib.auth.models import User as AuthUser
 
+import PIL
+from PIL import Image, ImageOps
+from imagekit.models.fields import ImageSpecField
+from imagekit.processors import ResizeToFit, Adjust,ResizeToFill
+
 # Create your models here.
 ROLE = (
     ('admin',  'admin'),
@@ -42,7 +47,10 @@ RESULT_NOTIFICATE =(
 )
 
 
-
+def get_file_path(self, filename):
+    extension = filename.split('.')[-1]
+    filename = "%s.%s" % (uuid.uuid4(), extension)
+    return os.path.join("upload", filename)
 
 class Signature(models.Model):
     text = models.CharField(max_length=100)
@@ -57,8 +65,8 @@ class Company(models.Model):
     location = models.CharField(max_length=20)
     prefix_d = models.CharField(max_length=25)
     information = models.CharField(max_length=500)
-    img = models.ImageField(upload_to='upload', blank=True, null=True)
-
+    img = models.ImageField(upload_to=get_file_path, blank=True, null=True)
+  #  img_small =ImageSpecField([Adjust(contrast=1.2, sharpness=1.1),ResizeToFill(30, 30)], source='img',format='JPEG', options={'quality': 80})
 
     def __str__(self):
         return 'Company {}'.format(self.name)
@@ -67,8 +75,34 @@ class Company(models.Model):
         
         mas = self.img.path.split('/')
         media_ind = mas.index('media')
+        
         return  "/".join(mas[media_ind:])
+    
+    def save(self, *args, **kwargs):
+        # Сначала - обычное сохранение
+        try:
+            super(Company, self).save(*args, **kwargs)
 
+            # Проверяем, указан ли логотип
+            if self.img:
+                filepath = self.img.path
+                width = self.img.width
+                height = self.img.height
+
+                max_size = max(width, height)
+
+                image = Image.open(filepath)
+                    # resize - безопасная функция, она создаёт новый объект, а не
+                    # вносит изменения в исходный, поэтому так
+                image = image.resize(
+                        (round(width / max_size *  30),  # Сохраняем пропорции
+                        round(height / max_size * 30)),
+                        Image.ANTIALIAS
+                    )
+                    # И не забыть сохраниться
+                image.save(filepath)
+        except Exception:
+            pass
 
 
 class Profile(models.Model):
@@ -97,7 +131,7 @@ class Profile(models.Model):
             img = company.img_path()
             return img
         except Exception as e:
-     
+            print(e)
             return 'undefiend'
 
     def nepr_message_user(self):
