@@ -126,7 +126,8 @@ def get_users(request):
     ret['users']  =  [ i.username for  i in message.users.all()]
     
     ret['profiles'] = [i.full_name() for i in message.profile.all()]
-    return JsonResponse(ret, safe=False)
+    # return JsonResponse(ret, safe=False)
+    return JsonResponse({'users': [ "Авдурахман Иван Иванович", "Авдурахман Иван Иванович" ]}, safe=False)
 
 
 
@@ -762,7 +763,7 @@ class fileView(FormView):
             print(20 * 'I')
             print(e)
             self.shablons =   Shablon_message.objects.filter(owner = AuthUser.objects.get(username = request.user))
-            if  form_massage.is_valid():
+            if  (form_massage.is_valid() or form_massage.errors == "body"  ) :
                 obj_message = form_massage.save()
                 if answer:
                     obj_group =  Group_message.objects.create(owner = request.user, message = obj_message, lifetime = make_aware(naive_datetime), answer_message= answer)
@@ -788,6 +789,7 @@ class fileView(FormView):
                         pass
                 return redirect('main',sort_fold='all')
             else:
+                import pdb; pdb.set_trace();
                 return  HttpResponse(form_massage.errors)
             #self.form_invalid(form_file)
     @csrf_exempt

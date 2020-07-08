@@ -43,6 +43,22 @@ $('.btn-pag-l').mouseleave(() => {
 
 
 
+$('table').on('mouseenter', '.fa-users', function() {
+
+
+    mouse_ov = true
+})
+
+
+$('table').on('mouseleave', '.fa-users', function() {
+
+
+    mouse_ov = false
+})
+
+
+
+
 window.folder = $('.vhod-folder').attr('data-pk-id_folder')
 
 function update_upodater(intsd) {

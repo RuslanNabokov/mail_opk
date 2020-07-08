@@ -54,7 +54,7 @@ def get_file_path(self, filename):
 
 class Signature(models.Model):
     text = models.CharField(max_length=100)
-    user = models.ForeignKey(AuthUser, related_name='signature', on_delete=models.CASCADE, blank=True, null=True)  
+    user = models.ForeignKey(AuthUser, related_name='signature', on_delete=models.CASCADE, primary_key=True)  
 
     def __str__(self):
         return 'signature  - {}'.format(self.user) 
@@ -154,6 +154,18 @@ class Profile(models.Model):
 
 
 
+    def save(self,message='Сообщение созданно', *args, **kwargs):
+        try:
+     
+          Signature.objects.create(user=self.user, text="С уважением {} {}".format(self.first_name_d, self.last_name_d  ))
+        except Exception as e:
+            print(e) 
+        return super(Profile, self).save()  
+
+        
+
+
+
 
 
 def default_datetime():
@@ -223,7 +235,7 @@ class Message(models.Model):
         user = group.owner
         try:
             sign = Signature.objects.get(user=user) 
-            return "{} </br> </br> {}".format(self.body, sign.text ) 
+            return "{} </br> </br> <hr style='width:100%'>  <dfn><b> {}</b>  </dfn></hr>".format(self.body, sign.text ) 
         except Exception:
             return "{}".format(self.body)
 
