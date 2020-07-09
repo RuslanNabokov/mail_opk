@@ -43,16 +43,26 @@ $('.btn-pag-l').mouseleave(() => {
 
 
 
-$('table').on('mouseenter', '.fa-users', function() {
-
+$('table').on('mouseenter', '.fa-users', function(e) {
 
     mouse_ov = true
+    let message = $(e.currentTarget).data('tooltip')
+    console.log(message)
+    $(e.currentTarget).parent().parent().find('.mes-titled').hide('slow')
+    $(e.currentTarget).parent().parent().find('.mes-users').text(message)
+    $(e.currentTarget).parent().parent().find('.mes-users').show('slow')
+
+
+
+    /*.mail-news-title */
 })
 
 
-$('table').on('mouseleave', '.fa-users', function() {
+$('table').on('mouseleave', '.fa-users', function(e) {
 
 
+    $(e.currentTarget).parent().parent().find('.mes-titled').show('slow')
+    $(e.currentTarget).parent().parent().find('.mes-users').hide('slow')
     mouse_ov = false
 })
 

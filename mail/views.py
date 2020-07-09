@@ -126,8 +126,8 @@ def get_users(request):
     ret['users']  =  [ i.username for  i in message.users.all()]
     
     ret['profiles'] = [i.full_name() for i in message.profile.all()]
-    # return JsonResponse(ret, safe=False)
-    return JsonResponse({'users': [ "Авдурахман Иван Иванович", "Авдурахман Иван Иванович" ]}, safe=False)
+    return JsonResponse(ret, safe=False)
+   # return JsonResponse({'users': [ "Авдурахман Иван Иванович", "Авдурахман Иван Иванович" ]}, safe=False)
 
 
 

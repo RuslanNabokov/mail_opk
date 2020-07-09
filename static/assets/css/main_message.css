@@ -124,9 +124,10 @@ tr.no_read_message .mail-own-user {
     margin: 0px;
 }
 
+
+/*
 [data-tooltip] {
     position: relative;
-    /* Относительное позиционирование */
 }
 
 [data-tooltip]::after {
@@ -134,33 +135,21 @@ tr.no_read_message .mail-own-user {
     z-index: 9000000;
     display: flex;
     flex-wrap: wrap;
-    /* Выводим текст */
     position: absolute;
-    /* Абсолютное позиционирование */
     width: 500px;
-    /* Ширина подсказки */
     left: 0px;
     top: 0px;
-    /* Положение подсказки */
     background: #3989c9;
-    /* Синий цвет фона */
     color: #fff;
-    /* Цвет текста */
     padding: 0.1em;
-    /* Поля вокруг текста */
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    /* Параметры тени */
     pointer-events: none;
-    /* Подсказка */
     opacity: 0;
-    /* Подсказка невидима */
     transition: 1s;
-    /* Время появления подсказки */
 }
 
 [data-tooltip]:hover::after {
     opacity: 1;
-    /* Показываем подсказку */
     top: 0px;
     left: -300px;
     width: 400px;
@@ -172,8 +161,8 @@ tr.no_read_message .mail-own-user {
     z-index: 90000;
     position: absolute;
     flex-direction: column;
-    /* Положение подсказки */
 }
+*/
 
 .mail-news-title {
     width: 100%;
@@ -386,6 +375,14 @@ aside.right-panel-active {
     text-overflow: ellipsis;
     min-width: 0;
     flex-shrink: 1;
+}
+
+.mail-users {
+    display: none;
+}
+
+.mail-users-show {
+    display: inline-block;
 }
 
 @media screen and (max-width: 800px) {
