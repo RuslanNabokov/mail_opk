@@ -18,14 +18,16 @@
 
         <div class="group_button">
 
-            <button type="button" class="btn btn-default btn-sm waves-effect waves-light" data-toggle="tooltip" data-container="body" title="Delete"><i class="fa fa-trash"></i></button> {% if auth != group.owner %}
+        <!--   <button type="button" class="btn btn-default btn-sm waves-effect waves-light" data-toggle="tooltip" data-container="body" title="Delete"><i class="fa fa-trash"></i></button>  -->
+        {% if auth != group.owner %} 
 
             <a href='{% url "new_masssage"  %}?answer={{group.pk}}&user={{group.owner.pk}}' class="btn btn-default btn-sm waves-effect waves-light" data-toggle="tooltip" data-container="body" title="Ответить"><i class="fa fa-reply"></i></a>
 
 
             <a href='{% url "new_masssage"  %}?answer={{group.pk}}' class="btn btn-default btn-sm waves-effect waves-light" data-toggle="tooltip" data-container="body" title="Переслать"><i class="fa fa-share"></i></a> {% endif %}
 
-            <button type="button" class="btn btn-default btn-sm waves-effect waves-light" data-toggle="tooltip" title="Print"><i class="fa fa-print"></i></button>
+            <button type="button"  class="btn  btn-print btn-default btn-sm waves-effect waves-light" data-toggle="tooltip" title="Print"><i class="fa fa-print"></i></button>
+            <button   type="button" id="btn-download"  class= "btn   ">
 
 
 

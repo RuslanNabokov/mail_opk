@@ -118,6 +118,8 @@ def answ_mes(request):
     #answ = message['answer_message']
 
     return JsonResponse({'answ':answ, 'group': group_pk}, safe=False)
+
+
 @ldap_auth
 def get_users(request):
 

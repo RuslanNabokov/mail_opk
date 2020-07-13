@@ -66,6 +66,61 @@ width=400,height=400,left=1000,top=-1000`;
             };
 
         })
+function dynamic_text() {
+        let title = $( $('h3')[0]).text()
+        let date =  $($('.mailbox-read-time')[0]).text()
+        let body_message = $($('.body_message')[0]).text()
+        let text =  ` \t ${title} \n ${body_message}  \n ${date}`
+        return text
+    }
+
+
+function download_file(name, contents, mime_type) {
+        mime_type = mime_type || "text/plain";
+
+        var blob = new Blob([contents], {type: mime_type});
+
+        var dlink = document.createElement('a');
+        dlink.download = name;
+        dlink.href = window.URL.createObjectURL(blob);
+        dlink.onclick = function(e) {
+            // revokeObjectURL needs a delay to work properly
+            var that = this;
+            setTimeout(function() {
+                window.URL.revokeObjectURL(that.href);
+            }, 1500);
+        };
+
+        dlink.click();
+        dlink.remove();
+    }
+
+$('#btn-download').on('click', function(){
+ 
+        download_file('message.docx', dynamic_text() )
+})
+
+
+function CallPrint(strclass) {
+  var prtContent = $('.' + strclass)[0];
+
+  //var prtCSS = '<link rel="stylesheet" href="/templates/css/template.css" type="text/css" />';
+  var prtCSS =  "<style> button{ display: none} </stye>"
+  var WinPrint = window.open('','','left=50,top=50,width=800,height=640,toolbar=0,scrollbars=1,status=0');
+  WinPrint.document.write('<div id="print" class="contentpane">');
+ 
+  WinPrint.document.write(prtContent.innerHTML);
+  WinPrint.document.write(prtCSS);
+  // WinPrint.document.write('</div>');
+  WinPrint.document.close();
+  WinPrint.focus();
+  WinPrint.print();
+  WinPrint.close();
+ // prtContent.innerHTML=strOldOne;
+}
+        $('.btn-print').on('click', function(){
+                CallPrint('panel-message-detail')
+        })
     </script>
 
 
