@@ -29,17 +29,25 @@ updater = true
 
 
 var mouse_ov = false
-$('.btn-pag-l').hover(() => {
 
+
+
+
+$('table').on('mouseenter', '.fa', function(e) {
     mouse_ov = true
 
 })
 
-$('.btn-pag-l').mouseleave(() => {
+
+
+$('table').on('mouseleave', '.fa', function(e) {
+
+
 
     mouse_ov = false
-
 })
+
+
 
 
 

@@ -43,31 +43,32 @@ function sort_Message(obj) {
                     //alert('empty')
                     console.log('empty')
                 } else {
-                    if (key !== 'paginator' && key != 'notification') {
+                    if (key !== 'paginator' && key != 'notification' && key != 'count_messages') {
+                        console.log(key)
                         let pk = response[key][0]
                         let own = response[key][2]
                         let title = response[key][1]
 
-                        let lifetime = response[key][3].split('.')[0].replace('T', ' ')
+                        let lifetime = String(response[key][3]).split('.')[0].replace('T', ' ')
                         let pk_mes = response[key][4]
                         let answ = response[key][5]
                         let favorite = response[key][6]
                         let sinopsis = response[key][7]
-                        let read = response[key][8] 
+                        let read = response[key][8]
                         let redact = response[key][9]
                         let img_path = response[key][10]
                         create_Mes(pk, own, title, lifetime, clone, pk_mes, answ, favorite, sinopsis, read, img_path, redact)
                     }
-                } 
-                if (  key == "notification") {
-                    
+                }
+                if (key == "notification") {
+
                     for (i in response['notification']) {
                         alertify.success(response['notification'][i])
                     }
                 }
 
             }
-        
+
         },
         error: function(response) { // Данные не отправлены
 

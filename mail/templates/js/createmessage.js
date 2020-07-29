@@ -95,7 +95,7 @@ var options = {
 
 function format_data(dat) {
     let dats = dat.split(" ")[0].split('-')
-    let time = dat.split(" ")[1].split(':')
+    let time = String(String(dat).split(" ")[1]).split(':')
     day = new Date(parseInt(dats[0]), parseInt(dats[1]) - 1, parseInt(dats[2]), parseInt(time[0]), parseInt(time[1]), parseInt(time[2]))
     now_date = new Date(Date.now())
     console.log([now_date.getFullYear(), now_date.getMonth()] == [day.getFullYear(), day.getMonth()])
@@ -179,7 +179,7 @@ function create_Mes(pk_group, owner, title, lifetime, clone, pk_mes, answ, favor
         c.find('.letter_or_picter').attr('style', 'background-image: ' + 'url(' + '/' + img_path + ')')
         c.find('.letter_or_picter').text('')
     } else {
-        c.find('.letter_or_picter').text(owner.slice(0, 1).toUpperCase())
+        c.find('.letter_or_picter').text(String(owner).slice(0, 1).toUpperCase())
     }
 
     c.show()

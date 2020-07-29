@@ -65,6 +65,7 @@ h3.message-title {
 
 .panel-message-detail {
     position: relative;
+    min-height: 80vh;
 }
 
 .mailbox-read-info {

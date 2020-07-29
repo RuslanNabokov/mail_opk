@@ -33,6 +33,9 @@ from itertools import chain
 from django.views.decorators.cache import cache_page
 from django.template.context_processors import csrf
 from   ldap_auth  import ldap_auth
+import logging
+logger = logging.getLogger(__name__)
+
 templates = {
    'massage_main': 'message_main.html',
    'message_new': 'mail_new_message.html',
@@ -102,7 +105,7 @@ def img_organization(request):
   
         return JsonResponse({'img': img  })
     except Exception as e:
-     
+        logger.warning("[ERROR]  "  + e)  
         return JsonResponse({'error':str(e)})
 
 
@@ -245,7 +248,7 @@ class MessageDetail(TemplateView):
                 print(group)
 
         except Exception as e:
-            print(e)
+          logger.warning("[ERROR]  "  + e)    
 
         
         self.profile_message =  self.group.profile.all()
@@ -341,7 +344,7 @@ def messagedel(request):
                 Folder.objects.get(user = User.objects.get(username = request.user),specificate='trush').message.remove(*messages)
                
        except Exception as e:
-           print(e)
+           logger.warning("[ERROR]  "  + e)    
            raise e
 
        # map(lambda x: x ,Group_message.objects.filter(owner=User.objects.get(username=request.user), message=massage.objects.filter(pk__in=id_messages)))
@@ -409,7 +412,7 @@ def fav_or_404(request,mes):
 @csrf_exempt
 @ldap_auth
 def get_all_message(request, sort='all'):
-
+    
      page =  int(request.POST['page']) 
      type =   request.POST['type']  if request.POST['type'] != 'all' else  Folder.objects.get(user=request.user, specificate='inbox').pk
      filter_m = request.POST['filter']
@@ -458,8 +461,9 @@ def get_all_message(request, sort='all'):
                   c['notification'].append(i.message)
                   i.view_user()
      except Exception as e:
-         raise e
-         pass
+       logger.warning("[ERROR]  "  + e)    
+       raise e
+    
 
      try:
          c["count_messages"] =  []
@@ -471,7 +475,8 @@ def get_all_message(request, sort='all'):
          for i in [all_message.count(),no_read_all_mes.count(),trush_mes.count(), favorite.count()]:
              c["count_messages"].append(i)
      except Exception as e:
-         raise e
+       logger.warning("[ERROR]  "  + e)    
+       raise e
 
      return JsonResponse(c)
 
@@ -482,12 +487,14 @@ def get_all_message(request, sort='all'):
 @csrf_exempt
 @ldap_auth
 def searc_mes(request):   #  poisk sredstvami  poiska po stanice 
-
     key =  request.POST['key']
     types = request.POST['type']
     search =   request.POST['search']
     filter =  request.POST['filter']
     user = User.objects.get(username = request.user)
+    
+    logger.info('[INFO] Выполнен поиск по сообщениям  | По name/author  {} |  Тип/Папка {} |  Слово  {} | Фильтр {}  | Пользователь {} '\
+        .format(search, types, key, filter, user  ))
     #nepr = request.POST['nepr']
     page = 1
     try:
@@ -509,7 +516,6 @@ def searc_mes(request):   #  poisk sredstvami  poiska po stanice
         
         groups = groups.filter(Q(owner__in=User.objects.filter(username__startswith= key)) | Q(owner__in=  [i.user for i in  Profile.objects.filter( Q(first_name_d__startswith= key) | Q(surname__startswith= key)      ) ]  )  )  
     else:
-       
         message =  massage.objects.filter(title__startswith=key)
         groups = groups.filter(message__in = message)
  #   if nepr == 'true':
@@ -526,7 +532,12 @@ def searc_mes(request):   #  poisk sredstvami  poiska po stanice
             name_p =   prof.first_name_d + " " + prof.last_name_d + " "  + prof.surname + " " +   prof.company.name
         except Exception as er:
             name_p = i.owner.username
+        #c[en] = [i.pk,i.message.title, name_p, i.lifetime,i.message.pk, bool(i.answer_message), fav_or_404(request,i.message), i.message.sinopsis(),bool(request.user in i.have_read.all() or not request.user in i.users.all()),  str(request.user) ==  str(i.owner.username)   ]
         c[en] = [i.pk,i.message.title, name_p, i.lifetime,i.message.pk, bool(i.answer_message), fav_or_404(request,i.message), i.message.sinopsis(),bool(request.user in i.have_read.all() or not request.user in i.users.all()),  str(request.user) ==  str(i.owner.username)   ]
+        try:
+            c[en].append(Profile.objects.get( user=i.owner ).img_())
+        except Exception:
+            pass  
       #  c = {en:[i.pk,i.message.title, i.owner.username, i.lifetime,i.message.pk,  bool(i.answer_message), fav_or_404(request,i.message), i.message.sinopsis(), bool(request.user in i.have_read.all() or not request.user in i.users.all()  )  ]) }
     c['paginator'] = [paginator.page(page).number,paginator.page(page).paginator.num_pages, False,False  ]
     #c['paginator'] = [paginator.page(page).number,paginator.page(page).paginator.num_pages, paginator.page(page).has_previous(),paginator.page(page).has_next()  ]
@@ -595,7 +606,7 @@ def notificates(request):
 
 @require_GET
 @ldap_auth
-def searchmessage(request):
+def searchmessage(request):   # Поиск  пользователей
     ldap_auth(request)
     q = request.GET.get('term', '')
     search_qs = AuthUser.objects.filter(username__startswith=q)
@@ -666,6 +677,7 @@ class Message(TemplateView):
 
 
 class fileView(FormView):
+   
     form_class = fileForm
     template_name = templates['message_new']
    # template_name = 'upload.html'  # Replace with your template
@@ -673,11 +685,12 @@ class fileView(FormView):
     @csrf_exempt
     def post(self, request, *args, **kwargs):
         self.prof = request.user
+        
         self.shablons =   Shablon_message.objects.filter(owner = AuthUser.objects.get(username = request.user))
         naive_datetime = datetime.datetime.now()
         users_n = request.POST.get("names")  #####
         users   = [ i  for i in   AuthUser.objects.filter(username__in = users_n.split(',')) ]
-
+        logger.info('[INFO] Пользователь {}  Отправил письмо  {}'.format(request.user,''.join(users_n)  ))
 
         profiles_sear = list(filter(lambda x: len(x.split(' ')) > 1, users_n.split(',') ))
         prof_mass = []
