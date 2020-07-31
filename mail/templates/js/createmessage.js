@@ -175,7 +175,7 @@ function create_Mes(pk_group, owner, title, lifetime, clone, pk_mes, answ, favor
 
 
     c.find('.letter_or_picter').attr('img_pk_own', owner)
-    if (img_path) {
+    if (img_path && img_path != 'undefiend') {
         c.find('.letter_or_picter').attr('style', 'background-image: ' + 'url(' + '/' + img_path + ')')
         c.find('.letter_or_picter').text('')
     } else {

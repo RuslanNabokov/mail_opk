@@ -6,6 +6,10 @@ logger = logging.getLogger(__name__)
 декоратор для постоянной аунтификации  пользователя 
 
 
+
+
+
+
 """
 
 
@@ -36,3 +40,6 @@ def  anonim_user_not_in(fun):
 
 
 '''
+
+def auth_ldap(request):
+   pass

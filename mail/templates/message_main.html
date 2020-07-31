@@ -615,8 +615,8 @@ if (  $(this).hasClass("fa-star-active") ) {
   $.ajax({
     url: '{% url "del_iz_fold" %}',
     type: "POST",
-    dataType: "json",
-    data:  JSON.stringify(dat),
+    dataType: "html",
+    data:  dat,
     cache: false,
     succes: function(response) { // Данные 
           

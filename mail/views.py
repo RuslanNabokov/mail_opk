@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-
+from django.utils.html import strip_tags
 from main.models import Profile, AuthUser
 from .models import * 
 from django.views.generic import TemplateView, CreateView, View
@@ -310,9 +310,11 @@ def infold(request):
 @ldap_auth
 def del_iz_fold(request):
 
-    json_data = json.loads(request.body)
-    mes =  json_data['pk_mes']
-    fold = json_data['pk_fold']
+#    json_data = json.loads(request.body)
+#    mes =  json_data['pk_mes']
+#    fold = json_data['pk_fold']
+    mes = request.POST['pk_mes']
+    fold =  request.POST['pk_fold']
     folder = Folder.objects.get(user=  AuthUser.objects.get(username=request.user),pk=fold )
     message = massage.objects.get(pk=mes)
     folder.message.remove(message)
@@ -441,7 +443,7 @@ def get_all_message(request, sort='all'):
             name_p =   prof.first_name_d + " " + prof.last_name_d + " "  + prof.surname + " " +   prof.company.name
         except Exception as er:
             name_p = i.owner.username
-        c[en] = [i.pk,i.message.title, name_p, i.lifetime,i.message.pk, bool(i.answer_message), fav_or_404(request,i.message), i.message.sinopsis(),bool(request.user in i.have_read.all() or not request.user in i.users.all()),  str(request.user) ==  str(i.owner.username)   ]
+        c[en] = [i.pk,i.message.title, name_p, i.lifetime,i.message.pk, bool(i.answer_message), fav_or_404(request,i.message), strip_tags(i.message.sinopsis()),bool(request.user in i.have_read.all() or not request.user in i.users.all()),  str(request.user) ==  str(i.owner.username)   ]
 
         try:
             c[en].append(Profile.objects.get( user=i.owner ).img_())
