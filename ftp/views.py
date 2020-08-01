@@ -10,6 +10,10 @@ from django.views.generic.edit import FormView
 from mail.models  import File
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
+#import subprocess
+
+
+#os.system('echo {} | sudo -S echo '.format('musavi88'))
 
 templates = {
    'massage_main': 'message_main.html',
@@ -27,9 +31,10 @@ SERVER = 'ftp://10.2.2.244'
 def poligon(request):
    files = request.GET['names'].split(',')
    files = File.objects.filter(pk__in= files)
-   files = ' '.join(list(map( lambda x: x.file.path, files  ) ))
-    
-   return render(request,  "vue_files.html",{'files':files} )
+   name_files =  list(map( lambda x: x.name(), files  ) ) 
+   files = ' '.join(list(map( lambda x: x.file.path, files  ) ) )
+   
+   return render(request,  "vue_files.html",{'files':files, 'name_files' : name_files} )
 
 def get_content_dir(request):
    user = request.user

@@ -6,7 +6,7 @@
     <title> </title>
     <script src="https://unpkg.com/vue"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
-
+<script src="{% static  'assets/js/jq/jquery.min.js' %}"></script>
     <!-- template for the modal component -->
 
     <script type="text/x-template" id="modal-template">
@@ -20,16 +20,17 @@
                             Файловый менеджер
                             </slot>
                   <div class='button-group'>          
-             <img @click="folders_up_level" style=" height: 20px; width: auto; "  src='{% static  '/icon/back.png' %}'>  </img >   
-                        <img  src='{% static  '/icon/home.png' %}'  @click="folders_home" style="height: 20px; width: auto; "></img>
-                              <img   src='{% static  '/icon/close.png' %}' class="modal-default-button" @click="close">
+             <img @click="folders_up_level" style=" height: 20px; width: auto; cursor: pointer; "  src='{% static  '/icon/back.png' %}'>  </img >   
+                        <img  src='{% static  '/icon/home.png' %}'  @click="folders_home" style="cursor: pointer;  height: 20px; width: auto; "></img>
+                              <img   src='{% static  '/icon/close.png' %}' style="cursor: pointer;  height: 25px; width: auto; "  class="modal-default-button" @click="close">
                    
                   </img>
+ <img   @click="send"  src='{% static  '/icon/zagruziit.png' %}' style="cursor: pointer;  height: 25px; width: auto;" class="modal-default-button"> </img>
 </div>
-           <button class="" @click="send">
-                 Отправить
+           
+       
 
-                  </button>
+                  
 
                         </div>
 
@@ -41,9 +42,15 @@
                         </div>
 
                         <div class="modal-footer">
-                            <slot name="footer">
-                            
-                            </slot>
+                            Перемещаемые файлы:
+                             
+   {% for i in name_files %}
+   <div class="footer-file"> 
+            <img src="/static/icon/file.png" style= "width:auto; height: 40px" class="file br-radius m-r-10">
+         <p style="font-size:10px">   {{i}} </p>
+             </img> 
+</div>
+   {% endfor %}                           
                         </div>
                     </div>
                 </div>
@@ -54,7 +61,7 @@
 
 <body>
     <!-- app 
-   {{files}}  
+
         {{files_to_transfer}}
     -->
     {% verbatim %}
@@ -69,7 +76,7 @@
         
 {% endverbatim %}
 
-   {{files}}
+ 
 
 {% verbatim %}
     </div>
@@ -167,7 +174,15 @@
                 update_vision_folder: function(response, name){
         
                      vebs.files =  response['dirs']
+       
                      vebs.curent_path =  vebs.curent_path  +  name + '/'
+                    if (vebs.files.length == 0){
+                         $('.modal-body').append('<h1> В  этой папке нет папок. </h1>')
+                     }else{
+                         $('.modal-body>h1').remove()
+                     } 
+
+                     console.log(vebs.files)
                       
                 },
                  folders_up_level: function(){
@@ -185,8 +200,7 @@
 
 
     </script>
-         {% verbatim  %}
-    {% endverbatim %}
+   
 
     <style>
         .modal{ 
@@ -203,7 +217,8 @@
          
          left:5px; 
          top:56%; 
-         font-size:8px 
+         font-weight: bold;
+         font-size:10px;
           }
         .modal-mask {
             position: fixed;
@@ -213,15 +228,13 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
-            display: table;
+  
             transition: opacity 0.3s ease;
 
         }
-        
-        .modal-wrapper {
-            display: table-cell;
-            vertical-align: middle;
-        }
+.file>img{
+height: 80px;
+}
         
         .modal-container {
             width: 100%;
@@ -232,7 +245,7 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
             transition: all 0.3s ease;
             font-family: Helvetica, Arial, sans-serif;
-            min-height: 281px;
+            min-height: 100vh;
             overflow: scroll;
             height: 100%;
     max-height: 551px;
@@ -245,10 +258,11 @@
         
         .modal-body {
             margin: 10px 0;
-            display: flex; 
+          /*  display: flex; */ 
             flex-wrap: wrap;
             align-items: end;
             width: 100%;
+            min-height:500px;
         }
         
         .modal-default-button {
