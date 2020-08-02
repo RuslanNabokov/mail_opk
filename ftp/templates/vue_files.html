@@ -6,54 +6,39 @@
     <title> </title>
     <script src="https://unpkg.com/vue"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
 <script src="{% static  'assets/js/jq/jquery.min.js' %}"></script>
     <!-- template for the modal component -->
 
     <script type="text/x-template" id="modal-template">
         <transition name="modal" >
-            <div class="modal-mask">
-                <div class="modal-wrapper">
-                    <div class="modal-container">
-
-                        <div class="modal-header">
-                            <slot name="header">
-                            Файловый менеджер
-                            </slot>
-                  <div class='button-group'>          
-             <img @click="folders_up_level" style=" height: 20px; width: auto; cursor: pointer; "  src='{% static  '/icon/back.png' %}'>  </img >   
-                        <img  src='{% static  '/icon/home.png' %}'  @click="folders_home" style="cursor: pointer;  height: 20px; width: auto; "></img>
-                              <img   src='{% static  '/icon/close.png' %}' style="cursor: pointer;  height: 25px; width: auto; "  class="modal-default-button" @click="close">
-                   
-                  </img>
- <img   @click="send"  src='{% static  '/icon/zagruziit.png' %}' style="cursor: pointer;  height: 25px; width: auto;" class="modal-default-button"> </img>
-</div>
+            <div class="modal-mask row">
            
-       
+<div class="col-lg-2  col-4 col-md-2 col-ms-4 nav-menu row"   style="">
 
-                  
+<ul class="nav flex-column " id = "nav">
+  <li class="nav-item">
 
-                        </div>
+ 
+      <img  src='{% static  '/icon/home.png' %}'  @click="folders_home"   style="height:25px; width: auto;">   Домашняя</img>
+  </li>
+  <li class="nav-item" >
+   <img  src='{% static  '/icon/file.png'  %}'  @click="get_folders_spec('doc')"     style="height:25px; width: auto;" >  Документы </img>
+  </li>
+  <li class="nav-item"   @click="get_folders_spec('zagr')"     >
+    Загрузки
+  </li>
+  <li class="nav-item"   @click="get_folders_spec('desktop')"  >
+   Рабоий стол
+  </li>
+</ul>
 
-                        <div class="modal-body">
-                            <slot name="body">
-
-                                <file v-for='file in files' :file='file'> {{file}} </file>
-                            </slot>
-                        </div>
-
-                        <div class="modal-footer">
-                            Перемещаемые файлы:
-                             
-   {% for i in name_files %}
-   <div class="footer-file"> 
-            <img src="/static/icon/file.png" style= "width:auto; height: 40px" class="file br-radius m-r-10">
-         <p style="font-size:10px">   {{i}} </p>
-             </img> 
 </div>
-   {% endfor %}                           
-                        </div>
+
+                    <div class="modal-container col-8 col-lg-10 col-md-10 col-ms-8">
+{% include "template_modal.html"%}
                     </div>
-                </div>
+       
             </div>
         </transition>
     </script>
@@ -83,6 +68,16 @@
 
     <script>
 
+$('body').on('keypress','#search-input', function(){
+  if (typeof timer !== "undefined"){
+    timer =  clearTimeout(timer)
+  
+    timer = setTimeout(function(){alert($('#search-input').val());clearTimeout(timer); delete timer  }, 500)
+  }else{
+  
+   timer = setTimeout(function(){alert($('#search-input').val());clearTimeout(timer); delete timer  }, 500)
+  }
+})
 
 
         Vue.component("modal", {
@@ -92,10 +87,17 @@
                 folders_up_level: function(){
                     this.$root.$options.methods.folders_up_level()
                 },
+                get_folders_spec: function(name){
+                    this.$root.$options.methods.get_folders_spec(name)
+                },
                 folders_home: function(){
                 
                     this.$root.$options.methods.folders_home()
-                }, 
+                },
+                 folders_home: function(){
+                
+                    this.$root.$options.methods.folders_home()
+                },  
                 send: function(){
                     this.$root.$options.methods.send()
                 },
@@ -107,6 +109,20 @@
             }
 
         });
+
+
+
+        Vue.component("nav", {
+            props: [''],
+            template: "#nav",
+            methods:{
+
+
+            }
+
+        });
+
+
 
         Vue.component("file", {
             props: ['file'],
@@ -160,13 +176,17 @@
                     axios.
                     post('{% url  "send_files" %}',params)
                 },
+                get_folders_spec: function(name){
+           
+                    this.get_data_folder('+spec_' + name)
+                },
                 get_data_folder: function(name){
                     name = name ? name : ''
-               
+                
                     axios.
                     get('{% url "get_content_dir"  %}',{
                         params: {
-                            get_transition_path:  vebs.curent_path +  name
+                            get_transition_path:  '+spec' != name.split('_')[0]  ? vebs.curent_path +  name  : name
                         }}
                         )
                         .then(response => this.update_vision_folder(response.data, name)  ) 
@@ -174,8 +194,9 @@
                 update_vision_folder: function(response, name){
         
                      vebs.files =  response['dirs']
-       
-                     vebs.curent_path =  vebs.curent_path  +  name + '/'
+
+                     vebs.curent_path =  response['cur_path'] 
+                     //vebs.curent_path  +  name + '/'
                     if (vebs.files.length == 0){
                          $('.modal-body').append('<h1> В  этой папке нет папок. </h1>')
                      }else{
@@ -199,6 +220,7 @@
 //setTimeout(function(){window.close()}, 4000)
 
 
+
     </script>
    
 
@@ -209,8 +231,8 @@
 
          .file{
             position:  relative;
-            margin: 4px 8px ;
-            overflow: auto;
+            margin: 4px  ;
+            overflow: hidden;
          }
          .file-podp{
          position: absolute;
@@ -237,9 +259,8 @@ height: 80px;
 }
         
         .modal-container {
-            width: 100%;
-            margin: 0px auto;
-            padding: 20px 30px;
+            
+         
             background-color: #fff;
             border-radius: 2px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
@@ -257,12 +278,15 @@ height: 80px;
         }
         
         .modal-body {
-            margin: 10px 0;
-          /*  display: flex; */ 
+            margin: 0px 0;
+           display: flex; 
+          flex-direction: column;
+         height: 500px;
             flex-wrap: wrap;
-            align-items: end;
+           
             width: 100%;
-            min-height:500px;
+                overflow-x: auto;
+            
         }
         
         .modal-default-button {
@@ -293,8 +317,24 @@ height: 80px;
 
         .button-group{
             display:flex;
-
+      
         }
+.nav-menu{ 
+        float:left; 
+        height: 100%;
+          background-color: currentColor;
+} 
+
+.nav-item{
+    color:white;
+}
+ li {
+    list-style-type: none; /* Убираем маркеры */
+   }
+   li.nav-item {
+    padding: 25px 5px;
+    margin-left: 20%;
+}
     </style>
 </body>
 

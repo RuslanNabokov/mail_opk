@@ -1,0 +1,44 @@
+            {% load staticfiles %}
+               
+                        <div class="modal-header">
+        <slot name="header">
+                            Файловый менеджер
+                            </slot>
+                  <div class='button-group'>          
+             <img @click="folders_up_level" style=" height: 20px; width: auto; cursor: pointer; "  src='{% static  '/icon/back.png' %}'>  </img >   
+                        <img  src='{% static  '/icon/home.png' %}'  @click="folders_home" style="cursor: pointer;  height: 20px; width: auto; "></img>
+                              <img   src='{% static  '/icon/close.png' %}' style="cursor: pointer;  height: 25px; width: auto; "  class="modal-default-button" @click="close">
+                   
+                  </img>
+ <img   @click="send"  src='{% static  '/icon/zagruziit.png' %}' style="cursor: pointer;  height: 25px; width: auto;" class="modal-default-button"> </img>
+
+
+<span class="" style="position: absolute; right:40px; display: inline-block; direction: ltr; ">
+<input type="search"  class="form-control ds-input" id="search-input" placeholder="Поиск..."  autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" style="position: relative; vertical-align: top;"><pre aria-hidden="true" style="position: absolute; visibility: hidden; white-space: pre; font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;; font-size: 20px; font-style: normal; font-variant: normal; font-weight: 400; word-spacing: 0px; letter-spacing: normal; text-indent: 0px; text-rendering: auto; text-transform: none;"></pre><span class="ds-dropdown-menu" role="listbox" id="algolia-autocomplete-listbox-0" style="position: absolute; top: 100%; z-index: 100; display: none; left: 0px; right: auto;">
+<div class="ds-dataset-1"></div></span></span>
+</div>
+           
+       
+
+                  
+
+                        </div>
+
+                        <div class="modal-body">
+                            <slot name="body">
+
+                                <file v-for='file in files' :file='file'> {{file}} </file>
+                            </slot>
+                        </div>
+
+                        <div class="modal-footer">
+                            Перемещаемые файлы:
+                             
+   {% for i in name_files %}
+   <div class="footer-file"> 
+            <img src="/static/icon/file.png" style= "width:auto; height: 40px" class="file br-radius m-r-10">
+         <p style="font-size:10px">   {{i}} </p>
+             </img> 
+</div>
+   {% endfor %}                           
+                        </div>

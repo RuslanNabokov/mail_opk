@@ -22,6 +22,13 @@ templates = {
 import os
 
 
+SPEC_FOLD = { 
+   'doc':'Документы',
+   'zagr': 'Загрузки',
+   'desktop': "Рабочий стол",
+
+}
+
 '''
 SERVER = 'ftp://10.2.2.244'
 'srv/gtp/upload'.replace('srv/', '').replace('ftp/', '')
@@ -43,8 +50,16 @@ def get_content_dir(request):
    files = []
    answer = {} # otvet
    get_transition_path  = request.GET['get_transition_path']
-   get_transition_dir =  root_path   +  get_transition_path + '/'
-   print(get_transition_dir)
+   if get_transition_path.split("_")[0] == "+spec":
+         
+          spec =  get_transition_path.split("_")[1]
+          get_transition_dir =  root_path + '/' + SPEC_FOLD[spec] + '/'
+   
+          answer['cur_path'] = '/'+ SPEC_FOLD[spec] + '/'
+   else:
+          get_transition_dir =  root_path   +  get_transition_path + '/'
+          answer['cur_path'] = get_transition_path + '/'
+    
    for root, dirs_, files_ in os.walk(get_transition_dir):
       dirs.append(dirs_)
       files.append(files_)
@@ -52,6 +67,7 @@ def get_content_dir(request):
       break
    dirs = list(filter(lambda x: x[0] != '.' ,dirs[0]) )
    answer['dirs'] = dirs
+  
    #answer['path']  =    root 
    return JsonResponse(answer,safe=False)
    
