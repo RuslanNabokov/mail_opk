@@ -10,6 +10,7 @@ from django.views.generic.edit import FormView
 from mail.models  import File
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
+import uuid
 #import subprocess
 
 
@@ -34,6 +35,24 @@ SERVER = 'ftp://10.2.2.244'
 'srv/gtp/upload'.replace('srv/', '').replace('ftp/', '')
 '''
 
+
+
+def search_dir(request):
+        search = request.GET['search']
+        user = request.user
+        root_path = '/home/{}'.format(user)
+        tmp_file = uuid.uuid1() 
+        os.system('touch /tmp/{}'.format(tmp_file))
+        print(tmp_file)
+        print('find {}  -type d -name *{}* >> /tmp/{}'.format(root_path + '/Рабочий\ стол/' ,  search, tmp_file))
+        os.system('find {}  -maxdepth 3   -type d -name *{}* >> /tmp/{}'.format(root_path + '/Рабочий\ стол/',  search, tmp_file))
+        result = {}
+        with open("/tmp/{}".format(tmp_file) , "r") as f:
+            n = 0
+            for i in f:
+               n +=1
+               result[i.split('/')[-1] ] = i.split('/')[2:-1][1::]
+        return JsonResponse(result,safe=False)
 
 def poligon(request):
    files = request.GET['names'].split(',')
