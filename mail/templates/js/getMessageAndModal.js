@@ -1,4 +1,5 @@
 {% load staticfiles %}
+
 function get_message(pk_mes) {
     $.get(
 
@@ -26,7 +27,7 @@ function get_message(pk_mes) {
         $('#data_mes').empty().append(lifetime)
         $('#files').empty()
 
-        
+
         $('#title_modal').append(mes_title)
         $('#message_body').append(mes_body)
         $('.gridModalLabel').append()
@@ -37,38 +38,38 @@ function get_message(pk_mes) {
             files.forEach(function(item, i, arr) {
 
                 $('#files').append(
-                `<img src="{% static  'icon/file.png' %}" class="file br-radius m-r-10">${item[1]} </file>  
-                <input type="checkbox" class="chk-files" data-file-uuid=${item[0]}>`
+                    `<img src="{% static  'icon/file.png' %}" class="file br-radius m-r-10">${item[1]} </img>  
+                <input type="checkbox" style="margin: 0px 6px 0;" class="chk-files" data-file-uuid=${item[0]}>`
                 )
 
-            
+
             });
-        
-        $('#files').append(`
+
+            $('#files').append(`
                 <input type="button" id="perem_files" value="Переместить" style="width:100px;height: 20px;float: inline-end;"> `)
         }
     }
 }
 
-         params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
+params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
 width=400,height=400,left=1000,top=-1`
-$(document).on('click', '#perem_files', function(){
-            let cheked = $('.chk-files:checked')
-            c = new Array()
-            let uuid = cheked.map(function(index, val) {
-                c.push(val.getAttribute('data-file-uuid'))
-                return 1
-            })
+$(document).on('click', '#perem_files', function() {
+    let cheked = $('.chk-files:checked')
+    c = new Array()
+    let uuid = cheked.map(function(index, val) {
+        c.push(val.getAttribute('data-file-uuid'))
+        return 1
+    })
 
-            uuid = c.join(',')
-            str_ = '{% url "poligon" %}' + '?names=' + uuid
+    uuid = c.join(',')
+    str_ = '{% url "poligon" %}' + '?names=' + uuid
 
-            new_win = window.open(str_, 'file_manager', params)
+    new_win = window.open(str_, 'file_manager', params)
 
-            new_win.onload = function() {
-                let html = `<div style="font-size:30px">Добро пожаловать!</div>`;
-                new_win.document.body.insertAdjacentHTML('afterbegin', html);
+    new_win.onload = function() {
+        let html = `<div style="font-size:30px">Добро пожаловать!</div>`;
+        new_win.document.body.insertAdjacentHTML('afterbegin', html);
 
-            };
+    };
 
-        })
+})

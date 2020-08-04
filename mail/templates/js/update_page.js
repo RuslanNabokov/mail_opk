@@ -56,9 +56,10 @@ $('table').on('mouseenter', '.fa-users', function(e) {
     mouse_ov = true
     let message = $(e.currentTarget).data('tooltip')
     console.log(message)
-    $(e.currentTarget).parent().parent().find('.mes-titled').hide('slow')
-    $(e.currentTarget).parent().parent().find('.mes-users').text(message)
-    $(e.currentTarget).parent().parent().find('.mes-users').show('slow')
+    $(e.currentTarget).parent().parent().find('.mes-titled').hide()
+    $(e.currentTarget).parent().parent().find('.mes-sinopsis').hide()
+    $(e.currentTarget).parent().parent().find('.mes-users').text("Сообщение было отправлено: " + message)
+    $(e.currentTarget).parent().parent().find('.mes-users').show()
 
 
 
@@ -68,9 +69,9 @@ $('table').on('mouseenter', '.fa-users', function(e) {
 
 $('table').on('mouseleave', '.fa-users', function(e) {
 
-
-    $(e.currentTarget).parent().parent().find('.mes-titled').show('slow')
-    $(e.currentTarget).parent().parent().find('.mes-users').hide('slow')
+    $(e.currentTarget).parent().parent().find('.mes-sinopsis').show()
+    $(e.currentTarget).parent().parent().find('.mes-titled').show()
+    $(e.currentTarget).parent().parent().find('.mes-users').hide()
     mouse_ov = false
 })
 

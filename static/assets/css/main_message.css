@@ -350,6 +350,7 @@ aside.right-panel-active {
 .mail-own-user {
     width: auto;
     max-width: 300px;
+    position: relative;
 }
 
 .mail-news-title {
@@ -362,10 +363,17 @@ aside.right-panel-active {
     margin-left: 6%;
 }
 
-.own-user {}
+.own-user {
+    position: relative;
+    overflow: auto;
+}
 
 .modal-dialog {
     margin: auto;
+}
+
+.no-message {
+    display: none;
 }
 
 .i {

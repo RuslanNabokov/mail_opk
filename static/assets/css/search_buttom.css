@@ -9,7 +9,9 @@
 }
 
 #search-img {
-    width: 10px;
+    width: 8px;
+    left: -4%;
+    top: 66%;
 }
 
 #inputEmail4 {

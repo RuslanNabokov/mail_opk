@@ -180,7 +180,7 @@
 
 
 
-	        let but = $('<button id="btn_shablon" type="button" data-toggle="modal" data-target="#modal-shablon" style="position: absolute; left: 70%" class="btn btn-dark my-btn">Выбрать шаблон</button>') $('#id_body').wysihtml5() $('.btn-default').last().remove();
+	        let but = $('<button id="btn_shablon" type="button" data-toggle="modal" data-target="#modal-shablon"  class="btn btn-dark my-btn">Выбрать шаблон</button>') $('#id_body').wysihtml5() $('.btn-default').last().remove();
 	        $('.btn-default').last().remove();
 	        $('.btn-default').last().remove();
 	        $(".wysihtml5-toolbar").append(but)

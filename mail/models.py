@@ -235,7 +235,7 @@ class Message(models.Model):
         user = group.owner
         try:
             sign = Signature.objects.get(user=user) 
-            return "{} </br> </br> <hr style='width:100%'>  <dfn><b> {}</b>  </dfn></hr>".format(self.body, sign.text ) 
+            return "{} </br>  <dfn><b> {}</b>  </dfn></hr>".format(self.body, sign.text ) 
         except Exception:
             return "{}".format(self.body)
 

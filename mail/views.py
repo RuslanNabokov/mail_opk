@@ -338,8 +338,12 @@ def messagedel(request):
     messages = [i.message  for i in  Group_message.objects.filter(pk__in=id_messages).all()]
     if messages:
        try:
-           if  not iz_trush:
+           if  not iz_trush: # Удаление сообщения  Надо доделать
                Folder.objects.get(user = User.objects.get(username = request.user),specificate='trush').message.add(*messages)
+               for mes in messages:
+                   if  all([i.specificate=="trush"  for i in  Folder.objects.filter(message=mes) ]):
+                       mes.remove()
+
 #               for i in Folder.objects.filter(user = User.objects.get(username = request.user)).exclude(specificate='trush'):
 #                   i.message.remove(*messages)
            else:
@@ -742,13 +746,13 @@ class fileView(FormView):
 
             pk = request.POST.get('message_pk')
             group = Group_message.objects.get(pk = pk)
-            if  (  group.message.body  ==  form_massage.data['body'] and    group.message.title  ==  form_massage.data['title']  and    [ i for i in users ] == [i for i in  group.users.all()]):                           #если сообщение не изменилось
+            files =  request.FILES.getlist('file_field')
+            if  (  not files and    group.message.body  ==  form_massage.data['body'] and    group.message.title  ==  form_massage.data['title']  and    [ i for i in users ] == [i for i in  group.users.all()]):                           #если сообщение не изменилось
                 return redirect('main',sort_fold='all')
 
 
-
             if  form_massage.is_valid():
-                
+    
                 group.message = form_massage.save()
             else:
                 print(form_massage.errors )
@@ -806,7 +810,7 @@ class fileView(FormView):
                         pass
                 return redirect('main',sort_fold='all')
             else:
-                import pdb; pdb.set_trace();
+
                 return  HttpResponse(form_massage.errors)
             #self.form_invalid(form_file)
     @csrf_exempt

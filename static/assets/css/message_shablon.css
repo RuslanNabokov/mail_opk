@@ -2,6 +2,7 @@
     min-height: 150px;
     padding: 20px 10%;
     font-size: x-small;
+    min-height: 40vh;
 }
 
 .answer_message {
@@ -45,7 +46,10 @@ h3.message-title {
 
 .files {
     display: flex;
-    justify-content: space-beetween;
+    justify-content: unset;
+    flex-direction: column;
+    max-height: 160px;
+    flex-wrap: wrap;
 }
 
 .panel:hover .panel-heading {
@@ -65,7 +69,6 @@ h3.message-title {
 
 .panel-message-detail {
     position: relative;
-    min-height: 80vh;
 }
 
 .mailbox-read-info {

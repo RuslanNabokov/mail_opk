@@ -25,6 +25,14 @@ function sort_Message(obj) {
             window.sort = dat.sort
             window.page = dat.page
             window.type = dat.type
+            if (response['status'] == "empty") {
+                $('#loader').hide()
+                $('.no-message').show()
+
+                // $('.tbody').hide()
+            } else {
+                $('.no-message').hide()
+            }
             if (dat.prof) {
                 window.prof = dat.prof
             }
@@ -40,8 +48,7 @@ function sort_Message(obj) {
             pagination(response["paginator"][0], response["paginator"][1], response["paginator"][2], response['paginator'][3])
             for (key in response) {
                 if (key == 'status') {
-                    //alert('empty')
-                    console.log('empty')
+
                 } else {
                     if (key !== 'paginator' && key != 'notification' && key != 'count_messages') {
                         console.log(key)
