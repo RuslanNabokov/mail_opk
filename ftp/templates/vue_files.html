@@ -6,30 +6,41 @@
     <title> </title>
     <script src="https://unpkg.com/vue"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+
     <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+      <link rel="stylesheet" href="{% static 'assets/css/ftp_main.css' %}">
 <script src="{% static  'assets/js/jq/jquery.min.js' %}"></script>
     <!-- template for the modal component -->
 
     <script type="text/x-template" id="modal-template">
         <transition name="modal" >
-            <div class="modal-mask row">
+            <div class=" row" style="display: flex; flex-wrap:nowrap">
            
-<div class="col-lg-2  col-4 col-md-2 col-ms-4 nav-menu row"   style="">
+<div class="col-lg-1  col-2 col-md-1 col-ms-2 col-sm-2  nav-menu row"   style="">
 
 <ul class="nav flex-column " id = "nav">
-  <li class="nav-item">
+  <li class="nav-item"  @click="folders_home">
 
- 
-      <img  src='{% static  '/icon/home.png' %}'  @click="folders_home"   style="height:25px; width: auto;">   Домашняя</img>
+ <p>
+      <img  src='{% static  '/img/home_astra.png' %}'    style="height:25px; width: auto;">   </img>
+      <b>Домашняя </b </p>
   </li>
-  <li class="nav-item" >
-   <img  src='{% static  '/icon/file.png'  %}'  @click="get_folders_spec('doc')"     style="height:25px; width: auto;" >  Документы </img>
+  <li class="nav-item"  @click="get_folders_spec('doc')" >
+   <p>
+   <img  src='{% static   'img/document_astra.png' %}'       style="height:25px; width: auto;" > </img>
+    <b> Документы</b> </p>
   </li>
   <li class="nav-item"   @click="get_folders_spec('zagr')"     >
-    Загрузки
+  <p>
+    <img  src='{% static   'img/download_astra.png' %}'  @click="get_folders_spec('doc')"     style="height:25px; width: auto;" >    </img> 
+     <b>Загрузки </b>
+     </p>
   </li>
+
   <li class="nav-item"   @click="get_folders_spec('desktop')"  >
-   Рабоий стол
+    <p>
+    <img  src='{% static   'img/desktop_astra.png' %}'  @click="get_folders_spec('doc')"     style="height:25px; width: auto;" >    </img> 
+ <b> Рабочий стол</b>  </p>
   </li>
 </ul>
 
@@ -37,10 +48,25 @@
 
 
 
-                    <div class="modal-container col-8 col-lg-10 col-md-10 col-ms-8">
+                    <div class="modal-container col-8 col-sm-8 col-lg-10 col-md-10 col-ms-10">
 {% include "template_modal.html"%}
                     </div>
        
+
+                        <div class="modal-footer col-1 col-sm-1  col-lg-1 col-md-1 col-ms-1 ">
+                            Перемещаемые файлы:
+                             
+   {% for i in name_files %}
+   <div class="footer-file"> 
+            <img src="/static/icon/file.png" style= "width:auto; height: 40px" class="file br-radius m-r-10">
+         <p style="font-size:10px">   {{i}} </p>
+             </img> 
+</div>
+   {% endfor %}               
+</div>
+
+                        </div>
+
             </div>
         </transition>
     </script>
@@ -130,7 +156,7 @@ $('body').on('keypress','#search-input', function(){
         Vue.component("file", {
             props: ['file'],
            {% endverbatim %}
-            template: "<span class='file'> <img  src='{% static  '/img/folder.png' %}'@click='click(file)' >  </img> <span class='file-podp'> {% verbatim %} {{file}}  </span> </span>" ,
+            template: "<span class='file'> <img  src='{% static   'img/folder_astra.png' %}'@click='click(file)' >  </img> <span class='file-podp'> {% verbatim %} {{file}}  </span> </span>" ,
                 
             methods:{
                 click: function(name){
@@ -329,118 +355,7 @@ $('.modal-body').append('<h1 class="not_fold"> В этой папке нет п�
     </script>
    
 
-    <style>
-        .modal{ 
-            height: 400px;
-         }
-
-         .file{
-            position:  relative;
-            margin: 4px  ;
-            overflow: hidden;
-         }
-         .file-podp{
-         position: absolute;
-         
-         left:5px; 
-         top:56%; 
-         font-weight: bold;
-         font-size:10px;
-          }
-        .modal-mask {
-            position: fixed;
-            z-index: 9998;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-  
-            transition: opacity 0.3s ease;
-
-        }
-.file>img{
-height: 80px;
-}
-        
-        .modal-container {
-            
-         
-            background-color: #fff;
-            border-radius: 2px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-            transition: all 0.3s ease;
-            font-family: Helvetica, Arial, sans-serif;
-            min-height: 100vh;
-            overflow: scroll;
-            height: 100%;
-    max-height: 551px;
-        }
-        
-        .modal-header h3 {
-            margin-top: 0;
-            color: #42b983;
-        }
-        
-        .modal-body {
-            margin: 0px 0;
-           display: flex; 
-          flex-direction: column;
-         height: 500px;
-            flex-wrap: wrap;
-           
-            width: 100%;
-                overflow-x: auto;
-            
-        }
-        
-        .modal-default-button {
-            float: right;
-        }
-        /*
- * The following styles are auto-applied to elements with
- * transition="modal" when their visibility is toggled
- * by Vue.js.
- *
- * You can easily play with the modal transition by editing
- * these styles.
- */
-        
-        .modal-enter {
-            opacity: 0;
-        }
-        
-        .modal-leave-active {
-            opacity: 0;
-        }
-        
-        .modal-enter .modal-container,
-        .modal-leave-active .modal-container {
-            -webkit-transform: scale(1.1);
-            transform: scale(1.1);
-        }
-
-        .button-group{
-            display:flex;
-      
-        }
-.nav-menu{ 
-        float:left; 
-        height: 100%;
-          background-color: currentColor;
-} 
-
-.nav-item{
-    color:white;
-}
- li {
-    list-style-type: none; /* Убираем маркеры */
-   }
-   li.nav-item {
-    padding: 25px 5px;
-    margin-left: 20%;
-}
-    </style>
+   
 </body>
 
 </html>

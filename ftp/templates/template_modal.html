@@ -5,8 +5,8 @@
                             Файловый менеджер
                             </slot>
                   <div class='button-group'>          
-             <img @click="folders_up_level" style=" height: 20px; width: auto; cursor: pointer; "  src='{% static  '/icon/back.png' %}'>  </img >   
-                        <img  src='{% static  '/icon/home.png' %}'  @click="folders_home" style="cursor: pointer;  height: 20px; width: auto; "></img>
+             <img @click="folders_up_level" style=" height: 20px; width: auto; cursor: pointer; "  src='{% static  '/icon/astra_back.png' %}'>  </img >   
+                        <img  src='{% static  '/img/home_astra.png' %}'  @click="folders_home" style="cursor: pointer;  height: 20px; width: auto; "></img>
                               <img   src='{% static  '/icon/close.png' %}' style="cursor: pointer;  height: 25px; width: auto; "  class="modal-default-button" @click="close">
                    
                   </img>
@@ -29,14 +29,3 @@
                             </slot>
                         </div>
 
-                        <div class="modal-footer">
-                            Перемещаемые файлы:
-                             
-   {% for i in name_files %}
-   <div class="footer-file"> 
-            <img src="/static/icon/file.png" style= "width:auto; height: 40px" class="file br-radius m-r-10">
-         <p style="font-size:10px">   {{i}} </p>
-             </img> 
-</div>
-   {% endfor %}                           
-                        </div>
