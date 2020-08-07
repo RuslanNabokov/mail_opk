@@ -124,7 +124,7 @@ function create_Mes(pk_group, owner, title, lifetime, clone, pk_mes, answ, favor
     $('#loader').show()
 
     var c = clone.clone()
-
+    c.attr('data-pk', pk_mes)
     if (favorite) {
 
         $(c.find('.fa-star')).addClass('fa-star-active')
@@ -148,7 +148,6 @@ function create_Mes(pk_group, owner, title, lifetime, clone, pk_mes, answ, favor
 
     c.find('.mes-titled').html(' ' + title + '  ') // title
     c.find('.block-i').html('<a class = "fa my-fa fa-envelope-o" href =' + '"/mail/message/' + pk_mes + '"' + ' ></a> ' + '      <v> <i style="font-size: 16px" class = "my-fa ion-eye"  data-toggle="modal" data-target="#modal-mes" > </i> </v>')
-    console.log(redact)
     if (redact) {
 
         c.find('.block-i').append('<a style= "font-size: 16px" class = "fa my-fa fa-pencil-square-o" href="/mail/new_message/' + pk_group + '"' + ' >' + " </a>")
