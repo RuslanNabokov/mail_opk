@@ -92,29 +92,33 @@
 var myVar;
 
 var static_icon_peresilka = "{% static 'icon/forward-arrow.png' %}"
-function showPage() {
-  
 
-
-}
 
 
 get_notificate_url = '{% url "get_notificates" %}'
 
 
-function myFunction() {
-    myVar = setTimeout(showPage, 10000);
-}
-
-myFunction()
-
 //vue
 
  $(function(){
-  
+  // Нажатие на любую  область message 
+$('body').on('click', 'td', function(e){
 
+   if (e.toElement.tagName.toLowerCase() == 'i' ){
 
-    // Отслеживание клика
+   }else{ 
+     try { 
+window.location =   $($(e.target.closest('tr'))  ).find( '.fa-pencil-square-o').attr('href')  
+   
+   catch(err){
+window.location =   $($(e.target.closest('tr'))  ).find( '.fa-pencil-square-o').attr('href')  
+}
+   
+   }
+  }
+
+});
+
 
  $.ajaxSetup({
         headers: { "X-CSRFToken": getCookie("csrftoken") }
