@@ -11,7 +11,7 @@ function sort_Message(obj) {
         csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val(),
 
     };
-    console.log('sort')
+  
     var url = '{% url "ajax_get_all_message" %}'
 
     $.ajax({
@@ -51,7 +51,7 @@ function sort_Message(obj) {
 
                 } else {
                     if (key !== 'paginator' && key != 'notification' && key != 'count_messages') {
-                        console.log(key)
+                     
                         let pk = response[key][0]
                         let own = response[key][2]
                         let title = response[key][1]

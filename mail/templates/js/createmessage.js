@@ -98,7 +98,7 @@ function format_data(dat) {
     let time = String(String(dat).split(" ")[1]).split(':')
     day = new Date(parseInt(dats[0]), parseInt(dats[1]) - 1, parseInt(dats[2]), parseInt(time[0]), parseInt(time[1]), parseInt(time[2]))
     now_date = new Date(Date.now())
-    console.log([now_date.getFullYear(), now_date.getMonth()] == [day.getFullYear(), day.getMonth()])
+ 
 
     if (now_date.getFullYear() == day.getFullYear() & now_date.getMonth() == day.getMonth()) {
         if (now_date.getDate() - day.getDate() < 1) {
@@ -125,66 +125,55 @@ function create_Mes(pk_group, owner, title, lifetime, clone, pk_mes, answ, favor
 
     var c = clone.clone()
     c.attr('data-pk', pk_mes)
+    c_star =  $(c.find('.fa-star'))
+    c_own_user =  c.find('.own-user')
+    c_l_of_pic =  c.find('.letter_or_picter')
+    c_bloc_i =  c.find('.block-i')
     if (favorite) {
 
-        $(c.find('.fa-star')).addClass('fa-star-active')
+       c_star.addClass('fa-star-active')
     } else {
-        $(c.find('.fa-star')).removeClass('fa-star-active')
+        c_star.removeClass('fa-star-active')
     }
-    c.find('.fa-star').attr('data-pk', pk_mes)
+    c_star.attr('data-pk', pk_mes)
     c.find('.chk').data()['pk'] = pk_group // ssilkana group
     if (answ) {
         otw_mes(pk_mes)
-
-        c.find('.own-user').html(`<img id ="search-img"  style='font-size: 10px' src = ${static_icon_peresilka} >` + '' + owner) // ot kogo
-        c.find('.own-user').append('  <i style= " font-size: 13px" data-mes-pk-to-mes=' + pk_mes + '  class = "my-fa fa ion-eye" data-pk = ""  data-toggle="modal" data-target="#modal-mes" > </i>')
-        c.find('.own-user').append(' <a style= "margin-right: 10px; font-size: 13px" data-mes-pk-to-group=' + pk_mes + '   class = "my-fa fa fa-envelope-o" href="' + '/mail/message/' + ' ' + '"' + '</a>')
-
+        c_own_user.html(` <img id ="search-img"  style='font-size: 10px' src = ${static_icon_peresilka} >` + '' + owner) // ot kogo
+        c_answ = c_own_user.append('<div class="answ" style="position: absolute;"> </div>')
+        c_answ.append(' <i style= " font-size: 13px" data-mes-pk-to-mes=' + pk_mes + '  class = "my-fa fa ion-eye" data-pk = ""  data-toggle="modal" data-target="#modal-mes" > </i>')
+        c_answ.append(' <a style= "margin-right: 10px; font-size: 13px" data-mes-pk-to-group=' + pk_mes + '   class = "my-fa fa fa-envelope-o" href="' + '/mail/message/' + ' ' + '"' + '</a> ' )
 
     } else {
-        c.find('.own-user').text('' + owner)
+        c_own_user.text('' + owner)
     }
-    c.find('.own-user').attr('href', '/mail/message/' + pk_mes) // ssilka
+    c_own_user.attr('href', '/mail/message/' + pk_mes) // ssilka
 
     c.find('.mes-titled').html(' ' + title + '  ') // title
-    c.find('.block-i').html('<a class = "fa my-fa fa-envelope-o" href =' + '"/mail/message/' + pk_mes + '"' + ' ></a> ' + '      <v> <i style="font-size: 16px" class = "my-fa ion-eye"  data-toggle="modal" data-target="#modal-mes" > </i> </v>')
+     c_bloc_i .html('<a class = "fa my-fa fa-envelope-o" href =' + '"/mail/message/' + pk_mes + '"' + ' ></a> ' + '      <i style="font-size: 16px" class = "my-fa ion-eye"  data-toggle="modal" data-target="#modal-mes" > </i> ')
     if (redact) {
 
-        c.find('.block-i').append('<a style= "font-size: 16px" class = "fa my-fa fa-pencil-square-o" href="/mail/new_message/' + pk_group + '"' + ' >' + " </a>")
-        c.find('.block-i').prepend('<a  style= "font-size: 14px;" data-pk ="' + pk_mes + '"class = "fa my-fa fa-users" data-tooltip="' + "" + '"> </a>')
+         c_bloc_i .append('<a style= "font-size: 16px" class = "fa my-fa fa-pencil-square-o" href="/mail/new_message/' + pk_group + '"' + ' >' + " </a>")
+         c_bloc_i .prepend('<a  style= "font-size: 14px;" data-pk ="' + pk_mes + '"class = "fa my-fa fa-users" data-tooltip="' + "" + '"> </a>')
 
 
     } else {}
-
     c.find('.mes-title').attr('href', '/mail/message/' + pk_mes) // title
     c.find('.mes-sinopsis').text(' ' + sinopsis)
-
-
     c.find('.time').text(format_data(lifetime)) // lifetime 
-
     if (!read) {
         c.addClass("no_read_message");
     }
-
-
-
-
     c.find('.ion-eye').attr('message-pk', pk_mes)
-
-
-
-    c.find('.letter_or_picter').attr('img_pk_own', owner)
+    c_l_of_pic.attr('img_pk_own', owner)
     if (img_path && img_path != 'undefiend') {
-        c.find('.letter_or_picter').attr('style', 'background-image: ' + 'url(' + '/' + img_path + ')')
-        c.find('.letter_or_picter').text('')
+        c_l_of_pic.attr('style', 'background-image: ' + 'url(' + '/' + img_path + ')')
+        c_l_of_pic.text('')
     } else {
-        c.find('.letter_or_picter').text(String(owner).slice(0, 1).toUpperCase())
+        c_l_of_pic.text(String(owner).slice(0, 1).toUpperCase())
     }
-
     c.show()
     $('.tbody').append(c)
-
-
     setTimeout(function() {
         $('#loader').remove()
 

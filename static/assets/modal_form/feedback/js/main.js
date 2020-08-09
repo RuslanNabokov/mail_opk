@@ -109,8 +109,8 @@ $(function() {
         var glyphiconInput = inputGroup.find('.form-control-feedback');
         if (state === 'error') {
             inputGroup.removeClass('has-success').addClass('has-error');
-            console.log(input.prop('tagName'));
-            console.log(input.prop('tagName').toLowerCase());
+           
+           
             if (input.prop("tagName").toLowerCase() !== 'textarea') {
                 glyphiconInput.removeClass('glyphicon-ok').addClass('glyphicon-remove');
             }
@@ -268,7 +268,7 @@ $(function() {
                             }
                             if (error === 'log') { // выводим все сообщения с ключом log в консоль браузера
                                 data[error].forEach(function(log, i, error) {
-                                    console.log(log);
+                                 
                                 });
                             }
                         }

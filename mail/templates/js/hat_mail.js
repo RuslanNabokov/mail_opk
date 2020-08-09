@@ -21,7 +21,7 @@ $('#inputEmail4').focus(function() {
 
 $('#inputEmail4').on('blur', function(e) {
     inputFocused = false;
-    console.log(e)
+   
     $("#inputEmail4").val('')
     $('.search-img').show('slow')
 });

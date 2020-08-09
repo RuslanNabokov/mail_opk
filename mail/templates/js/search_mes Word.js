@@ -24,7 +24,7 @@ function search_mes_w(search, key, prof) {
                         pagination(response[key][0], response[key][1], response[key][2], response[key][3])
                     } else {
                         if (key !== 'paginator' && key != 'notification' && key != 'count_messages') {
-                            console.log(key)
+                       
                             let pk = response[key][0]
                             let own = response[key][2]
                             let title = response[key][1]

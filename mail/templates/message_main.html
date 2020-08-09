@@ -102,22 +102,7 @@ get_notificate_url = '{% url "get_notificates" %}'
 
  $(function(){
   // Нажатие на любую  область message 
-$('body').on('click', 'td', function(e){
 
-   if (e.toElement.tagName.toLowerCase() == 'i' ){
-
-   }else{ 
-     try { 
-window.location =   $($(e.target.closest('tr'))  ).find( '.fa-pencil-square-o').attr('href')  
-   
-   catch(err){
-window.location =   $($(e.target.closest('tr'))  ).find( '.fa-pencil-square-o').attr('href')  
-}
-   
-   }
-  }
-
-});
 
 
  $.ajaxSetup({
@@ -168,12 +153,14 @@ $("#inputState_prof").on('click', function(){
 
 
 
-$('table').on('click', '.ion-eye', function(){   // shim  na eye show message 
+$('table').on('click', '.ion-eye', function(event){   // shim  na eye show message 
+
   pk_mes_s =  $(this).attr('pk_mes')    //pk-mes
   pk_mes =  $(this).attr('message-pk')  
   re = pk_mes_s || pk_mes
-  
-  get_message(re) 
+  get_message(re)
+
+
 
 });   //attr('message-pk',pk_mes)
 
@@ -444,7 +431,7 @@ $('#del_label').off().on('click', ( function(){
                  c.push($(this).parent().data('pk'));    
                   $(this).parent().hide();
           
-		console.log(c)
+	
                  folderDelete(c)
                           });
   }else{ 
@@ -495,7 +482,7 @@ function sendAjaxForm(name, description) {
     	},
 
     	error: function(response) { // Данные не отправлены
-          console.log(response)
+ 
     	  }
  	});
   //   $('#nn').show('slow')
@@ -603,7 +590,7 @@ var  dat = {
         data:   dat,  // Сеарилизуем объект
         cache: false,
         success: function(response) { //Данные отправлены успешно
-        console.log(response)
+    
     	},
     	error: function(response) { // Данные не отправлены
         return {'error': 'error'} 

@@ -15,10 +15,10 @@ function folderDelete(pk) {
         data: dat, // Сеарилизуем объект
         cache: false,
         success: function(response) { //Данные отправлены успешно
-            console.log(response)
+           
         },
         error: function(response) { // Данные не отправлены
-            console.log(response)
+         
         }
     });
 }

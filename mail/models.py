@@ -12,8 +12,8 @@ from django.contrib.auth.models import User as AuthUser
 
 import PIL
 from PIL import Image, ImageOps
-from imagekit.models.fields import ImageSpecField
-from imagekit.processors import ResizeToFit, Adjust,ResizeToFill
+#from imagekit.models.fields import ImageSpecField
+#from imagekit.processors import ResizeToFit, Adjust,ResizeToFill
 
 # Create your models here.
 ROLE = (

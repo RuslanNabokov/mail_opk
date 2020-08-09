@@ -5,6 +5,7 @@
 <head>
     <title> </title>
     <script src="https://unpkg.com/vue"></script>
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}"> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
 
     <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
@@ -266,11 +267,10 @@ watch: {
                           if (name.length > 0){
                          
                           if (vebs.old_files.length > 0){
-                              console.log('yes')
+                            
                             
                           }else{
-                              console.log('no')
-                          vebs.old_curent_path =  vebs.curent_path
+                                                       vebs.old_curent_path =  vebs.curent_path
                             vebs.old_files = vebs.files
                              vebs.files = []
                          
@@ -278,7 +278,7 @@ watch: {
                          
                           //vebs.search_dirs = name.split(' ')
                           for (key in response) {
-                              console.log(key + " " + String(response[key]).replace(/,/g,'/')  )
+                              
                               vebs.search_dirs.push({
                                   key: key.replace(/\s{2,}/g, ' ').trim(),
                                   pwd: String(response[key]).replace(/\s{2,}/g, ' ').replace(/,/g,'/').trim()
@@ -298,7 +298,7 @@ watch: {
                     params.append('files', vebs.files_to_transfer);
                     params.append('dir_', vebs.curent_path);
                     axios.
-                    post('{% url  "send_files" %}',params)
+                    get('{% url  "send_files" %}',params)
                 },
                 get_folders_spec: function(name){
            
@@ -330,8 +330,13 @@ watch: {
                      vebs.curent_path =  response['cur_path'] 
                      //vebs.curent_path  +  name + '/'
                     if (vebs.files.length == 0){
+
+                         $('.modal-body > .not_fold').remove()
+                         $('.modal-body').append('<h1 class="not_fold"> В  этой папке нет папок. </h1>')
+
                         $('.modal-body > .not_fold').remove()
 $('.modal-body').append('<h1 class="not_fold"> В этой папке нет папок. </h1>')
+
                      }else{
                          $('.modal-body>h1').remove()
                      } 

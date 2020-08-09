@@ -64,7 +64,7 @@
 	                    add_shablon(response)
 	                },
 	                error: function(response) { // Данные не отправлены
-	                    console.log(response)
+	                  
 	                }
 	            })
 	    }
