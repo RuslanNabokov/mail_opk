@@ -3,7 +3,8 @@
 }
 
 .block-folders {
-    height: 80%;
+    height: max-content;
+    max-height: 80%;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -23,4 +24,22 @@
     color: blue;
     width: 94px;
     overflow: hidden;
+}
+
+.navigation {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.btn_group {
+    flex-direction: column;
+    margin-bottom: 35%;
+}
+
+.btn_group>button {
+    width: 100%;
+}
+
+.block-folder {
+    width: max-content;
 }

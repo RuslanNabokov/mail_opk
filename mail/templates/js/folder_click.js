@@ -55,19 +55,14 @@ var menu = new BootstrapMenu('.folder-icon', {
             onClick: function(row) {
                 folderDelete(row)
                 let a = $(`.folder-icon[data-id = ${row} ]`)
-                console.log($($(a).parent()).hide('slow'))
+                $($(a).parent()).hide('slow')
             }
         },
         {
-            name: 'в',
-            onClick: function($row) {
-                console.log($row)
-            }
-        },
-        {
-            name: 'а',
-            onClick: function($row) {
-                console.log($row)
+            name: 'Переместить в папку',
+            onClick: function(row) {
+
+                in_fold(row)
             }
         }
     ]

@@ -98,7 +98,7 @@ function format_data(dat) {
     let time = String(String(dat).split(" ")[1]).split(':')
     day = new Date(parseInt(dats[0]), parseInt(dats[1]) - 1, parseInt(dats[2]), parseInt(time[0]), parseInt(time[1]), parseInt(time[2]))
     now_date = new Date(Date.now())
- 
+
 
     if (now_date.getFullYear() == day.getFullYear() & now_date.getMonth() == day.getMonth()) {
         if (now_date.getDate() - day.getDate() < 1) {
@@ -125,13 +125,13 @@ function create_Mes(pk_group, owner, title, lifetime, clone, pk_mes, answ, favor
 
     var c = clone.clone()
     c.attr('data-pk', pk_mes)
-    c_star =  $(c.find('.fa-star'))
-    c_own_user =  c.find('.own-user')
-    c_l_of_pic =  c.find('.letter_or_picter')
-    c_bloc_i =  c.find('.block-i')
+    let c_star = $(c.find('.fa-star'))
+    let c_own_user = c.find('.own-user')
+    let c_l_of_pic = c.find('.letter_or_picter')
+    let c_bloc_i = c.find('.block-i')
     if (favorite) {
 
-       c_star.addClass('fa-star-active')
+        c_star.addClass('fa-star-active')
     } else {
         c_star.removeClass('fa-star-active')
     }
@@ -142,7 +142,7 @@ function create_Mes(pk_group, owner, title, lifetime, clone, pk_mes, answ, favor
         c_own_user.html(` <img id ="search-img"  style='font-size: 10px' src = ${static_icon_peresilka} >` + '' + owner) // ot kogo
         c_answ = c_own_user.append('<div class="answ" style="position: absolute;"> </div>')
         c_answ.append(' <i style= " font-size: 13px" data-mes-pk-to-mes=' + pk_mes + '  class = "my-fa fa ion-eye" data-pk = ""  data-toggle="modal" data-target="#modal-mes" > </i>')
-        c_answ.append(' <a style= "margin-right: 10px; font-size: 13px" data-mes-pk-to-group=' + pk_mes + '   class = "my-fa fa fa-envelope-o" href="' + '/mail/message/' + ' ' + '"' + '</a> ' )
+        c_answ.append(' <a style= "margin-right: 10px; font-size: 13px" data-mes-pk-to-group=' + pk_mes + '   class = "my-fa fa fa-envelope-o" href="' + '/mail/message/' + ' ' + '"' + '</a> ')
 
     } else {
         c_own_user.text('' + owner)
@@ -150,11 +150,11 @@ function create_Mes(pk_group, owner, title, lifetime, clone, pk_mes, answ, favor
     c_own_user.attr('href', '/mail/message/' + pk_mes) // ssilka
 
     c.find('.mes-titled').html(' ' + title + '  ') // title
-     c_bloc_i .html('<a class = "fa my-fa fa-envelope-o" href =' + '"/mail/message/' + pk_mes + '"' + ' ></a> ' + '      <i style="font-size: 16px" class = "my-fa ion-eye"  data-toggle="modal" data-target="#modal-mes" > </i> ')
+    c_bloc_i.html('<a style="display:none" class = "fa my-fa fa-envelope-o" href =' + '"/mail/message/' + pk_mes + '"' + ' ></a> ' + '      <i style="font-size: 16px" class = "my-fa ion-eye"  data-toggle="modal" data-target="#modal-mes" > </i> ')
     if (redact) {
 
-         c_bloc_i .append('<a style= "font-size: 16px" class = "fa my-fa fa-pencil-square-o" href="/mail/new_message/' + pk_group + '"' + ' >' + " </a>")
-         c_bloc_i .prepend('<a  style= "font-size: 14px;" data-pk ="' + pk_mes + '"class = "fa my-fa fa-users" data-tooltip="' + "" + '"> </a>')
+        c_bloc_i.append('<a style= "font-size: 16px" class = "fa my-fa fa-pencil-square-o" href="/mail/new_message/' + pk_group + '"' + ' >' + " </a>")
+        c_bloc_i.prepend('<a  style= "font-size: 14px;" data-pk ="' + pk_mes + '"class = "fa my-fa fa-users" data-tooltip="' + "" + '"> </a>')
 
 
     } else {}

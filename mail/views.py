@@ -164,8 +164,9 @@ def read_mes(request):
     try:
         files = File.objects.filter(message= message)
         mes_dic['files']  =  [[i.ps, i.name() ]  for i in files ]
-    except Exception:
+    except Exception  as e:
         mes_dic['files'] = ""
+        return e
     group.have_read.set([User.objects.get(username=request.user)])
     return JsonResponse(mes_dic, safe=False)
     

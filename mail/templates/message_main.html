@@ -80,10 +80,11 @@
         
 
           <!--          -->
+{% include 'shablon/folder-all-view.html' %}
 
 {% endblock %}
-{% block  js%}
 
+{% block  js%}
 
 
                      <script>
@@ -260,17 +261,15 @@ $('.list-filter-item').off().on('click', function(){
 
 )
 
+function in_fold(fold){
 
-
-$('.in_fold').off().on('click', function(){
-
-       var mess = new Array()
+   var mess = new Array()
        
        $('.cr-styled >     input:checkbox:checked').each(function(){
           
                  mess.push((($(this).parents(".message")).find('.fa-star').data('pk') )) ;                 
                           });
-      var fold = $(this).data('pk') 
+    
      
     if(mess.length > 0){
 
@@ -280,6 +279,12 @@ $('.in_fold').off().on('click', function(){
     }else{
       alert('Добавте сообщение')
     }
+}
+
+$('.in_fold').off().on('click', function(){
+    var fold_id = $(this).data('pk') 
+    in_fold(fold_id)
+  
 } 
 )
 
@@ -326,8 +331,9 @@ $('#ubr_iz_kor').off().on('click', function(){
 // folder
 
 $('#list-folder').click(()=>{
-let aside = $('.folder-all-block')
 
+$(this).toggleClass('active')
+let aside = $('.folder-all-block')
 aside.toggleClass('right-panel-active')
 
 
@@ -449,7 +455,7 @@ $('#del_label').off().on('click', ( function(){
 
 
 
-function sendAjaxForm(name, description) {
+function CreateFold(name, description) {
 
 
     $.ajax({
@@ -477,7 +483,22 @@ function sendAjaxForm(name, description) {
                $('.d-none').addClass('alert-succes')
                   $('.d-none').text('Успешно')
                     alertify.success("Папка создана");
+          let id_fold =   result['id']
+            let html = `  <div class='block-folder '>
+
+<svg class='folder-icon'   title='${description}'  data-id='${id_fold}' viewBox="0 0 80 80" width="150px" height="100px"><path fill="#dbb065" d="M2.5 71.5L2.5 8.5 23.793 8.5 29.793 14.5 73.5 14.5 73.5 71.5z"/><path fill="#967a44" d="M23.586,9l5.707,5.707L29.586,15H30h43v56H3V9H23.586 M24,8H2v64h72V14H30L24,8L24,8z"/><g><path fill="#f5ce85" d="M2.573 71.5L8.437 28.5 30.151 28.5 36.151 24.5 79.434 24.5 73.559 71.5z"/><path fill="#967a44" d="M78.867,25l-5.75,46H3.146l5.727-42H30h0.303l0.252-0.168L36.303,25H78.867 M80,24H36l-6,4H8L2,72 h72L80,24L80,24z"/></g></svg>
+      <p class= "name-folder"> ${name} </p>
+    </div>  `
+
+  $('.block-folders').append(html)
+
+
+
+
                             }
+                    
+                
+                            
 
     	},
 
@@ -485,6 +506,7 @@ function sendAjaxForm(name, description) {
  
     	  }
  	});
+    
   //   $('#nn').show('slow')
 
 }
@@ -543,10 +565,13 @@ $("#inputState_signature").on('click', function(){
 }) 
 
 
-
+// Создание папки
 $('#btn').off().on('click', function(){    //  no signature no !!
-    
-  	sendAjaxForm($('#name').val(), $('#description').val());
+  let name_fold = $('#name').val();
+  let description = $('#description').val();
+   let  id_fold = 	CreateFold(name_fold, description);
+  
+
      return false
 });
 

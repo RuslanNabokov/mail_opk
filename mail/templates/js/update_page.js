@@ -36,14 +36,14 @@ var mouse_ov = false
 
 
 
-$('table').on('mouseenter', '.fa', function (e) {
+$('table').on('mouseenter', '.fa', function(e) {
     mouse_ov = true
 
 })
 
 
 
-$('table').on('mouseleave', '.fa', function (e) {
+$('table').on('mouseleave', '.fa', function(e) {
 
 
 
@@ -54,11 +54,11 @@ $('table').on('mouseleave', '.fa', function (e) {
 
 
 
-$('table').on('mouseenter', '.fa-users', function (e) {
+$('table').on('mouseenter', '.fa-users', function(e) {
 
     mouse_ov = true
     let message = $(e.currentTarget).data('tooltip')
-  
+
     $(e.currentTarget).parent().parent().find('.mes-titled').hide()
     $(e.currentTarget).parent().parent().find('.mes-sinopsis').hide()
     $(e.currentTarget).parent().parent().find('.mes-users').text("Сообщение было отправлено: " + message)
@@ -70,7 +70,7 @@ $('table').on('mouseenter', '.fa-users', function (e) {
 })
 
 
-$('table').on('mouseleave', '.fa-users', function (e) {
+$('table').on('mouseleave', '.fa-users', function(e) {
 
     $(e.currentTarget).parent().parent().find('.mes-sinopsis').show()
     $(e.currentTarget).parent().parent().find('.mes-titled').show()
@@ -87,7 +87,7 @@ function update_upodater(intsd) {
     let intdd = intsd || 1500
 
 
-    update_page = setInterval(function () {
+    update_page = setInterval(function() {
 
         if ($('.cr-styled input:checked').length < 1 && !window.update_stop && table_scrol.scrollTop() < 160 && !mouse_ov) {
 
@@ -133,31 +133,30 @@ get_notificate()
 
 //Действия при клики на строку сообщения 
 
-$('table').on('click', 'td', function (e) {
-//    
-var no_action_click  = ['mail-select','my-fa fa','answ','fa','fa fa-star','my-fa ion-eye' , 'chk','fa fa-star fa-star-active' ];
-var locate = $($(e.target.closest('tr'))).find('.fa-envelope-o').attr('href')
+$('table').on('click', 'td', function(e) {
+    //    
+    var no_action_click = ['mail-select', 'my-fa', 'answ', 'fa', 'chk', 'fa-star-active'];
+    var locate = $($(e.target.closest('tr'))).find('.block-i').find('.fa-envelope-o').attr('href')
+    let id_mes = ($(e.target.closest('tr')).attr('data-pk'))
+    if (isFirefox) {
 
-if (isFirefox) {
+        if (no_action_click.indexOf(e.originalEvent.originalTarget.className.split(' ')[0]) != -1) {
 
- if   ( no_action_click.indexOf(e.originalEvent.originalTarget.className) != -1 ) {
+        } else {
+            window.location = locate
 
- }else{
-window.location = locate
-
-}
-}else{
-
-
+        }
+    } else {
 
 
-if(no_action_click.indexOf($(e.toElement).context.className   ) != -1    ){
 
 
-}else{
-   
-    window.location =locate
-}
-}
-}
-);
+        if (no_action_click.indexOf($(e.toElement).context.className.split(' ')[0]) != -1) {
+
+
+        } else {
+
+            window.location = locate
+        }
+    }
+});

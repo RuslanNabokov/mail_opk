@@ -21,7 +21,7 @@ $('#inputEmail4').focus(function() {
 
 $('#inputEmail4').on('blur', function(e) {
     inputFocused = false;
-   
+
     $("#inputEmail4").val('')
     $('.search-img').show('slow')
 });
@@ -88,11 +88,11 @@ $(".searchBox").mouseover(function() {
 ////
 
 
-$('.list-group-item').click(function() {
+$('a.list-group-item').click(function() {
 
     if (!($(this).hasClass('new_message_button'))) {
 
-        $('.list-group-item').removeClass('active')
+        $('a.list-group-item').removeClass('active')
         if (!($(this).hasClass('folders'))) {
             $(this).addClass('active')
         } else {

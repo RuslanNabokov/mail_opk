@@ -53,6 +53,9 @@ function get_message(pk_mes) {
 
 params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
 width=400,height=400,left=1000,top=-1`
+new_win = false
+
+
 $(document).on('click', '#perem_files', function() {
     let cheked = $('.chk-files:checked')
     c = new Array()
@@ -65,11 +68,11 @@ $(document).on('click', '#perem_files', function() {
     str_ = '{% url "poligon" %}' + '?names=' + uuid
 
     new_win = window.open(str_, 'file_manager', params)
-
+    
+   
     new_win.onload = function() {
-        let html = `<div style="font-size:30px">Добро пожаловать!</div>`;
-        new_win.document.body.insertAdjacentHTML('afterbegin', html);
+  
 
     };
-
+new_win.onblur = () => new_win.focus();
 })

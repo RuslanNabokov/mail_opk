@@ -22,26 +22,25 @@
 <ul class="nav flex-column " id = "nav">
   <li class="nav-item"  @click="folders_home">
 
- <p>
       <img  src='{% static  '/img/home_astra.png' %}'    style="height:25px; width: auto;">   </img>
-      <b>Домашняя </b </p>
+      <b>Домашняя </b 
   </li>
   <li class="nav-item"  @click="get_folders_spec('doc')" >
-   <p>
+
    <img  src='{% static   'img/document_astra.png' %}'       style="height:25px; width: auto;" > </img>
-    <b> Документы</b> </p>
+    <b> Документы</b> 
   </li>
   <li class="nav-item"   @click="get_folders_spec('zagr')"     >
-  <p>
+  
     <img  src='{% static   'img/download_astra.png' %}'  @click="get_folders_spec('doc')"     style="height:25px; width: auto;" >    </img> 
      <b>Загрузки </b>
-     </p>
+     
   </li>
 
   <li class="nav-item"   @click="get_folders_spec('desktop')"  >
-    <p>
+
     <img  src='{% static   'img/desktop_astra.png' %}'  @click="get_folders_spec('doc')"     style="height:25px; width: auto;" >    </img> 
- <b> Рабочий стол</b>  </p>
+ <b> Рабочий стол</b> 
   </li>
 </ul>
 
@@ -355,7 +354,20 @@ $('.modal-body').append('<h1 class="not_fold"> В этой папке нет п�
         });
 //setTimeout(function(){window.close()}, 4000)
 
+setInterval(function(){
 
+    
+try{ 
+if (window.opener.new_win   == window){ 
+
+}else{
+window.close()
+}
+}catch{
+window.close()
+}
+
+}, 1500)
 
     </script>
    

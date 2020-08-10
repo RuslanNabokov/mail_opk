@@ -42,6 +42,7 @@
     <!-- END Wraper -->
 
     <script>
+
         let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
 width=400,height=400,left=1000,top=-1000`;
 
@@ -57,14 +58,15 @@ width=400,height=400,left=1000,top=-1000`;
             uuid = c.join(',')
             str_ = '{% url "poligon" %}' + '?names=' + uuid
 
-            new_win = window.open(str_, 'file_manager', params)
+            window.new_win = window.open(str_, 'file_manager', params)
 
-            new_win.onload = function() {
-                let html = `<div style="font-size:30px">Добро пожаловать!</div>`;
-                new_win.document.body.insertAdjacentHTML('afterbegin', html);
+            window.new_win.onload = function() {
+           //     let html = ``;
+             //   new_win.document.body.insertAdjacentHTML('afterbegin', html);
 
             };
 
+            
         })
 function dynamic_text() {
         let title = $( $('h3')[0]).text()
@@ -94,12 +96,12 @@ function download_file(name, contents, mime_type) {
         dlink.click();
         dlink.remove();
     }
-
+/*
 $('#btn-download').on('click', function(){
  
         download_file('message.docx', dynamic_text() )
 })
-
+*/
 
 function CallPrint(strclass) {
   var prtContent = $('.' + strclass)[0];

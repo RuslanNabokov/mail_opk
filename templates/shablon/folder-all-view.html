@@ -3,18 +3,22 @@
 
 			<!-- Navbar -->
 			<nav class="navigation" style="height: 100%" >
-<div class="block-folders">                   
-                                {%  for i in folders %}
-       
-       
-       <!-- <div class = 'folder-cell' style = 'position: relative' >        <a href="#"  data-pk-id_folder = '{{i.pk}}'   class="folder list-group-item"   data-pk =  {{i.pk}}  title = {{i.description}}> {{i.name}}  </a><input type="checkbox" style = "position:absolute;top:20%; left: 90%;" class="form-check-input folder_check" id="exampleCheck1">   </div>   -->
     
+   <div class = 'btn_group'>
+                                    
+                                                 <button type="button" data-toggle="modal" data-target="#feedbackFormModal"  class="btn btn-dark my-btn">Создать папку
+                                              
+                                  </button>
+                        <!--                          <button type="button" id = 'del_label'    class="btn btn-dark my-btn">Удалить</button>
+                                                     <button type="button" id = 'del_label_all'    class="btn btn-dark my-btn">Выбрать  все</button>  --> 
+
+                                              <div id ='csrf'>     {% csrf_token %} </div>
+                                          </div>   
+<div class="block-folders">                   
+                              {%  for i in folders %}
+       <!-- <div class = 'folder-cell' style = 'position: relative' >        <a href="#"  data-pk-id_folder = '{{i.pk}}'   class="folder list-group-item"   data-pk =  {{i.pk}}  title = {{i.description}}> {{i.name}}  </a><input type="checkbox" style = "position:absolute;top:20%; left: 90%;" class="form-check-input folder_check" id="exampleCheck1">   </div>   -->
     <!-- svg  otkritoy papki -->
-
-  <div class='block-folder' style='position:relative; width:max-content; height: 63px;'>
-  
-
-
+  <div class='block-folder' >  
     <svg class='folder-icon'  data-id={{i.pk}} viewBox="0 0 90 80" width="150px" height="100px"><path fill="#dbb065" d="M2.5 71.5L2.5 8.5 23.793 8.5 29.793 14.5 73.5 14.5 73.5 71.5z"/><path fill="#967a44" d="M23.586,9l5.707,5.707L29.586,15H30h43v56H3V9H23.586 M24,8H2v64h72V14H30L24,8L24,8z"/><g><path fill="#f5ce85" d="M2.573 71.5L8.437 28.5 30.151 28.5 36.151 24.5 79.434 24.5 73.559 71.5z"/><path fill="#967a44" d="M78.867,25l-5.75,46H3.146l5.727-42H30h0.303l0.252-0.168L36.303,25H78.867 M80,24H36l-6,4H8L2,72 h72L80,24L80,24z"/></g></svg>
       <div class="name-folder">
 	  <p > {{i.name}} </p>
